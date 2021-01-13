@@ -14,12 +14,11 @@ public class ArticleVendu {
 	private Integer noCategorie;
 	private String etatVente;
 	private Retrait lieuRetrait;
+	
 	public ArticleVendu() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
-
 	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
 			Integer miseAprix, Integer prixVente, String etatVente,Retrait lieuRetrait,Integer noCategorie) {
 		this.nomArticle = nomArticle;
