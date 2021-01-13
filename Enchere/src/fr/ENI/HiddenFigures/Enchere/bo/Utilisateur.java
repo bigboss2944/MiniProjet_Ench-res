@@ -18,7 +18,8 @@ public class Utilisateur {
 	private Boolean administrateur;
 	private List<ArticleVendu> listArticlesVendus = new ArrayList<>();
 	private List<Enchere> listEncheres = new ArrayList<>();
-	public Utilisateur() { 	  	 
+	public Utilisateur() { 	
+		
 	}
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
 			String codePostal, String ville, String motDePasse, Integer credit, Boolean admistrateur) {
@@ -35,6 +36,7 @@ public class Utilisateur {
 		this.credit = credit;
 		this.administrateur = admistrateur;
 	}
+	
 	public Integer getNoUtilisateur() {
 		return noUtilisateur;
 	}

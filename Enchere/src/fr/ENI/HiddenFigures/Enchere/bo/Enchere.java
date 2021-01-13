@@ -11,6 +11,7 @@ public class Enchere {
 	private Integer noArticle;
 	private Integer noUtilisateur;
 	private List<ArticleVendu> listArticlesVendus = new ArrayList<>();
+	
 	public Enchere() {
 		// TODO Auto-generated constructor stub
 	}
