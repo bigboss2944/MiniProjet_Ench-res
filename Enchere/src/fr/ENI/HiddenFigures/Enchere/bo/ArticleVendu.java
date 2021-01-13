@@ -13,6 +13,7 @@ public class ArticleVendu {
 	private Integer noUtilisateur;
 	private Integer noCategorie;
 	private String etatVente;
+	private Retrait lieuRetrait;
 	public ArticleVendu() {
 		// TODO Auto-generated constructor stub
 	}
@@ -20,7 +21,7 @@ public class ArticleVendu {
 	
 
 	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			Integer miseAprix, Integer prixVente, String etatVente) {
+			Integer miseAprix, Integer prixVente, String etatVente,Retrait lieuRetrait,Integer noCategorie) {
 		this.nomArticle = nomArticle;
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
@@ -28,6 +29,8 @@ public class ArticleVendu {
 		this.miseAprix = miseAprix;
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
+		this.lieuRetrait = lieuRetrait;
+		this.noCategorie = noCategorie;
 	}
 
 
@@ -86,13 +89,40 @@ public class ArticleVendu {
 	public void setNoCategorie(Integer noCategorie) {
 		this.noCategorie = noCategorie;
 	}
+	public String getEtatVente() {
+		return etatVente;
+	}
+
+
+
+	public void setEtatVente(String etatVente) {
+		this.etatVente = etatVente;
+	}
+
+
+
+	public Retrait getLieuRetrait() {
+		return lieuRetrait;
+	}
+
+
+
+	public void setLieuRetrait(Retrait lieuRetrait) {
+		this.lieuRetrait = lieuRetrait;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "ArticleVendu [noArticle=" + noArticle + ", nomArticle=" + nomArticle + ", description=" + description
 				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", miseAprix="
 				+ miseAprix + ", prixVente=" + prixVente + ", noUtilisateur=" + noUtilisateur + ", noCategorie="
-				+ noCategorie + ", etaVente=" + etatVente + "]";
+				+ noCategorie + ", etatVente=" + etatVente + ", lieuRetrait=" + lieuRetrait + "]";
 	}
+
+
+
 	
 	
 
