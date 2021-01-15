@@ -1,9 +1,15 @@
 
-<div align="left">
-	<a href="/Enchere/AccueilNonConnecteServlet">ENI-ENCHERE</a>
-	<nav align="right">
-		<a href="/Enchere/UtilisateurServlet">S'inscrire</a>
-		<a href="/Enchere/LoginServlet">Se connecter</a>
-	</nav>
+<link rel="stylesheet" href="Styles.css" />
+
+<div class="header">
+	<a href="/Enchere/AccueilNonConnecteServlet" class="logo">ENI-ENCHERE</a>
+	
+	<div class="header-right">
+		<nav>
+		<a href="/Enchere/UtilisateurServlet" class="nav">S'inscrire</a>
+		<a href="/Enchere/LoginServlet" class="nav">Se connecter</a>
+		</nav>
+	</div>
+	
 </div>
 
