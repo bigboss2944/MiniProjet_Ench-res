@@ -11,4 +11,6 @@ public interface ArticleVenduDAO {
 	List<ArticleVendu> getAll() throws DALException ;
 	ArticleVendu update(ArticleVendu utilisateur) throws DALException;
 	ArticleVendu deleteArticleVendu(Integer idArticle) throws DALException;
+	String selectUtilisateurByArticle(ArticleVendu article ) throws DALException;
+	List<ArticleVendu> selectByEtatVenteEnCours() throws DALException;
 }
