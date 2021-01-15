@@ -1,3 +1,0 @@
-INDEX VERSION 1.131
-C:\Users\fabrice\eclipse-workspace\ProjetENI\MiniProjet_Ench-res\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4133901315.index
-\Enchere\src

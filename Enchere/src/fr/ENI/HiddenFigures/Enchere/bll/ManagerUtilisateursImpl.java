@@ -16,7 +16,7 @@ import fr.ENI.HiddenFigures.Enchere.dal.UtilisateurDAO;
  */
 public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO();
-String str2 ="1234567890";
+	String str2 ="1234567890";
 
 	List<Utilisateur> listUtilisateurs = new ArrayList<>();
 	public ManagerUtilisateursImpl() {

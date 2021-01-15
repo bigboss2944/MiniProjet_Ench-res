@@ -1,4 +1,0 @@
-INDEX VERSION 1.131+C:\Users\fabrice\eclipse-workspace\ProjetENI\MiniProjet_Ench-res\.metadata\.plugins\org.eclipse.jdt.core
-229333005.index
-1206809545.index
-2619157715.index

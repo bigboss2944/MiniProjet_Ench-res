@@ -1,13 +1,14 @@
 package fr.ENI.HiddenFigures.Enchere.bo;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class ArticleVendu {
 	private Integer noArticle;
 	private String nomArticle;
 	private String description;
-	private LocalDate dateDebutEncheres;
-	private LocalDate dateFinEncheres;
+	private Date dateDebutEncheres;
+	private Date dateFinEncheres;
 	private Integer miseAprix;
 	private Integer prixVente;
 	private Integer noUtilisateur;
@@ -19,7 +20,7 @@ public class ArticleVendu {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres, Date dateFinEncheres,
 			Integer miseAprix, Integer prixVente, String etatVente,Retrait lieuRetrait,Integer noCategorie) {
 		this.nomArticle = nomArticle;
 		this.description = description;
@@ -52,16 +53,16 @@ public class ArticleVendu {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public LocalDate getDateDebutEncheres() {
+	public Date getDateDebutEncheres() {
 		return dateDebutEncheres;
 	}
-	public void setDateDebutEncheres(LocalDate dateDebutEncheres) {
+	public void setDateDebutEncheres(Date dateDebutEncheres) {
 		this.dateDebutEncheres = dateDebutEncheres;
 	}
-	public LocalDate getDateFinEncheres() {
+	public Date getDateFinEncheres() {
 		return dateFinEncheres;
 	}
-	public void setDateFinEncheres(LocalDate dateFinEncheres) {
+	public void setDateFinEncheres(Date dateFinEncheres) {
 		this.dateFinEncheres = dateFinEncheres;
 	}
 	public Integer getMiseAprix() {

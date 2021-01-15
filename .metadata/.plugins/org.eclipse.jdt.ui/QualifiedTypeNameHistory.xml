@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="fr.ENI.HiddenFigures.Enchere.bo.ArticleVendu"/>
-    <fullyQualifiedTypeName name="java.time.LocalDate"/>
-    <fullyQualifiedTypeName name="fr.ENI.HiddenFigures.Enchere.bo.Utilisateur"/>
-    <fullyQualifiedTypeName name="fr.ENI.HiddenFigures.Enchere.bo.Categorie"/>
-    <fullyQualifiedTypeName name="fr.ENI.HiddenFigures.Enchere.bo.Enchere"/>
-</qualifiedTypeNameHistroy>

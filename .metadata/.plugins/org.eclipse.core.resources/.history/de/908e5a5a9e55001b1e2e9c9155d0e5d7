@@ -1,9 +1,0 @@
-package fr.formation.Enchere.bll;
-
-import fr.formation.Enchere.bo.Utilisateur;
-
-public interface ManagerUtilisateurs {
-	Utilisateur addUtilisateur(Utilisateur utilisateur) throws BLLException;
-	
-
-}
