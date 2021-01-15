@@ -11,11 +11,8 @@
 </head>
 
 <body>
-<h1>ENI-Enchère</h1>
-<nav>
-<a href="/Enchere/UtilisateurServlet">S'inscrire</a>
-<a href="/Enchere/LoginServlet">Se connecter</a>
-</nav>
+
+<jsp:include page="Header.jsp"></jsp:include>
 <h2 style="color:red;">${message}</h2>
 <h3>Liste des enchères</h3>
 
