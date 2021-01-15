@@ -1,0 +1,10 @@
+@charset "ISO-8859-1";
+
+
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 100px 100px;
+  
+}
+

@@ -94,7 +94,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				ArticleVendu articleVendu = new ArticleVendu();
-				articleVendu.setDateDebutEncheres(rs.getDate("date_debut_encheres"));
+				
+				/*articleVendu.setDateDebutEncheres(rs.getDate("date_debut_encheres"));
 				articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 				articleVendu.setDescription(rs.getString("description"));
 				//articleVendu.setEtatVente(etatVente);
@@ -112,7 +113,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 				utilisateur.setVille(rs.getString("ville"));
 				utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
 				utilisateur.setCredit(rs.getInt("credit"));
-				utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
+				utilisateur.setAdministrateur(rs.getInt("administrateur")==1);*/
 				//TODO: A vérifier
 				
 				
