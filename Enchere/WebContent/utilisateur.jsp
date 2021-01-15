@@ -12,10 +12,13 @@
 <body>
 <jsp:include page="Header.jsp"></jsp:include>
 <h2 style="color:red;">${message}</h2>
-<h3>Mon profil</h3>
+
+<div class="MonProfil">
+	
+	<h3>Mon profil</h3>
 
 	<form action="UtilisateurServlet"  method="post" class="wrapper">
-		<table>
+		<table align="center">
 			<tr>
 				<td>Pseudo* :<input type="text" name="pseudo" required /></td>
 	       		<td>Nom* :<input type="text" name="nom" required /></td>
@@ -45,7 +48,11 @@
 	
 	
 	</form>
-	</a>
+	
+</div>
+
+
+	
 	
 </body>
 </html>

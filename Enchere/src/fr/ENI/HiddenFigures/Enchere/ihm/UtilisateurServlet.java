@@ -69,6 +69,7 @@ public class UtilisateurServlet extends HttpServlet {
 					managerUtilisateurs.pseudoContientQueAlphanumeriques(utilisateur);
 					managerUtilisateurs.verificationTelephone(utilisateur);
 					managerUtilisateurs.addUtilisateur(utilisateur);
+					request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);
 				} catch (BLLException e1) {
 					request.setAttribute("message", e1.getMessage());
 				}

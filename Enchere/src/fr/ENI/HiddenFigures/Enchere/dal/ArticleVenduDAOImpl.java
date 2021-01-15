@@ -84,7 +84,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+/*
 	@Override
 	public List<ArticleVendu> getAll() throws DALException {
 		// TODO Auto-generated method stub
@@ -124,7 +124,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		}
 		return result;
 	}
-
+*/
 	@Override
 	public ArticleVendu update(ArticleVendu utilisateur) throws DALException {
 		// TODO Auto-generated method stub
@@ -133,6 +133,11 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
 	@Override
 	public ArticleVendu deleteArticleVendu(Integer idArticle) throws DALException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<ArticleVendu> getAll() throws DALException {
 		// TODO Auto-generated method stub
 		return null;
 	}

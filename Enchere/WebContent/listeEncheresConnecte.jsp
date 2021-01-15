@@ -7,24 +7,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>PageCreerCompte</title>
+<title>PageListesEncheresConnecte</title>
 </head>
 
 <body>
-<<<<<<< HEAD
-
-<jsp:include page="Header.jsp"></jsp:include>
-=======
 <h1>ENI-Enchère</h1>
+<h3>Bonjour  ${user.pseudo}</h3>
 <nav>
-<a href="/Enchere/UtilisateurServlet">S'inscrire</a>
-<a href="/Enchere/LoginServlet">Se connecter</a>
+<a href=" ">Enchères</a>
+<a href=" ">Vendre un article</a>
+<a href="/Enchere/monProfil.jsp">Mon profil</a>
+<a href="/Enchere/LogoutServlet">Déconnexion</a> 
 </nav>
->>>>>>> bf4fcf4dd4be6b228a3d7438d0f64a7749780b4c
 <h2 style="color:red;">${message}</h2>
 <h3>Liste des enchères</h3>
 
-	<form action="AccueilNonConnecteServlet" method="post">
+	<form action="ListeEncheresConnecteServlet" method="post">
 		Filtres : <br>
 		<input type="text" name="nomArticleContient" placeholder="Le nom de l'article contient" /><BR />
 		Catégorie: 
@@ -34,6 +32,15 @@
 				<option value="${categorie.libelle}">  ${categorie.libelle} </option>
 			</c:forEach>
 		</select> <br>
+		<input type="radio" name="achatVente" > Achats
+			<input type="checkbox" name="encheresOuvertes" > enchères ouvertes
+			<input type="checkbox" name="mesEncheres" > mes enchères
+			<input type="checkbox" name="mesEncheresRemportees" > mes enchères remportées <br>
+		<input type="radio" name="achatVente" > Mes ventes
+			<input type="checkbox" name="mesVentesEC" > mes ventes en cours
+			<input type="checkbox" name="ventesNonDebutees" > ventes non débutées
+			<input type="checkbox" name="ventesTerminees" > ventes terminées <br>
+			 
 		<input type="submit" value="Rechercher" > 
 	</form>
 	

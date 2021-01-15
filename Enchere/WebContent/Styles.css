@@ -3,13 +3,11 @@
 
 
 .wrapper {
-  display: grid;
+  
   grid-template-columns: 100px 100px;
   
 }
 
-
-/* Style the header with a grey background and some padding */
 .header {
   overflow: hidden;
   
@@ -59,6 +57,10 @@
 	color: blue;
 	text-color:blue;
   	float: right;
+}
+
+.MonProfil{
+	align-content: center;
 }
 
 /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */

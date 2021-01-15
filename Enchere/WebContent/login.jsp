@@ -7,7 +7,11 @@
 <title>Page Connexion</title>
 </head>
 <body>
+<<<<<<< HEAD
 <jsp:include page="Header.jsp"></jsp:include>
+=======
+<h1>ENI-Enchère</h1>
+>>>>>>> bf4fcf4dd4be6b228a3d7438d0f64a7749780b4c
 <h2 style="color:red;">${messageNonTrouve}</h2>
 	<form method="post" action="LoginServlet">
 		Identifiant: <input type="text" name="login" placeholder="Pseudo ou email"  required/> <br>

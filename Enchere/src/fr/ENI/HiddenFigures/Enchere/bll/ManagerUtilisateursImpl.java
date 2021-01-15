@@ -186,15 +186,18 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	public void verificationTelephone(Utilisateur utilisateur) throws BLLException {
 		String telephone = utilisateur.getTelephone();
 		boolean pasBonTelephone= false;
-		for (int i = 0; i < telephone.length(); i++) {
-			if (str2.indexOf( telephone.charAt(i)) < 0) {
-				pasBonTelephone =true;
-				break;
+		if (telephone !=null) {
+			for (int i = 0; i < telephone.length(); i++) {
+				if (str2.indexOf( telephone.charAt(i)) < 0) {
+					pasBonTelephone =true;
+					break;
+				}
+			}
+			if (telephone.length() != 10  || pasBonTelephone  ) {
+				throw new BLLException("Le numéro de telephone contient que 10 chiffres  ");
 			}
 		}
-		if (telephone.length() != 10  || pasBonTelephone  ) {
-			throw new BLLException("Le numéro de telephone contient que 10 chiffres  ");
-		}
+		
 
 	}
 	//Pour l'écran de connexion
