@@ -13,7 +13,7 @@ import fr.ENI.HiddenFigures.Enchere.bll.ManagerUtilisateurs;
 import fr.ENI.HiddenFigures.Enchere.bll.ManagerUtilisateursSingl;
 import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
 
-
+ 
 
 
 /**

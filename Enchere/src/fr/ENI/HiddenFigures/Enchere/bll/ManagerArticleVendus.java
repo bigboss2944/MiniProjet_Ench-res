@@ -3,9 +3,14 @@ package fr.ENI.HiddenFigures.Enchere.bll;
 import java.util.List;
 
 import fr.ENI.HiddenFigures.Enchere.bo.ArticleVendu;
-import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
+ 
 
 public interface ManagerArticleVendus {
+	 List<ArticleVendu> getArticleByEtatVenteEnCours() throws BLLException ;
+	 String getPseudoByArticle (ArticleVendu article) throws BLLException ;
+	
+	
+	
 	/***
 	 * Ajouter un article vendu
 	 * @param articleVendu

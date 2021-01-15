@@ -1,12 +1,15 @@
 package fr.ENI.HiddenFigures.Enchere.bll;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
 import fr.ENI.HiddenFigures.Enchere.dal.DALException;
 import fr.ENI.HiddenFigures.Enchere.dal.DAOFactory;
 import fr.ENI.HiddenFigures.Enchere.dal.UtilisateurDAO;
+ 
 
 
 
@@ -194,6 +197,51 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 		}
 
 	}
+	//Pour l'écran de connexion
+		//Rechercher un utilisateur par login (pseudo ou email) et password
+		@Override
+		public Map<Integer, Utilisateur> rechercherUtilisateurParLoginPassword(String login, String password) throws BLLException {
+			
+			Map<Integer, Utilisateur> mapUtilisateur = new HashMap<Integer, Utilisateur>();
+			boolean trouve = false;
+		 
+				
+			for (Utilisateur user : listUtilisateurs) {
+				if((user.getPseudo().equals(login) || user.getEmail().toLowerCase().equals(login.toLowerCase())) && user.getMotDePasse().equals(password)	) {
+					trouve = true;
+					mapUtilisateur.put(user.getNoUtilisateur(), user );
+					break;
+				}
+			}
+		
+			if(!trouve) {
+				throw new BLLException("Il n'existe pas cet utilisateur dans BDD");
+			}
+			return mapUtilisateur;
+
+		}
+		//Rechercher un utilisateur par noUtilisateur
+		@Override
+		public Utilisateur rechercherUtilisateurParNoUtilisateur(Integer noUtilisateur) throws BLLException {
+			
+			Utilisateur utilisateur = new Utilisateur();
+			boolean trouve = false;
+		 
+				
+			for (Utilisateur user : listUtilisateurs) {
+				if(user.getNoUtilisateur() == noUtilisateur) {
+					trouve = true;
+					utilisateur =user;
+					break;
+				}
+			}
+			 
+			if(!trouve) {
+				throw new BLLException("Il n'existe pas cet utilisateur dans BDD");
+			}
+			return utilisateur;
+
+		}	
 
 
 
