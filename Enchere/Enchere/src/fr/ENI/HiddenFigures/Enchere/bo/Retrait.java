@@ -4,7 +4,7 @@ public class Retrait {
 	private Integer noArticle;
 	private String rue;
 	private String code_postal;
-	private String ville;
+	public String ville;
 	public Retrait() {
 		// TODO Auto-generated constructor stub
 	}
@@ -32,7 +32,7 @@ public class Retrait {
 	public void setCode_postal(String code_postal) {
 		this.code_postal = code_postal;
 	}
-	public String getVille() {//getter de l'attribut ville, qui renvoie l'attribut ville sous la forme d'une chaine de caractères
+	public String getVille() {
 		return ville;
 	}
 	public void setVille(String ville) {

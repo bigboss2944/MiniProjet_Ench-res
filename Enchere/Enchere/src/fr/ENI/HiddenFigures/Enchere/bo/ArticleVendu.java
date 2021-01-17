@@ -1,6 +1,7 @@
 package fr.ENI.HiddenFigures.Enchere.bo;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class ArticleVendu {
 	private Integer noArticle;
@@ -30,7 +31,6 @@ public class ArticleVendu {
 		this.etatVente = etatVente;
 		this.lieuRetrait = lieuRetrait;
 		this.noCategorie = noCategorie;
-		
 	}
 
 
@@ -111,11 +111,7 @@ public class ArticleVendu {
 		this.lieuRetrait = lieuRetrait;
 	}
 
-	
-		
-		
-		
-	
+
 
 	@Override
 	public String toString() {
@@ -123,9 +119,6 @@ public class ArticleVendu {
 				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", miseAprix="
 				+ miseAprix + ", prixVente=" + prixVente + ", noUtilisateur=" + noUtilisateur + ", noCategorie="
 				+ noCategorie + ", etatVente=" + etatVente + ", lieuRetrait=" + lieuRetrait + "]";
-		
-		
-		
 	}
 
 
