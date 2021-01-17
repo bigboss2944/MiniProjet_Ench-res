@@ -4,7 +4,7 @@ public class Retrait {
 	private Integer noArticle;
 	private String rue;
 	private String code_postal;
-	private String ville;
+	public String ville;
 	public Retrait() {
 		// TODO Auto-generated constructor stub
 	}
