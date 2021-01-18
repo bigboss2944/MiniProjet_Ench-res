@@ -3,6 +3,7 @@ package fr.ENI.HiddenFigures.Enchere.bll;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.ENI.HiddenFigures.Enchere.bo.ArticleVendu;
 import fr.ENI.HiddenFigures.Enchere.bo.Categorie;
 import fr.ENI.HiddenFigures.Enchere.bo.Enchere;
 import fr.ENI.HiddenFigures.Enchere.dal.ArticleVenduDAO;
@@ -111,27 +112,27 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 	@Override
 	public boolean EnchereOK(Enchere enchere) throws BLLException {
 		// TODO Auto-generated method stub
-		
+		ArticleVendu article = articleDAO.getArticleVendu(enchere.getNo_article());
+		if(enchere.getMontant_enchere()>EncherePlusHaute())
 	}
 
 
 	@Override
 	public Integer EncherePlusHaute() throws BLLException {
 		// TODO Auto-generated method stub
+		Integer max=25;
 		try {
 			listEncheres = enchereDAO.getAll();
 			for (Enchere enchere : listEncheres) {
-				if(enchere.getNo_enchere()==idEnchere) {
-					enchereDAO.deleteEnchere(enchere.getNo_enchere());
-					int i=listEncheres.indexOf(enchere.getNo_enchere());
-					listEncheres.remove(i);
+				if(enchere.getMontant_enchere()>max) {
+					max=enchere.getMontant_enchere();
 				}
 			}
 			
 		} catch (DALException e) {
 			throw new BLLException("Couche BLL - Erreur lors de la récupération de la liste d'Enchères");
 		}
-		return null;
+		return max;
 	}
 	
 	

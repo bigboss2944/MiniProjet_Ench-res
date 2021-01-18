@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,8 +52,9 @@ public class EnchereDAOImpl implements EnchereDAO {
 			stmt.setInt(1, idEnchere);
 			ResultSet rs = stmt.executeQuery();
 			
-			String date_enchereString = rs.getString("date_enchere");
-            LocalDateTime date_enchereLocalDateTime = LocalDateTime.parse(date_enchereString);
+			String date_enchereString = rs.getString("date_enchere").substring(0,19);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime date_enchereLocalDateTime = LocalDateTime.parse(date_enchereString,formatter);
             enchere.setDateEnchere(date_enchereLocalDateTime);
 			enchere.setNo_enchere(rs.getInt("no_enchere"));
 			enchere.setMontant_enchere(rs.getInt("montant_enchere"));
