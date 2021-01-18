@@ -17,6 +17,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	private String INSERT = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) "
 			+ " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 	private String SELECT = "SELECT * FROM UTILISATEURS";
+	private String SELECT_ONE_UTILISATEUR = "SELECT * FROM UTILISATEURS WHERE no_utilisateur=?";
 	public Utilisateur insert(Utilisateur utilisateur) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
@@ -75,6 +76,34 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs");
 		}
 		return result;
+	}
+
+	@Override
+	public Utilisateur getUtilisateur(Integer idUtilisateur) throws DALException {
+		// TODO Auto-generated method stub
+		Utilisateur utilisateur = new Utilisateur();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(SELECT_ONE_UTILISATEUR);
+			stmt.setInt(1, idUtilisateur);
+			ResultSet rs = stmt.executeQuery();
+			utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+			utilisateur.setPseudo(rs.getString("pseudo"));
+			utilisateur.setNom(rs.getString("nom"));
+			utilisateur.setPrenom(rs.getString("prenom"));
+			utilisateur.setEmail(rs.getString("email"));
+			utilisateur.setTelephone(rs.getString("telephone"));
+			utilisateur.setRue(rs.getString("rue"));
+			utilisateur.setCodePostal(rs.getString("code_postal"));
+			utilisateur.setVille(rs.getString("ville"));
+			utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
+			utilisateur.setCredit(rs.getInt("credit"));
+			utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
+			//TODO: A vérifier
+			
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs");
+		}
+		return utilisateur;
 	}
 	
 

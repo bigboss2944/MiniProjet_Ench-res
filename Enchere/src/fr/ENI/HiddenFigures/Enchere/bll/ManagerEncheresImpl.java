@@ -6,15 +6,18 @@ import java.util.List;
 import fr.ENI.HiddenFigures.Enchere.bo.ArticleVendu;
 import fr.ENI.HiddenFigures.Enchere.bo.Categorie;
 import fr.ENI.HiddenFigures.Enchere.bo.Enchere;
+import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
 import fr.ENI.HiddenFigures.Enchere.dal.ArticleVenduDAO;
 import fr.ENI.HiddenFigures.Enchere.dal.CategorieDAO;
 import fr.ENI.HiddenFigures.Enchere.dal.DALException;
 import fr.ENI.HiddenFigures.Enchere.dal.DAOFactory;
 import fr.ENI.HiddenFigures.Enchere.dal.EnchereDAO;
+import fr.ENI.HiddenFigures.Enchere.dal.UtilisateurDAO;
 
 public class ManagerEncheresImpl implements ManagerEncheres {
 	EnchereDAO enchereDAO = DAOFactory.getEnchereDAO();
 	ArticleVenduDAO articleDAO= DAOFactory.getArticleDAO();
+	UtilisateurDAO utilisateurDAO= DAOFactory.getUtilisateurDAO();
 	List<Enchere> listEncheres = new ArrayList<>();
 	public ManagerEncheresImpl() {
 		try {
@@ -112,8 +115,30 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 	@Override
 	public boolean EnchereOK(Enchere enchere) throws BLLException {
 		// TODO Auto-generated method stub
-		ArticleVendu article = articleDAO.getArticleVendu(enchere.getNo_article());
-		if(enchere.getMontant_enchere()>EncherePlusHaute())
+		try {
+			ArticleVendu article = articleDAO.getArticleVendu(enchere.getNo_article());
+			Utilisateur utilisateur = utilisateurDAO.getUtilisateur(enchere.getNo_utilisateur());
+			if(enchere.getMontant_enchere()<EncherePlusHaute()) {
+				throw new BLLException("Couche BLL - Enchere est inférieur à l'enchère la plus haute");
+			}
+			else if(enchere.getNo_utilisateur()==article.getNoUtilisateur()) {
+				throw new BLLException("Couche BLL - Le vendeur ne peut enchérir sur le produit qu'il vend");
+			}
+			else if(enchere.getMontant_enchere()>utilisateur.getCredit()) {
+				throw new BLLException("Couche BLL - L'enchérisseur ne peut proposer d'enchère supérieur à son crédit");
+			}
+			else if(enchere.getNo_utilisateur()<article.getPrixVente()) {
+				throw new BLLException("Couche BLL - L'enchérisseur ne peut proposer de prix inférieur au prix de vente");
+			}
+			else {
+				return true;
+			}
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+		
 	}
 
 
