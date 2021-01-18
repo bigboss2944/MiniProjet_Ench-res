@@ -11,6 +11,37 @@
 </head>
 
 <body>
+
+<script type="text/javascript">
+
+function changeThis(sender) { 
+	  if(document.getElementById('enchereRadioButton').checked){
+	    document.getElementById("enchereOuvertesCheckBox").removeAttribute('disabled');
+	    document.getElementById("mesEncheresCheckBox").removeAttribute('disabled');
+	    document.getElementById("mesEncheresRemporteesCheckBox").removeAttribute('disabled');
+	    document.getElementById("mesVentesECCheckBox").disabled = true;
+	    document.getElementById("mesVentesECCheckBox").checked = false;
+	    document.getElementById("ventesNonDebuteesCheckBox").disabled = true;
+	    document.getElementById("ventesNonDebuteesCheckBox").checked = false;
+	    document.getElementById("ventesTermineesCheckBox").disabled = true;
+	    document.getElementById("ventesTermineesCheckBox").checked = false;
+	  }
+	  else if(document.getElementById('venteRadioButton').checked){
+		document.getElementById("enchereOuvertesCheckBox").disabled=true;
+		document.getElementById("enchereOuvertesCheckBox").checked=false;
+		document.getElementById("mesEncheresCheckBox").disabled=true;
+		document.getElementById("mesEncheresCheckBox").checked=false;
+		document.getElementById("mesEncheresRemporteesCheckBox").disabled=true;
+		document.getElementById("mesEncheresRemporteesCheckBox").checked=false;
+		document.getElementById("mesVentesECCheckBox").removeAttribute('disabled');
+	    document.getElementById("ventesNonDebuteesCheckBox").removeAttribute('disabled');
+	    document.getElementById("ventesTermineesCheckBox").removeAttribute('disabled');
+	    
+	  }
+	}
+</script>
+
+
 <h1>ENI-Enchère</h1>
 <h3>Bonjour  ${user.pseudo}</h3>
 <nav>
@@ -32,14 +63,14 @@
 				<option value="${categorie.libelle}">  ${categorie.libelle} </option>
 			</c:forEach>
 		</select> <br>
-		<input type="radio" name="achatVente" > Achats
-			<input type="checkbox" name="encheresOuvertes" > enchères ouvertes
-			<input type="checkbox" name="mesEncheres" > mes enchères
-			<input type="checkbox" name="mesEncheresRemportees" > mes enchères remportées <br>
-		<input type="radio" name="achatVente" > Mes ventes
-			<input type="checkbox" name="mesVentesEC" > mes ventes en cours
-			<input type="checkbox" name="ventesNonDebutees" > ventes non débutées
-			<input type="checkbox" name="ventesTerminees" > ventes terminées <br>
+		<input type="radio" name="achatVente" id="enchereRadioButton" onclick="changeThis(this)"> Achats
+			<input type="checkbox" name="encheresOuvertes" id="enchereOuvertesCheckBox" > enchères ouvertes
+			<input type="checkbox" name="mesEncheres" id="mesEncheresCheckBox"> mes enchères
+			<input type="checkbox" name="mesEncheresRemportees" id="mesEncheresRemporteesCheckBox"> mes enchères remportées <br>
+		<input type="radio" name="achatVente" id="venteRadioButton" onclick="changeThis(this)"> Mes ventes
+			<input type="checkbox" name="mesVentesEC" id="mesVentesECCheckBox"> mes ventes en cours
+			<input type="checkbox" name="ventesNonDebutees" id="ventesNonDebuteesCheckBox"> ventes non débutées
+			<input type="checkbox" name="ventesTerminees" id="ventesTermineesCheckBox"> ventes terminées <br>
 			 
 		<input type="submit" value="Rechercher" > 
 	</form>

@@ -19,7 +19,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	private String SELECT_ONE = "SELECT * FROM ARTICLES_VENDUS WHERE no_article=?";
 	private String SELECT_BY_ETAT_VENTE_ENCOURS = "SELECT * FROM  ARTICLES_VENDUS where GETDATE() BETWEEN "
 			+ " date_debut_encheres AND date_fin_encheres";
-	private String select_Utilisayeur_By_Article = "Select pseudo from ARTICLES_VENDUS a inner Join UTILISATEURS u on u.no_utilisateur = ?";
+	private String select_Utilisateur_By_Article = "Select pseudo from ARTICLES_VENDUS a inner Join UTILISATEURS u on u.no_utilisateur = ?";
 
 	
 	public List<ArticleVendu> selectByEtatVenteEnCours() throws DALException {
@@ -61,7 +61,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		String pseudo= null; 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			
-			PreparedStatement stmt = cnx.prepareStatement(select_Utilisayeur_By_Article);
+			PreparedStatement stmt = cnx.prepareStatement(select_Utilisateur_By_Article);
 			stmt.setInt(1,  article.getNoUtilisateur())  ;  
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) { 
@@ -113,7 +113,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 				utilisateur.setVille(rs.getString("ville"));
 				utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
 				utilisateur.setCredit(rs.getInt("credit"));
-				utilisateur.setAdministrateur(rs.getInt("administrateur")==1);*/
+				utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
 				//TODO: A vérifier
 				
 				

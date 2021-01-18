@@ -58,19 +58,19 @@ public class LoginServlet extends HttpServlet {
 				mapUtilisateurAchercher =managerUtilisateurs.rechercherUtilisateurParLoginPassword(loginEcran, passwordEcran );
 				//System.out.println("noUser vient de récupérer par chercher dans BDD "+noUserAchercher);
 				for (Integer  noUtilisateur : mapUtilisateurAchercher.keySet()) {
-<<<<<<< HEAD
+
 					request.getSession().setAttribute("loginUsername", mapUtilisateurAchercher.get(noUtilisateur).getPseudo());
 					request.getSession().setAttribute("loginNoUser",noUtilisateur  );
 				}
 				request.getRequestDispatcher("ListEncheresConnecteServlet").forward(request, response);
-=======
+
 					//request.getSession().setAttribute("loginUsername", mapUtilisateurAchercher.get(noUtilisateur).getPseudo());
 					//request.getSession().setAttribute("loginNoUser",noUtilisateur  );
-					request.getSession().setAttribute("user",mapUtilisateurAchercher.get(noUtilisateur)  );
+					//request.getSession().setAttribute("user",mapUtilisateurAchercher.get(noUtilisateur));
 				}
-				request.getRequestDispatcher("ListeEncheresConnecteServlet").forward(request, response);
->>>>>>> bf4fcf4dd4be6b228a3d7438d0f64a7749780b4c
-			} catch (BLLException e) {
+				//request.getRequestDispatcher("ListeEncheresConnecteServlet").forward(request, response);
+
+			catch (BLLException e) {
 				//request.getSession().setAttribute("loginUsername", null);
 				request.setAttribute("messageNonTrouve", e.getMessage());
 				request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -79,10 +79,9 @@ public class LoginServlet extends HttpServlet {
 			
 			
 		}
-		else {
-			request.getRequestDispatcher("login.jsp").forward(request, response);
-		}
 	}
+		
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
