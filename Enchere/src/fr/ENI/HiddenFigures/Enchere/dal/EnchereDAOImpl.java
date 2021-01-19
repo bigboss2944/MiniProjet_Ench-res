@@ -19,7 +19,7 @@ public class EnchereDAOImpl implements EnchereDAO {
 	private String SelectAllByUsers="Select * from ENCHERES where no_utilisateur=?";
 	private String Insert="Insert into ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) values(?,?,?,?)";
 	private String Update="Update ENCHERES set date_enchere=?,montant_enchere=?,no_article=?,no_utilisateur=? where no_enchere=?";
-
+	private String DELETE_BY_NO_UTILISATEUR_OU_NO_ARTICLE = "DELETE FROM  ENCHERES where  no_utilisateur=? or no_article =?";
 	private String Delete="Delete from ENCHERES where no_enchere=?";
 	private String DeleteByIdArticle="Delete from ENCHERES where no_article=?";
 
@@ -56,10 +56,9 @@ public class EnchereDAOImpl implements EnchereDAO {
 			stmt.executeUpdate();
 
 		} catch (Exception e) {
-			throw new DALException(
-					"Couche DAL - Problème dans la suppression des encheres par noUtilisateur ou noArticleVendu ");
+			throw new DALException("Couche DAL - Problème dans la suppression des encheres par noUtilisateur ou noArticleVendu");
 		}
-
+	}
 	@Override
 	public Enchere getEnchere(Integer idEnchere) throws DALException {
 		// TODO Auto-generated method stub
@@ -83,7 +82,7 @@ public class EnchereDAOImpl implements EnchereDAO {
 		}
 
 		return enchere;
-=======
+
 	}
 
 	@Override

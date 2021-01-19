@@ -46,6 +46,7 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 		return enchere;
 	}
 
+	
 	@Override
 	public Enchere updateEnchere(Enchere enchere) throws BLLException,EnchereException {
 		// TODO Auto-generated method stub
@@ -98,6 +99,7 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 		return null;
 	}
 
+	
 	@Override
 	public boolean EnchereOK(Enchere enchere) throws BLLException {
 		// TODO Auto-generated method stub
@@ -127,6 +129,7 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 
 	}
 
+	
 	@Override
 	public Integer EncherePlusHaute(Integer idArticle) throws BLLException {
 		// TODO Auto-generated method stub
@@ -138,6 +141,30 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 		}
 
 		return max;
+	}
+
+	@Override
+	public Enchere updateEnchere(Integer idEnchere) throws BLLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Enchere> getLstEnchereOfHighestOffer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Enchere> getLstEnchereOfUserById(Integer noUtilisateur) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Enchere> getLstEnchereOfHighestOfferOfUserById(Integer noUtilisateur) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
