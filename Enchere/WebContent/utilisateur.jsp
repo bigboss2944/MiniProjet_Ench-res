@@ -41,7 +41,7 @@
        		</tr>
 			
 			<tr>
-				<td><a href="/NotesFraisMultiUsers/SignOutServlet"><input type="button" value="Annuler"></td>
+				<td><a href="/Enchere/AccueilNonConnecteServlet"><input type="button" value="Annuler"></td>
 	       		<td><input type="submit" value="Créer" /> </td>
        		</tr>
 		</table>

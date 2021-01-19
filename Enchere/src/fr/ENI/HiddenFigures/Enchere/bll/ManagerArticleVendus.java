@@ -8,9 +8,11 @@ import fr.ENI.HiddenFigures.Enchere.bo.ArticleVendu;
 public interface ManagerArticleVendus {
 	 List<ArticleVendu> getArticleByEtatVenteEnCours() throws BLLException ;
 	 String getPseudoByArticle (ArticleVendu article) throws BLLException ;
-	
-	
-	
+	 List<ArticleVendu> getArticleByEtatNonDebute()  ;
+	 List<ArticleVendu> getArticleByEtatTermine()  ;
+	 List<ArticleVendu> getArticleByNomArticleContient(String motCle) ;
+	 List<ArticleVendu> getArticleByNomArticleContientEtNoCategorie(String motCle, Integer noCategorie) ;
+	 List<ArticleVendu> getArticleByCategorie(Integer noCategorie) ;
 	/***
 	 * Ajouter un article vendu
 	 * @param articleVendu
@@ -26,7 +28,7 @@ public interface ManagerArticleVendus {
 	 * @throws BLLException
 	 */
 	
-	List<ArticleVendu> getLstArticleVendus() throws BLLException;
+	List<ArticleVendu> getLstArticleVendus()  ;
 	/***
 	 * Lister un article vendu
 	 * @param articleVendu
@@ -46,9 +48,11 @@ public interface ManagerArticleVendus {
 	 * Verifier l'adresse de retrait de l'article
 	 * @param articleVendu
 	 * @return
-	 * @throws BLLException
+	 * @throws B@Override
+	LLException
 	 */
 	void verifAdresseRetrait(ArticleVendu articleVendu) throws BLLException;
+	List<ArticleVendu> getArticleByEtatVenteNonDebute();
 	
 	
 	

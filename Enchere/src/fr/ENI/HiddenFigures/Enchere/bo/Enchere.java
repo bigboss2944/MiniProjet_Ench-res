@@ -1,12 +1,13 @@
 package fr.ENI.HiddenFigures.Enchere.bo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Enchere {
 	private Integer noEnchere;
-	private LocalDate dateEnchere;
+	private LocalDateTime dateEnchere;
 	private Integer montant_enchere;
 	private Integer noArticle;
 	private Integer noUtilisateur;
@@ -15,7 +16,7 @@ public class Enchere {
 	public Enchere() {
 		// TODO Auto-generated constructor stub
 	}
-	public Enchere(LocalDate dateEnchere, Integer montant_enchere) {
+	public Enchere(LocalDateTime dateEnchere, Integer montant_enchere) {
 		
 		this.dateEnchere = dateEnchere;
 		this.montant_enchere = montant_enchere;
@@ -27,10 +28,10 @@ public class Enchere {
 	public void setNo_enchere(Integer no_enchere) {
 		this.noEnchere = no_enchere;
 	}
-	public LocalDate getDateEnchere() {
+	public LocalDateTime getDateEnchere() {
 		return dateEnchere;
 	}
-	public void setDateEnchere(LocalDate dateEnchere) {
+	public void setDateEnchere(LocalDateTime dateEnchere) {
 		this.dateEnchere = dateEnchere;
 	}
 	public Integer getMontant_enchere() {
