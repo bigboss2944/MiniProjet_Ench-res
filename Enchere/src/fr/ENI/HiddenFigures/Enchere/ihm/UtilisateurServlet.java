@@ -73,12 +73,17 @@ public class UtilisateurServlet extends HttpServlet {
 				} catch (BLLException e1) {
 					request.setAttribute("message", e1.getMessage());
 				}
+				
+				
+				
 			}
 			else {
 				request.setAttribute("message", "Passwords did not match ");
 			}
 			
 		}
+		
+		
 		//request.setAttribute("model",model);
 		request.getRequestDispatcher("utilisateur.jsp").forward(request, response);
 	}

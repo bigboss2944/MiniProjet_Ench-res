@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,12 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			+ " VALUES (?,?,?,?,?,?,?,?)";
 	private String SELECT_ALL = "SELECT * FROM ARTICLES_VENDUS";
 	private String SELECT_ONE = "SELECT * FROM ARTICLES_VENDUS WHERE no_article=?";
-	private String SELECT_BY_ETAT_VENTE_ENCOURS = "SELECT * FROM  ARTICLES_VENDUS where date_fin_encheres >= CONVERT (date, GETDATE())";
-	private String select_Utilisateur_By_Article = "Select pseudo from ARTICLES_VENDUS a inner Join UTILISATEURS u on u.no_utilisateur = ?";
+	private String SELECT_BY_ETAT_VENTE_ENCOURS = "SELECT * FROM  ARTICLES_VENDUS where GETDATE() BETWEEN "
+			+ " date_debut_encheres AND date_fin_encheres";
+	private String select_Utilisayeur_By_Article = "Select pseudo from ARTICLES_VENDUS a inner Join UTILISATEURS u on u.no_utilisateur = ?";
 	private String DELETE_BY_NO_UTILISATEUR = "DELETE FROM  ARTICLES_VENDUS where  no_utilisateur=?";
 	private String SELECT_BY_NO_UTILISATEUR = "SELECT * FROM  ARTICLES_VENDUS where  no_utilisateur=?";
-
+	
 	public List<ArticleVendu> selectByEtatVenteEnCours() throws DALException {
 		List<ArticleVendu> result = new ArrayList<ArticleVendu>();
 		try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -32,25 +34,25 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 				ArticleVendu articleVendu = new ArticleVendu();
 				articleVendu.setNoArticle(rs.getInt("no_article"));
 				articleVendu.setNomArticle(rs.getString("nom_article"));
-				articleVendu.setDescription(rs.getString("description"));
-
+				articleVendu.setDescription(rs.getString("description")); 
+				
 				String dateDebutEncheresString = rs.getString("date_debut_encheres");
 				LocalDate dateDebutEncheresLocalDate = Date.valueOf(dateDebutEncheresString).toLocalDate();
-
+				
 				articleVendu.setDateDebutEncheres(dateDebutEncheresLocalDate);
-
+				
 				String dateFinEncheresString = rs.getString("date_fin_encheres");
 				LocalDate dateFinEncheresLocalDate = Date.valueOf(dateFinEncheresString).toLocalDate();
-
+				
 				articleVendu.setDateFinEncheres(dateFinEncheresLocalDate);
-
+				
 				articleVendu.setMiseAprix(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
 				articleVendu.setNoUtilisateur(rs.getInt("no_utilisateur"));
 				articleVendu.setNoCategorie(rs.getInt("no_categorie"));
-
-
-
+	
+				
+				
 				result.add(articleVendu);
 			}
 		} catch (Exception e) {
@@ -59,13 +61,13 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		return result;
 	}
 	public String selectUtilisateurByArticle(ArticleVendu article ) throws DALException {
-		String pseudo= null;
+		String pseudo= null; 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
-
-			PreparedStatement stmt = cnx.prepareStatement(select_Utilisateur_By_Article);
-			stmt.setInt(1,  article.getNoUtilisateur())  ;
+			
+			PreparedStatement stmt = cnx.prepareStatement(select_Utilisayeur_By_Article);
+			stmt.setInt(1,  article.getNoUtilisateur())  ;  
 			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
+			while(rs.next()) { 
 				pseudo =  rs.getString("pseudo");
 
 			}
@@ -75,17 +77,17 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		return pseudo;
 	}
 	public void deleteByNoUtilisateur(Integer noUtilisateur ) throws DALException {
-
+		 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
-
+			
 			PreparedStatement stmt = cnx.prepareStatement(DELETE_BY_NO_UTILISATEUR);
-			stmt.setInt(1, noUtilisateur )  ;
-			stmt.executeUpdate();
-
+			stmt.setInt(1, noUtilisateur )  ;  
+			stmt.executeUpdate(); 
+			 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - Problème dans la suppression des articles par noUtilisateur");
 		}
-
+		 
 	}
 	public List<ArticleVendu> selectByNoUtilisateur(Integer noUtilisateur) throws DALException {
 		List<ArticleVendu> result = new ArrayList<ArticleVendu>();
@@ -97,25 +99,25 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 				ArticleVendu articleVendu = new ArticleVendu();
 				articleVendu.setNoArticle(rs.getInt("no_article"));
 				articleVendu.setNomArticle(rs.getString("nom_article"));
-				articleVendu.setDescription(rs.getString("description"));
-
+				articleVendu.setDescription(rs.getString("description")); 
+				
 				String dateDebutEncheresString = rs.getString("date_debut_encheres");
 				LocalDate dateDebutEncheresLocalDate = Date.valueOf(dateDebutEncheresString).toLocalDate();
-
+				
 				articleVendu.setDateDebutEncheres(dateDebutEncheresLocalDate);
-
+				
 				String dateFinEncheresString = rs.getString("date_fin_encheres");
 				LocalDate dateFinEncheresLocalDate = Date.valueOf(dateFinEncheresString).toLocalDate();
-
+				
 				articleVendu.setDateFinEncheres(dateFinEncheresLocalDate);
-
+				
 				articleVendu.setMiseAprix(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
 				articleVendu.setNoUtilisateur(rs.getInt("no_utilisateur"));
 				articleVendu.setNoCategorie(rs.getInt("no_categorie"));
-
-
-
+	
+				
+				
 				result.add(articleVendu);
 			}
 		} catch (Exception e) {
@@ -127,20 +129,25 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	public ArticleVendu insert(ArticleVendu articleVendu) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1,  articleVendu.getNomArticle())  ;
+			stmt.setString(1,  articleVendu.getNomArticle())  ;  
 			stmt.setString(2,  articleVendu.getDescription())  ;
-
-			Date dateDebutEncheresSQL = Date.valueOf(articleVendu.getDateDebutEncheres());
+			
+			Date dateDebutEncheresSQL = Date.valueOf(articleVendu.getDateDebutEncheres()); 
 			stmt.setDate(3, dateDebutEncheresSQL);
-
-			Date dateFinEncheresSQL = Date.valueOf(articleVendu.getDateFinEncheres());
+			
+			Date dateFinEncheresSQL = Date.valueOf(articleVendu.getDateFinEncheres()); 
 			stmt.setDate(4, dateFinEncheresSQL);
-
+			
 			stmt.setInt(5, articleVendu.getMiseAprix());
-			stmt.setInt(6, articleVendu.getPrixVente());
+			if(articleVendu.getPrixVente() ==null) {
+				stmt.setNull(6, Types.INTEGER);
+			}
+			else {
+				stmt.setInt(6, articleVendu.getPrixVente());
+			}
 			stmt.setInt(7, articleVendu.getNoUtilisateur());
 			stmt.setInt(8, articleVendu.getNoCategorie());
-
+			 
 			int nbRows =stmt.executeUpdate();
 			if (nbRows == 1) {
 				ResultSet rs = stmt.getGeneratedKeys();
@@ -148,7 +155,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 					articleVendu.setNoArticle(rs.getInt(1));
 				}
 			}
-
+	
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans l'insertion d'article vendu");
 		}
@@ -171,25 +178,25 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 				ArticleVendu articleVendu = new ArticleVendu();
 				articleVendu.setNoArticle(rs.getInt("no_article"));
 				articleVendu.setNomArticle(rs.getString("nom_article"));
-				articleVendu.setDescription(rs.getString("description"));
-
+				articleVendu.setDescription(rs.getString("description")); 
+				
 				String dateDebutEncheresString = rs.getString("date_debut_encheres");
 				LocalDate dateDebutEncheresLocalDate = Date.valueOf(dateDebutEncheresString).toLocalDate();
-
+				
 				articleVendu.setDateDebutEncheres(dateDebutEncheresLocalDate);
-
+				
 				String dateFinEncheresString = rs.getString("date_fin_encheres");
 				LocalDate dateFinEncheresLocalDate = Date.valueOf(dateFinEncheresString).toLocalDate();
-
+				
 				articleVendu.setDateFinEncheres(dateFinEncheresLocalDate);
-
+				
 				articleVendu.setMiseAprix(rs.getInt("prix_initial"));
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
 				articleVendu.setNoUtilisateur(rs.getInt("no_utilisateur"));
 				articleVendu.setNoCategorie(rs.getInt("no_categorie"));
-
-
-
+	
+				
+				
 				result.add(articleVendu);
 			}
 		} catch (Exception e) {
@@ -209,6 +216,6 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 
 }

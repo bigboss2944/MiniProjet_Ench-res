@@ -18,7 +18,6 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	private String INSERT = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) "
 			+ " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 	private String SELECT = "SELECT * FROM UTILISATEURS";
-	private String SELECT_ONE_UTILISATEUR = "SELECT * FROM UTILISATEURS WHERE no_utilisateur=?";
 	private String UPDATE_PSEUDO = "UPDATE UTILISATEURS  SET pseudo =? where no_utilisateur =?";
 	private String UPDATE_NOM = "UPDATE UTILISATEURS  SET nom =? where no_utilisateur =?";
 	private String UPDATE_PRENOM = "UPDATE UTILISATEURS  SET prenom =? where no_utilisateur =?";
@@ -29,7 +28,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	private String UPDATE_VILLE = "UPDATE UTILISATEURS  SET ville =? where no_utilisateur =?";
 	private String UPDATE_MOTDEPASSE = "UPDATE UTILISATEURS  SET mot_de_passe =? where no_utilisateur =?";
 	private String DELETE_BY_ID = "DELETE FROM UTILISATEURS WHERE no_utilisateur =?";
-
+	
 	public void deleteByNoUtilisateur(Integer noUtilisateur) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(DELETE_BY_ID);
@@ -44,117 +43,117 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 			}
 			//supprimer toutes les articles  qui ont ce noUtilisateur
 			DAOFactory.getArticleDAO().deleteByNoUtilisateur(noUtilisateur);
-			stmt.executeUpdate();
+			stmt.executeUpdate(); 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans la suppression d'un utilisateur");
 		}
-
+		
 	}
-
+	
 	public void updatePseudo(Integer noUtilisateur, String new_pseudo) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(UPDATE_PSEUDO);
-			stmt.setString(1, new_pseudo)  ;
+			stmt.setString(1, new_pseudo)  ;  
 			stmt.setInt(2,  noUtilisateur)  ;
-			stmt.executeUpdate();
+			stmt.executeUpdate(); 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans la modification de pseudo d'un utilisateur");
 		}
-
+		
 	}
 	public void updateNom(Integer noUtilisateur, String new_nom) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(UPDATE_NOM);
-			stmt.setString(1, new_nom)  ;
+			stmt.setString(1, new_nom)  ;  
 			stmt.setInt(2,  noUtilisateur)  ;
-			stmt.executeUpdate();
+			stmt.executeUpdate(); 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans la modification de nom d'un utilisateur");
 		}
-
+		
 	}
 	public void updatePrenom(Integer noUtilisateur, String new_prenom) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(UPDATE_PRENOM);
-			stmt.setString(1, new_prenom)  ;
+			stmt.setString(1, new_prenom)  ;  
 			stmt.setInt(2,  noUtilisateur)  ;
-			stmt.executeUpdate();
+			stmt.executeUpdate(); 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans la modification de prénom d'un utilisateur");
 		}
-
+		
 	}
 	public void updateEmail(Integer noUtilisateur, String new_email) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(UPDATE_EMAIL);
-			stmt.setString(1, new_email)  ;
+			stmt.setString(1, new_email)  ;  
 			stmt.setInt(2,  noUtilisateur)  ;
-			stmt.executeUpdate();
+			stmt.executeUpdate(); 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans la modification d'email d'un utilisateur");
 		}
-
+		
 	}
 	public void updateTelephone(Integer noUtilisateur, String new_te) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(UPDATE_TEL);
-			stmt.setString(1, new_te)  ;
+			stmt.setString(1, new_te)  ;  
 			stmt.setInt(2,  noUtilisateur)  ;
-			stmt.executeUpdate();
+			stmt.executeUpdate(); 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans la modification de téléphone d'un utilisateur");
 		}
-
+		
 	}
 	public void updateRue(Integer noUtilisateur, String new_rue) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(UPDATE_RUE);
-			stmt.setString(1, new_rue)  ;
+			stmt.setString(1, new_rue)  ;  
 			stmt.setInt(2,  noUtilisateur)  ;
-			stmt.executeUpdate();
+			stmt.executeUpdate(); 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans la modification de rue d'un utilisateur");
 		}
-
+		
 	}
 	public void updateCodePostal(Integer noUtilisateur, String new_codePostal) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(UPDATE_CODEPOSTAL);
-			stmt.setString(1, new_codePostal)  ;
+			stmt.setString(1, new_codePostal)  ;  
 			stmt.setInt(2,  noUtilisateur)  ;
-			stmt.executeUpdate();
+			stmt.executeUpdate(); 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans la modification de code postal d'un utilisateur");
 		}
-
+		
 	}
 	public void updateVille(Integer noUtilisateur, String new_ville) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(UPDATE_VILLE);
-			stmt.setString(1, new_ville)  ;
+			stmt.setString(1, new_ville)  ;  
 			stmt.setInt(2,  noUtilisateur)  ;
-			stmt.executeUpdate();
+			stmt.executeUpdate(); 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans la modification de ville d'un utilisateur");
 		}
-
+		
 	}
 	public void updateMotDePasse(Integer noUtilisateur, String new_motDePasse) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(UPDATE_MOTDEPASSE);
-			stmt.setString(1, new_motDePasse)  ;
+			stmt.setString(1, new_motDePasse)  ;  
 			stmt.setInt(2,  noUtilisateur)  ;
-			stmt.executeUpdate();
+			stmt.executeUpdate(); 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans la modification de mot de passe d'un utilisateur");
 		}
-
+		
 	}
-
+	
 	public Utilisateur insert(Utilisateur utilisateur) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1,  utilisateur.getPseudo())  ;
+			stmt.setString(1,  utilisateur.getPseudo())  ;  
 			stmt.setString(2,  utilisateur.getNom())  ;
 			stmt.setString(3, utilisateur.getPrenom());
 			stmt.setString(4, utilisateur.getEmail());
@@ -173,7 +172,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 					utilisateur.setNoUtilisateur(rs.getInt(1));
 				}
 			}
-
+	
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans l'insertion d'un utilisateur");
 		}
@@ -201,8 +200,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
 				//TODO: A vérifier
-
-
+				
+				
 				result.add(utilisateur);
 			}
 		} catch (Exception e) {
@@ -210,34 +209,6 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		}
 		return result;
 	}
-
-	@Override
-	public Utilisateur getUtilisateur(Integer idUtilisateur) throws DALException {
-		// TODO Auto-generated method stub
-		Utilisateur utilisateur = new Utilisateur();
-		try (Connection cnx = ConnectionProvider.getConnection()) {
-			PreparedStatement stmt = cnx.prepareStatement(SELECT_ONE_UTILISATEUR);
-			stmt.setInt(1, idUtilisateur);
-			ResultSet rs = stmt.executeQuery();
-			utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
-			utilisateur.setPseudo(rs.getString("pseudo"));
-			utilisateur.setNom(rs.getString("nom"));
-			utilisateur.setPrenom(rs.getString("prenom"));
-			utilisateur.setEmail(rs.getString("email"));
-			utilisateur.setTelephone(rs.getString("telephone"));
-			utilisateur.setRue(rs.getString("rue"));
-			utilisateur.setCodePostal(rs.getString("code_postal"));
-			utilisateur.setVille(rs.getString("ville"));
-			utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
-			utilisateur.setCredit(rs.getInt("credit"));
-			utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
-			//TODO: A vérifier
-
-		} catch (Exception e) {
-			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs");
-		}
-		return utilisateur;
-	}
-
+	
 
 }

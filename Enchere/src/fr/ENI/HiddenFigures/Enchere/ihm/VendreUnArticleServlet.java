@@ -51,14 +51,14 @@ public class VendreUnArticleServlet extends HttpServlet {
 			String nomArticle = request.getParameter("nomArticle");
 			String description = request.getParameter("description");
 			String libelleCategorie = request.getParameter("categorie");
-			String miseAPrix = request.getParameter("miseAPrix");
+			String miseAPrixString = request.getParameter("miseAPrix");
 			String dateDebutEnchereString = request.getParameter("dateDebutEnchere");
 			String dateFinEnchereString = request.getParameter("dateFinEnchere");
 			String rue = request.getParameter("rue");
 			String codePostal = request.getParameter("codePostal");
 			String ville = request.getParameter("ville");
 			ArticleVendu articleVendu = new ArticleVendu();
-			if(nomArticle !=null && description !=null &&libelleCategorie !=null &&miseAPrix !=null &&dateDebutEnchereString !=null 
+			if(nomArticle !=null && description !=null &&libelleCategorie !=null &&miseAPrixString !=null &&dateDebutEnchereString !=null 
 					&&dateFinEnchereString !=null &&dateFinEnchereString !=null &&codePostal !=null &&ville !=null) {
 				Integer no_categorie = 0;
 				if (listCategories!=null ) {
@@ -87,9 +87,12 @@ public class VendreUnArticleServlet extends HttpServlet {
 				}
 				 
 				LocalDate dateFinEnchere = LocalDate.parse(dateFinEnchereString,formatter);
-				articleVendu.setDateDebutEncheres(dateFinEnchere);
+				articleVendu.setDateFinEncheres(dateFinEnchere);
 				
 				articleVendu.setNoUtilisateur(utilisateur_current.getNoUtilisateur());
+				
+				Integer miseAPrix = Integer.parseInt(miseAPrixString);
+				articleVendu.setMiseAprix(miseAPrix);
 				try {
 					managerArticles.addArticleVendu(articleVendu);
 					request.setAttribute("message", "Votre article est bien enregistré");

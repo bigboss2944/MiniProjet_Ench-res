@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
 				Map<Integer, Utilisateur> mapUtilisateurAchercher = new HashMap<Integer, Utilisateur>();
 				mapUtilisateurAchercher = managerUtilisateurs.rechercherUtilisateurParLoginPassword(loginEcran,
 						passwordEcran);
-
+				
 				for (Integer noUtilisateur : mapUtilisateurAchercher.keySet()) {
 					request.getSession().setAttribute("user", mapUtilisateurAchercher.get(noUtilisateur));
 					System.out.println("User vient de récupérer par chercher dans BDD "+ mapUtilisateurAchercher.get(noUtilisateur));
@@ -67,7 +67,7 @@ public class LoginServlet extends HttpServlet {
 			} catch (BLLException e) {
 				// request.getSession().setAttribute("loginUsername", null);
 				request.setAttribute("messageNonTrouve", e.getMessage());
-
+				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
 
 		} else {
@@ -75,8 +75,6 @@ public class LoginServlet extends HttpServlet {
 		}
 
 	}
-
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
