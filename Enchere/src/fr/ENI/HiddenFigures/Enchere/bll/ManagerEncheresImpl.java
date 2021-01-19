@@ -52,7 +52,7 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 		try {
 			if(EnchereOK(enchere)) {
 				enchere = enchereDAO.update(enchere);
-				listEncheres.add(enchere);
+				listEncheres = enchereDAO.getAll();
 			}
 			else {
 				throw new EnchereException("Couche BLL - Erreur à l'ajout de l'enchère");
@@ -65,30 +65,18 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 	}
 
 	@Override
-	public List<Enchere> getLstEnchere() throws BLLException {
+	public List<Enchere> getLstEnchere(){
 		// TODO Auto-generated method stub
-		try {
-			listEncheres = enchereDAO.getAll();
-			
-		} catch (DALException e) {
-			throw new BLLException("Couche BLL - Erreur lors de la récupération de la liste d'Enchères");
-		}
 		return listEncheres;
 	}
 
 	@Override
-	public Enchere getEnchere(Integer idEnchere) throws BLLException {
+	public Enchere getEnchere(Integer idEnchere){
 		// TODO Auto-generated method stub
-		try {
-			listEncheres = enchereDAO.getAll();
-			for (Enchere enchere : listEncheres) {
-				if(enchere.getNo_enchere()==idEnchere) {
-					return enchere;
-				}
+		for (Enchere enchere : listEncheres) {
+			if(enchere.getNo_enchere()==idEnchere) {
+				return enchere;
 			}
-			
-		} catch (DALException e) {
-			throw new BLLException("Couche BLL - Erreur lors de la récupération de la liste d'Enchères");
 		}
 		return null;
 	}
@@ -97,7 +85,6 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 	public Enchere deleteEnchere(Integer idEnchere) throws BLLException {
 		// TODO Auto-generated method stub
 		try {
-			listEncheres = enchereDAO.getAll();
 			for (Enchere enchere : listEncheres) {
 				if(enchere.getNo_enchere()==idEnchere) {
 					enchereDAO.deleteEnchere(enchere.getNo_enchere());
@@ -105,7 +92,6 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 					listEncheres.remove(i);
 				}
 			}
-			
 		} catch (DALException e) {
 			throw new BLLException("Couche BLL - Erreur lors de la récupération de la liste d'Enchères");
 		}
@@ -118,7 +104,7 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 		try {
 			ArticleVendu article = articleDAO.getArticleVendu(enchere.getNo_article());
 			Utilisateur utilisateur = utilisateurDAO.getUtilisateur(enchere.getNo_utilisateur());
-			if(enchere.getMontant_enchere()<EncherePlusHaute()) {
+			if(enchere.getMontant_enchere()<=EncherePlusHaute(article.getNoArticle())) {
 				throw new BLLException("Couche BLL - Enchere est inférieur à l'enchère la plus haute");
 			}
 			else if(enchere.getNo_utilisateur()==article.getNoUtilisateur()) {
@@ -127,8 +113,8 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 			else if(enchere.getMontant_enchere()>utilisateur.getCredit()) {
 				throw new BLLException("Couche BLL - L'enchérisseur ne peut proposer d'enchère supérieur à son crédit");
 			}
-			else if(enchere.getNo_utilisateur()<article.getPrixVente()) {
-				throw new BLLException("Couche BLL - L'enchérisseur ne peut proposer de prix inférieur au prix de vente");
+			else if(enchere.getMontant_enchere()<article.getMiseAprix()) {
+				throw new BLLException("Couche BLL - L'enchérisseur ne peut proposer de prix inférieur à la mise à prix");
 			}
 			else {
 				return true;
@@ -141,22 +127,16 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 		
 	}
 
-
 	@Override
-	public Integer EncherePlusHaute() throws BLLException {
+	public Integer EncherePlusHaute(Integer idArticle) throws BLLException {
 		// TODO Auto-generated method stub
-		Integer max=25;
-		try {
-			listEncheres = enchereDAO.getAll();
-			for (Enchere enchere : listEncheres) {
-				if(enchere.getMontant_enchere()>max) {
-					max=enchere.getMontant_enchere();
-				}
+		Integer max=0;
+		for (Enchere enchere : listEncheres) {
+			if((enchere.getNo_article()==idArticle)&&(enchere.getMontant_enchere()>max)) {
+				max=enchere.getMontant_enchere();
 			}
-			
-		} catch (DALException e) {
-			throw new BLLException("Couche BLL - Erreur lors de la récupération de la liste d'Enchères");
 		}
+		
 		return max;
 	}
 	

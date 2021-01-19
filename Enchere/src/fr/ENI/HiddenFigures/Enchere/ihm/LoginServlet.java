@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
 					request.getSession().setAttribute("loginUsername", mapUtilisateurAchercher.get(noUtilisateur).getPseudo());
 					request.getSession().setAttribute("loginNoUser",noUtilisateur  );
 				}
-				request.getRequestDispatcher("ListEncheresConnecteServlet").forward(request, response);
+				request.getRequestDispatcher("ListeEncheresConnecteServlet").forward(request, response);
 
 					//request.getSession().setAttribute("loginUsername", mapUtilisateurAchercher.get(noUtilisateur).getPseudo());
 					//request.getSession().setAttribute("loginNoUser",noUtilisateur  );
@@ -73,12 +73,16 @@ public class LoginServlet extends HttpServlet {
 			catch (BLLException e) {
 				//request.getSession().setAttribute("loginUsername", null);
 				request.setAttribute("messageNonTrouve", e.getMessage());
-				request.getRequestDispatcher("login.jsp").forward(request, response);
+				
 			}
-			//request.getRequestDispatcher("NoteServlet").forward(request, response);
+			
 			
 			
 		}
+		else {
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+		}
+		
 	}
 		
 	

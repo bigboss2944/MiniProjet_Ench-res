@@ -81,7 +81,7 @@ function changeThis(sender) {
 		<c:forEach var="u" items="${utilisateurModel.listUtilisateur}">
 			<tr>
 				<td> <c:forEach var="a" items="${u.listArticlesVendus}">   
-				${a.nomArticle} <br>
+				<a href="/Enchere/EnchereServlet">${a.nomArticle}</a> <br>
 				Prix:	${a.miseAprix} points  <br> 
 				Fin de l'enchère:	
 				<tags:localDate date="${a.dateFinEncheres}" pattern="dd/MM/yyyy"/>

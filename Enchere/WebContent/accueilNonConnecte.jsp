@@ -11,16 +11,16 @@
 </head>
 
 <body>
-<<<<<<< HEAD
+
 
 <jsp:include page="Header.jsp"></jsp:include>
-=======
+
 <h1>ENI-Enchère</h1>
 <nav>
 <a href="/Enchere/UtilisateurServlet">S'inscrire</a>
 <a href="/Enchere/LoginServlet">Se connecter</a>
 </nav>
->>>>>>> bf4fcf4dd4be6b228a3d7438d0f64a7749780b4c
+
 <h2 style="color:red;">${message}</h2>
 <h3>Liste des enchères</h3>
 

@@ -17,8 +17,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			+ " VALUES (?,?,?,?,?,?,?,?,?,?)";
 	private String SELECT_ALL = "SELECT * FROM ARTICLES_VENDUS";
 	private String SELECT_ONE = "SELECT * FROM ARTICLES_VENDUS WHERE no_article=?";
-	private String SELECT_BY_ETAT_VENTE_ENCOURS = "SELECT * FROM  ARTICLES_VENDUS where GETDATE() BETWEEN "
-			+ " date_debut_encheres AND date_fin_encheres";
+	private String SELECT_BY_ETAT_VENTE_ENCOURS = "SELECT * FROM  ARTICLES_VENDUS where date_fin_encheres >= CONVERT (date, GETDATE());";
 	private String select_Utilisateur_By_Article = "Select pseudo from ARTICLES_VENDUS a inner Join UTILISATEURS u on u.no_utilisateur = ?";
 
 	
