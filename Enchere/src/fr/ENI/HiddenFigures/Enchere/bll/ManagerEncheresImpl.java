@@ -27,7 +27,7 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public Enchere addEnchere(Enchere enchere) throws BLLException,EnchereException {
 		// TODO Auto-generated method stub
@@ -37,11 +37,11 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 				listEncheres.add(enchere);
 			}
 			else {
-				throw new EnchereException("Couche BLL - Erreur à l'ajout de l'enchère");
+				throw new EnchereException("Couche BLL - Erreur ï¿½ l'ajout de l'enchï¿½re");
 			}
-			
+
 		} catch (DALException e) {
-			throw new BLLException("Couche BLL - Erreur à l'ajout de l'Enchère dans la base de données");
+			throw new BLLException("Couche BLL - Erreur ï¿½ l'ajout de l'Enchï¿½re dans la base de donnï¿½es");
 		}
 		return enchere;
 	}
@@ -55,11 +55,11 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 				listEncheres = enchereDAO.getAll();
 			}
 			else {
-				throw new EnchereException("Couche BLL - Erreur à l'ajout de l'enchère");
+				throw new EnchereException("Couche BLL - Erreur ï¿½ l'ajout de l'enchï¿½re");
 			}
-			
+
 		} catch (DALException e) {
-			throw new BLLException("Couche BLL - Erreur à l'ajout de l'Enchère dans la base de données");
+			throw new BLLException("Couche BLL - Erreur ï¿½ l'ajout de l'Enchï¿½re dans la base de donnï¿½es");
 		}
 		return enchere;
 	}
@@ -93,7 +93,7 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 				}
 			}
 		} catch (DALException e) {
-			throw new BLLException("Couche BLL - Erreur lors de la récupération de la liste d'Enchères");
+			throw new BLLException("Couche BLL - Erreur lors de la rï¿½cupï¿½ration de la liste d'Enchï¿½res");
 		}
 		return null;
 	}
@@ -105,16 +105,16 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 			ArticleVendu article = articleDAO.getArticleVendu(enchere.getNo_article());
 			Utilisateur utilisateur = utilisateurDAO.getUtilisateur(enchere.getNo_utilisateur());
 			if(enchere.getMontant_enchere()<=EncherePlusHaute(article.getNoArticle())) {
-				throw new BLLException("Couche BLL - Enchere est inférieur à l'enchère la plus haute");
+				throw new BLLException("Couche BLL - Enchere est infï¿½rieur ï¿½ l'enchï¿½re la plus haute");
 			}
 			else if(enchere.getNo_utilisateur()==article.getNoUtilisateur()) {
-				throw new BLLException("Couche BLL - Le vendeur ne peut enchérir sur le produit qu'il vend");
+				throw new BLLException("Couche BLL - Le vendeur ne peut enchï¿½rir sur le produit qu'il vend");
 			}
 			else if(enchere.getMontant_enchere()>utilisateur.getCredit()) {
-				throw new BLLException("Couche BLL - L'enchérisseur ne peut proposer d'enchère supérieur à son crédit");
+				throw new BLLException("Couche BLL - L'enchï¿½risseur ne peut proposer d'enchï¿½re supï¿½rieur ï¿½ son crï¿½dit");
 			}
 			else if(enchere.getMontant_enchere()<article.getMiseAprix()) {
-				throw new BLLException("Couche BLL - L'enchérisseur ne peut proposer de prix inférieur à la mise à prix");
+				throw new BLLException("Couche BLL - L'enchï¿½risseur ne peut proposer de prix infï¿½rieur ï¿½ la mise ï¿½ prix");
 			}
 			else {
 				return true;
@@ -124,7 +124,7 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 			e.printStackTrace();
 		}
 		return false;
-		
+
 	}
 
 	@Override
@@ -136,10 +136,10 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 				max=enchere.getMontant_enchere();
 			}
 		}
-		
+
 		return max;
 	}
-	
-	
+
+
 
 }

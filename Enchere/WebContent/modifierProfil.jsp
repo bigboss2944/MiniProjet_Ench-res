@@ -9,7 +9,8 @@
 </head>
 
 <body>
-<h1>ENI-Enchère</h1>
+<a href="/Enchere/ListeEncheresConnecteServlet">ENI-ENCHERE</a>
+
 <h2 style="color:red;">${message}</h2>
 <h3>Mon profil</h3>
 	<form action="ModifierProfilServlet" method="post">
@@ -27,7 +28,7 @@
 		Crédit: ${user.credit} <br>
 		<input type="submit" value="Enregistrer" > 
 	</form>
-	<a href=" "><input type="button" value="Supprimer mon compte"></a>
+	<a href="/Enchere/SuppressionCompteServlet"><input type="button" value="Supprimer mon compte"></a>
 	
 </body>
 </html>

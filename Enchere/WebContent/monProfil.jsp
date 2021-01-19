@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<h1>ENI-Enchère</h1>
+<a href="/Enchere/ListeEncheresConnecteServlet">ENI-ENCHERE</a> <br>
 Pseudo: ${user.pseudo} <br>
 Nom: ${user.nom} <br>
 Prénom: ${user.prenom} <br>

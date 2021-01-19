@@ -13,4 +13,5 @@ public interface EnchereDAO {
 	Enchere deleteEnchere(Integer idEnchere) throws DALException;
 	Enchere deleteEnchereByArticle(Integer idArticle) throws DALException;
 	String selectUtilisateurByEnchere(Enchere idEnchere) throws DALException;
+	void deleteByNoUtilisateurNoArticle(Integer noUtilisateur, Integer noArticleVendu ) throws DALException;
 }

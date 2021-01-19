@@ -19,11 +19,11 @@ public class EnchereDAOImpl implements EnchereDAO {
 	private String SelectAllByUsers="Select * from ENCHERES where no_utilisateur=?";
 	private String Insert="Insert into ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) values(?,?,?,?)";
 	private String Update="Update ENCHERES set date_enchere=?,montant_enchere=?,no_article=?,no_utilisateur=? where no_enchere=?";
-	
+
 	private String Delete="Delete from ENCHERES where no_enchere=?";
 	private String DeleteByIdArticle="Delete from ENCHERES where no_article=?";
-	
-	
+
+
 	@Override
 	public Enchere insert(Enchere enchere) throws DALException {
 		// TODO Auto-generated method stub
@@ -35,13 +35,30 @@ public class EnchereDAOImpl implements EnchereDAO {
 			stmt.setInt(2,enchere.getMontant_enchere());
 			stmt.setInt(3, enchere.getNo_article());
 			stmt.setInt(4, enchere.getNo_utilisateur());
-			
+
 		}catch (Exception e) {
-			throw new DALException("Couche DAL - ProblÃ¨me à l'insertion de l'enchère");
+			throw new DALException("Couche DAL - ProblÃ¨me ï¿½ l'insertion de l'enchï¿½re");
 		}
-		
+
 		return enchere;
 	}
+
+	public void deleteByNoUtilisateurNoArticle(Integer noUtilisateur, Integer noArticleVendu) throws DALException {
+
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+
+			PreparedStatement stmt = cnx.prepareStatement(DELETE_BY_NO_UTILISATEUR_OU_NO_ARTICLE);
+
+			stmt.setInt(1, noUtilisateur);
+
+			stmt.setInt(2, noArticleVendu);
+
+			stmt.executeUpdate();
+
+		} catch (Exception e) {
+			throw new DALException(
+					"Couche DAL - ProblÃ¨me dans la suppression des encheres par noUtilisateur ou noArticleVendu ");
+		}
 
 	@Override
 	public Enchere getEnchere(Integer idEnchere) throws DALException {
@@ -51,7 +68,7 @@ public class EnchereDAOImpl implements EnchereDAO {
 			PreparedStatement stmt = cnx.prepareStatement(SelectOne);
 			stmt.setInt(1, idEnchere);
 			ResultSet rs = stmt.executeQuery();
-			
+
 			String date_enchereString = rs.getString("date_enchere").substring(0,19);
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime date_enchereLocalDateTime = LocalDateTime.parse(date_enchereString,formatter);
@@ -60,12 +77,13 @@ public class EnchereDAOImpl implements EnchereDAO {
 			enchere.setMontant_enchere(rs.getInt("montant_enchere"));
 			enchere.setNo_article(rs.getInt("no_article"));
 			enchere.setNo_article(rs.getInt("no_utilisateur"));
-			
+
 		} catch (Exception e) {
-			throw new DALException("Couche DAL - ProblÃ¨me à l'accession de l'enchère");
+			throw new DALException("Couche DAL - ProblÃ¨me ï¿½ l'accession de l'enchï¿½re");
 		}
-		
+
 		return enchere;
+=======
 	}
 
 	@Override
@@ -84,11 +102,11 @@ public class EnchereDAOImpl implements EnchereDAO {
 				enchere.setMontant_enchere(rs.getInt("montant_enchere"));
 				enchere.setNo_article(rs.getInt("no_article"));
 				enchere.setNo_article(rs.getInt("no_utilisateur"));
-				 
+
 				result.add(enchere);
 			}
 		} catch (Exception e) {
-			throw new DALException("Couche DAL - Problèmes dans le listing des Enchères");
+			throw new DALException("Couche DAL - Problï¿½mes dans le listing des Enchï¿½res");
 		}
 		return result;
 	}
@@ -110,11 +128,11 @@ public class EnchereDAOImpl implements EnchereDAO {
 				enchere.setMontant_enchere(rs.getInt("montant_enchere"));
 				enchere.setNo_article(rs.getInt("no_article"));
 				enchere.setNo_article(rs.getInt("no_utilisateur"));
-				 
+
 				result.add(enchere);
 			}
 		} catch (Exception e) {
-			throw new DALException("Couche DAL - Problèmes dans le listing des Enchères par Utilisateurs");
+			throw new DALException("Couche DAL - Problï¿½mes dans le listing des Enchï¿½res par Utilisateurs");
 		}
 		return result;
 	}
@@ -131,11 +149,11 @@ public class EnchereDAOImpl implements EnchereDAO {
 			stmt.setInt(3, enchere.getNo_article());
 			stmt.setInt(4, enchere.getNo_utilisateur());
 			stmt.setInt(5, enchere.getNo_enchere());
-					
+
 		}catch (Exception e) {
-			throw new DALException("Couche DAL - ProblÃ¨me à la mise à jour de l'enchère");
+			throw new DALException("Couche DAL - ProblÃ¨me ï¿½ la mise ï¿½ jour de l'enchï¿½re");
 		}
-				
+
 		return enchere;
 	}
 
@@ -148,11 +166,11 @@ public class EnchereDAOImpl implements EnchereDAO {
 			stmt.setInt(1, idEnchere);
 			ResultSet rs = stmt.executeQuery();
 		}catch (Exception e) {
-			throw new DALException("Couche DAL - ProblÃ¨me à la suppression de l'enchère");
+			throw new DALException("Couche DAL - ProblÃ¨me ï¿½ la suppression de l'enchï¿½re");
 		}
 		return enchere;
 	}
-	
+
 	@Override
 	public Enchere deleteEnchereByArticle(Integer idArticle) throws DALException {
 		// TODO Auto-generated method stub
@@ -162,11 +180,11 @@ public class EnchereDAOImpl implements EnchereDAO {
 			stmt.setInt(1, idArticle);
 			ResultSet rs = stmt.executeQuery();
 		}catch (Exception e) {
-			throw new DALException("Couche DAL - ProblÃ¨me à la suppression de l'enchère");
+			throw new DALException("Couche DAL - ProblÃ¨me ï¿½ la suppression de l'enchï¿½re");
 		}
 		return enchere;
 	}
-	
+
 
 	@Override
 	public String selectUtilisateurByEnchere(Enchere idEnchere) throws DALException {
