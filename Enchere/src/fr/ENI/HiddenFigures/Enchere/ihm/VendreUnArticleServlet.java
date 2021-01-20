@@ -16,8 +16,11 @@ import fr.ENI.HiddenFigures.Enchere.bll.ManagerArticleVendus;
 import fr.ENI.HiddenFigures.Enchere.bll.ManagerArticleVendusSingl;
 import fr.ENI.HiddenFigures.Enchere.bll.ManagerCategories;
 import fr.ENI.HiddenFigures.Enchere.bll.ManagerCategoriesSingl;
+import fr.ENI.HiddenFigures.Enchere.bll.ManagerRetrait;
+import fr.ENI.HiddenFigures.Enchere.bll.ManagerRetraitSingl;
 import fr.ENI.HiddenFigures.Enchere.bo.ArticleVendu;
 import fr.ENI.HiddenFigures.Enchere.bo.Categorie;
+import fr.ENI.HiddenFigures.Enchere.bo.Retrait;
 import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
 
 /**
@@ -28,6 +31,7 @@ public class VendreUnArticleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ManagerCategories managerCategories = ManagerCategoriesSingl.getInstance();
 	private ManagerArticleVendus managerArticles = ManagerArticleVendusSingl.getInstance();
+	private ManagerRetrait managerRetraits = ManagerRetraitSingl.getInstance();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -41,6 +45,7 @@ public class VendreUnArticleServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8") ;
 		if (request.getSession().getAttribute("user") != null  ) {
 			Utilisateur utilisateur_current = (Utilisateur) request.getSession().getAttribute("user");
 			CategorieModel categorieModel = new CategorieModel();
@@ -51,12 +56,15 @@ public class VendreUnArticleServlet extends HttpServlet {
 			String nomArticle = request.getParameter("nomArticle");
 			String description = request.getParameter("description");
 			String libelleCategorie = request.getParameter("categorie");
+			
 			String miseAPrixString = request.getParameter("miseAPrix");
 			String dateDebutEnchereString = request.getParameter("dateDebutEnchere");
 			String dateFinEnchereString = request.getParameter("dateFinEnchere");
+			
 			String rue = request.getParameter("rue");
 			String codePostal = request.getParameter("codePostal");
 			String ville = request.getParameter("ville");
+			
 			ArticleVendu articleVendu = new ArticleVendu();
 			if(nomArticle !=null && description !=null &&libelleCategorie !=null &&miseAPrixString !=null &&dateDebutEnchereString !=null 
 					&&dateFinEnchereString !=null &&dateFinEnchereString !=null &&codePostal !=null &&ville !=null) {
@@ -94,8 +102,17 @@ public class VendreUnArticleServlet extends HttpServlet {
 				Integer miseAPrix = Integer.parseInt(miseAPrixString);
 				articleVendu.setMiseAprix(miseAPrix);
 				try {
-					managerArticles.addArticleVendu(articleVendu);
+					articleVendu = managerArticles.addArticleVendu(articleVendu);
 					request.setAttribute("message", "Votre article est bien enregistré");
+				} catch (BLLException e) {
+					request.setAttribute("message", e.getMessage());
+				}
+				
+				
+				Retrait retrait = new Retrait(rue,codePostal,ville);
+				retrait.setNoArticle(articleVendu.getNoArticle());
+				try {
+					managerRetraits.addRetrait(retrait);
 				} catch (BLLException e) {
 					request.setAttribute("message", e.getMessage());
 				}
@@ -103,6 +120,13 @@ public class VendreUnArticleServlet extends HttpServlet {
 			}
 			
 			request.getRequestDispatcher("vendreUnArticle.jsp").forward(request, response);
+			
+			
+			
+			
+			
+			
+			
 		} else {
 			request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);
 		}

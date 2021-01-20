@@ -45,6 +45,7 @@ public class AccueilNonConnecteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8") ;
 		// Afficher les libellés dans la liste roulante de catégorie
 		CategorieModel categorieModel = new CategorieModel();
 		List<Categorie> listCategories = managerCategories.getCategories();
@@ -54,6 +55,8 @@ public class AccueilNonConnecteServlet extends HttpServlet {
 		// selon les mots recherche
 		String nomArticleContient = request.getParameter("nomArticleContient");
 		String libelleCategorie = request.getParameter("categorie");
+		
+		//System.out.println(libelleCategorie);
 		List<ArticleVendu> listArticlesVendusEncours = new ArrayList<>();
 		try {
 			listArticlesVendusEncours = managerArticles.getArticleByEtatVenteEnCours();
@@ -62,10 +65,11 @@ public class AccueilNonConnecteServlet extends HttpServlet {
 		}
 		List<ArticleVendu> listArticlesParNomArticle = new ArrayList<>();
 		List<ArticleVendu> listArticlesParNomArticleEtCategorie = new ArrayList<>();
-		List<Utilisateur> listUtilisateur = new ArrayList<>();
+		
 		 
 		Integer no_categorie = 0;
 		if(listCategories != null) {
+			
 			for (Categorie categorie : listCategories) {
 				if(categorie.getLibelle().equals(libelleCategorie)) {
 					no_categorie = categorie.getNoCategorie();
@@ -73,7 +77,7 @@ public class AccueilNonConnecteServlet extends HttpServlet {
 				
 			}
 		}	
-			
+		List<Utilisateur> listUtilisateur = new ArrayList<>();	
 		Utilisateur utilisateur = new Utilisateur();
 		if (nomArticleContient!=null) {
 			if(!"".equals(nomArticleContient.trim()) && listArticlesVendusEncours !=null ) {
@@ -104,10 +108,13 @@ public class AccueilNonConnecteServlet extends HttpServlet {
 			else {
 				for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorie) {
 					try {
-						utilisateur = managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(articleVendu.getNoUtilisateur());
-						utilisateur.setListArticlesVendus(new ArrayList<ArticleVendu>()); //eviter de cummuler les articles vendus précédents
-						utilisateur.getListArticlesVendus().add(articleVendu);
-						listUtilisateur.add(utilisateur );
+						utilisateur= managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(articleVendu.getNoUtilisateur());
+						Utilisateur vendeur  =new Utilisateur();
+						vendeur.setPseudo(utilisateur.getPseudo());
+						vendeur.setNoUtilisateur(utilisateur.getNoUtilisateur() );
+						vendeur.setListArticlesVendus(new ArrayList<ArticleVendu>()); //eviter de cummuler les articles vendus précédents
+						vendeur.getListArticlesVendus().add(articleVendu);
+						listUtilisateur.add(vendeur );
 					} catch (BLLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -118,11 +125,18 @@ public class AccueilNonConnecteServlet extends HttpServlet {
 		else {
 			if(listArticlesVendusEncours != null) {
 				for (ArticleVendu articleVendu : listArticlesVendusEncours) {
+					 
 					try {
-						utilisateur = managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(articleVendu.getNoUtilisateur());
-						utilisateur.setListArticlesVendus(new ArrayList<ArticleVendu>()); //eviter de cummuler les articles vendus précédents
-						utilisateur.getListArticlesVendus().add(articleVendu);
-						listUtilisateur.add(utilisateur );
+						 
+						utilisateur= managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(articleVendu.getNoUtilisateur());
+						Utilisateur vendeur  =new Utilisateur();
+						vendeur.setPseudo(utilisateur.getPseudo());
+						vendeur.setNoUtilisateur(utilisateur.getNoUtilisateur() );
+						vendeur.setListArticlesVendus(new ArrayList<ArticleVendu>()); //eviter de cummuler les articles vendus précédents
+						vendeur.getListArticlesVendus().add(articleVendu);
+						 
+						listUtilisateur.add(vendeur );
+						 
 					} catch (BLLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -135,6 +149,8 @@ public class AccueilNonConnecteServlet extends HttpServlet {
 			}
 			
 		}
+		
+		
 		
 		UtilisateurModel utilisateurModel = new UtilisateurModel();
 		utilisateurModel.setListUtilisateur(listUtilisateur);

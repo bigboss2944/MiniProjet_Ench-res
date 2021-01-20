@@ -1,6 +1,7 @@
 package fr.ENI.HiddenFigures.Enchere.bo;
 
 public class Retrait {
+
 	private Integer noArticle;
 	private String rue;
 	private String code_postal;
@@ -14,6 +15,8 @@ public class Retrait {
 		this.code_postal = code_postal;
 		this.ville = ville;
 	}
+	
+	
 	public Integer getNoArticle() {
 		return noArticle;
 	}

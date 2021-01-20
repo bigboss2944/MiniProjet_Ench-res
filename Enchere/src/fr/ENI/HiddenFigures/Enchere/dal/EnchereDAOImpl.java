@@ -16,8 +16,9 @@ import fr.ENI.HiddenFigures.Enchere.bo.Enchere;
 public class EnchereDAOImpl implements EnchereDAO {
 	private String DELETE_BY_NO_UTILISATEUR_OU_NO_ARTICLE = "DELETE FROM  ENCHERES where  no_utilisateur=? or no_article =?";
 	private String SELECT = "SELECT * from ENCHERES";
+	private String DELETE_BY_NO_ARTICLE = "DELETE FROM  ENCHERES where   no_article =?";
 	
-
+	@Override
 	public void deleteByNoUtilisateurNoArticle(Integer noUtilisateur, Integer noArticleVendu) throws DALException {
 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -33,6 +34,23 @@ public class EnchereDAOImpl implements EnchereDAO {
 		} catch (Exception e) {
 			throw new DALException(
 					"Couche DAL - Problème dans la suppression des encheres par noUtilisateur ou noArticleVendu ");
+		}
+
+	}
+	@Override
+	public void deleteByNoArticle( Integer noArticleVendu) throws DALException {
+
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+
+			PreparedStatement stmt = cnx.prepareStatement(DELETE_BY_NO_ARTICLE); 
+
+			stmt.setInt(1, noArticleVendu);
+
+			stmt.executeUpdate();
+
+		} catch (Exception e) {
+			throw new DALException(
+					"Couche DAL - Problème dans la suppression des encheres par   noArticleVendu ");
 		}
 
 	}

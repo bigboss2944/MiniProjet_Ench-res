@@ -13,7 +13,7 @@ public interface ManagerEncheres {
 	List<Enchere> getLstEnchereOfHighestOffer();
 	List<Enchere> getLstEnchereOfUserById(Integer noUtilisateur);
 	List<Enchere> getLstEnchereOfHighestOfferOfUserById(Integer noUtilisateur);
- 
+	List<Enchere> getLstEnchereWonOfUserById(Integer noUtilisateur);
 	
 	
 	

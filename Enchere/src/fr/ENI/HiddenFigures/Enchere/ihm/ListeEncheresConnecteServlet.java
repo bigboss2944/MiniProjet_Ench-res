@@ -50,6 +50,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8") ;
 		
 		
 		if (request.getSession().getAttribute("user") != null  ) {
@@ -84,7 +85,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 			
 			
 			List<ArticleVendu> listArticlesJeRemporte = new ArrayList<>();
-			List<Enchere> listMesEncheresRemportees = managerEncheres.getLstEnchereOfHighestOfferOfUserById(utilisateur_current.getNoUtilisateur());
+			List<Enchere> listMesEncheresRemportees = managerEncheres.getLstEnchereWonOfUserById(utilisateur_current.getNoUtilisateur());
 			if (listArticlesVendus!=null &&listMesEncheresRemportees!=null) {
 				for (ArticleVendu articleVendu : listArticlesVendus) {
 					for (Enchere enchere : listMesEncheresRemportees) { 
@@ -134,6 +135,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 			List<Utilisateur> listVendeurs = new ArrayList<>();
 			String nomArticleContient = request.getParameter("nomArticleContient");
 			Utilisateur utilisateur = new Utilisateur();
+			List<ArticleVendu> listArticlesParNomArticleEtCategorieAchatVente = new ArrayList<>();
 			if( nomArticleContient!=null) {
 				String libelleCategorie = request.getParameter("categorie");
 				
@@ -181,7 +183,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 				}
 				
 				//Liste des articles trouvés par nom,catégorie et AchatVente
-				List<ArticleVendu> listArticlesParNomArticleEtCategorieAchatVente = new ArrayList<>();
+				
 				if(achatVente !=null) {
 					//Achats
 					
@@ -402,10 +404,13 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 					
 					for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorieAchatVente) {
 						try {
-							utilisateur = managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(articleVendu.getNoUtilisateur());
-							utilisateur.setListArticlesVendus(new ArrayList<ArticleVendu>()); //eviter de cummuler les articles vendus précédents
-							utilisateur.getListArticlesVendus().add(articleVendu);
-							listVendeurs.add(utilisateur);
+							utilisateur= managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(articleVendu.getNoUtilisateur());
+							Utilisateur vendeur  =new Utilisateur();
+							vendeur.setPseudo(utilisateur.getPseudo());
+							vendeur.setNoUtilisateur(utilisateur.getNoUtilisateur() );
+							vendeur.setListArticlesVendus(new ArrayList<ArticleVendu>()); //eviter de cummuler les articles vendus précédents
+							vendeur.getListArticlesVendus().add(articleVendu);
+							listVendeurs.add(vendeur);
 							
 						} catch (BLLException e) {
 							// TODO Auto-generated catch block
@@ -414,7 +419,47 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 					}
 				}
 			}
-			
+			else {
+				listArticlesParNomArticleEtCategorieAchatVente = listArticlesVendusEncours;
+				for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorieAchatVente) {
+					
+				}
+				if(listArticlesJeRemporte!=null) {
+					for (ArticleVendu articleVendu : listArticlesJeRemporte) {
+						listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
+					}
+				}
+				if(listMesVentesTerminees!=null) {
+					for (ArticleVendu articleVendu : listMesVentesTerminees) {
+						listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
+					}
+					
+				}
+				if(listMesVentesNonDebutees!=null) {
+					for (ArticleVendu articleVendu : listMesVentesNonDebutees) {
+						listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
+					}
+					
+				}
+				listVendeurs =new ArrayList<Utilisateur>();
+				
+				for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorieAchatVente) {
+					try {
+						utilisateur= managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(articleVendu.getNoUtilisateur());
+						Utilisateur vendeur  =new Utilisateur();
+						vendeur.setPseudo(utilisateur.getPseudo());
+						vendeur.setNoUtilisateur(utilisateur.getNoUtilisateur() );
+						vendeur.setListArticlesVendus(new ArrayList<ArticleVendu>()); //eviter de cummuler les articles vendus précédents
+						vendeur.getListArticlesVendus().add(articleVendu);
+						listVendeurs.add(vendeur);
+						
+					} catch (BLLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+			}
 			
 		
 			UtilisateurModel utilisateurModel = new UtilisateurModel();

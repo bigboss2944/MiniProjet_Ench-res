@@ -21,8 +21,13 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	private String SELECT_ONE = "SELECT * FROM ARTICLES_VENDUS WHERE no_article=?";
 	private String SELECT_BY_ETAT_VENTE_ENCOURS = "SELECT * FROM  ARTICLES_VENDUS where GETDATE() BETWEEN "
 			+ " date_debut_encheres AND date_fin_encheres";
+	//private String SELECT_BY_ETAT_VENTE_NONDEBUTE = "SELECT * FROM  ARTICLES_VENDUS where DATEDIFF(day, GETDATE(),date_debut_encheres) >0";
+	//private String SELECT_BY_ETAT_VENTE_TERMINE = "SELECT * FROM  ARTICLES_VENDUS where DATEDIFF(day, date_fin_encheres,GETDATE()) >0";
 	private String select_Utilisayeur_By_Article = "Select pseudo from ARTICLES_VENDUS a inner Join UTILISATEURS u on u.no_utilisateur = ?";
 	private String DELETE_BY_NO_UTILISATEUR = "DELETE FROM  ARTICLES_VENDUS where  no_utilisateur=?";
+	private String DELETE_BY_ID = "DELETE FROM  ARTICLES_VENDUS where  no_article=?";
+	
+	
 	private String SELECT_BY_NO_UTILISATEUR = "SELECT * FROM  ARTICLES_VENDUS where  no_utilisateur=?";
 	
 	public List<ArticleVendu> selectByEtatVenteEnCours() throws DALException {
@@ -60,6 +65,79 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		}
 		return result;
 	}
+//	public List<ArticleVendu> selectByEtatVenteNonDebute() throws DALException {
+//		List<ArticleVendu> result = new ArrayList<ArticleVendu>();
+//		try (Connection cnx = ConnectionProvider.getConnection()) {
+//			PreparedStatement stmt = cnx.prepareStatement(SELECT_BY_ETAT_VENTE_NONDEBUTE);
+//			ResultSet rs = stmt.executeQuery();
+//			while(rs.next()) {
+//				ArticleVendu articleVendu = new ArticleVendu();
+//				articleVendu.setNoArticle(rs.getInt("no_article"));
+//				articleVendu.setNomArticle(rs.getString("nom_article"));
+//				articleVendu.setDescription(rs.getString("description")); 
+//				
+//				String dateDebutEncheresString = rs.getString("date_debut_encheres");
+//				LocalDate dateDebutEncheresLocalDate = Date.valueOf(dateDebutEncheresString).toLocalDate();
+//				
+//				articleVendu.setDateDebutEncheres(dateDebutEncheresLocalDate);
+//				
+//				String dateFinEncheresString = rs.getString("date_fin_encheres");
+//				LocalDate dateFinEncheresLocalDate = Date.valueOf(dateFinEncheresString).toLocalDate();
+//				
+//				articleVendu.setDateFinEncheres(dateFinEncheresLocalDate);
+//				
+//				articleVendu.setMiseAprix(rs.getInt("prix_initial"));
+//				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+//				articleVendu.setNoUtilisateur(rs.getInt("no_utilisateur"));
+//				articleVendu.setNoCategorie(rs.getInt("no_categorie"));
+//	
+//				
+//				
+//				result.add(articleVendu);
+//			}
+//		} catch (Exception e) {
+//			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs par l'état de vente non debute");
+//		}
+//		return result;
+//	}
+//	
+//	public List<ArticleVendu> selectByEtatVenteTermine() throws DALException {
+//		List<ArticleVendu> result = new ArrayList<ArticleVendu>();
+//		try (Connection cnx = ConnectionProvider.getConnection()) {
+//			PreparedStatement stmt = cnx.prepareStatement(SELECT_BY_ETAT_VENTE_TERMINE);
+//			ResultSet rs = stmt.executeQuery();
+//			while(rs.next()) {
+//				ArticleVendu articleVendu = new ArticleVendu();
+//				articleVendu.setNoArticle(rs.getInt("no_article"));
+//				articleVendu.setNomArticle(rs.getString("nom_article"));
+//				articleVendu.setDescription(rs.getString("description")); 
+//				
+//				String dateDebutEncheresString = rs.getString("date_debut_encheres");
+//				LocalDate dateDebutEncheresLocalDate = Date.valueOf(dateDebutEncheresString).toLocalDate();
+//				
+//				articleVendu.setDateDebutEncheres(dateDebutEncheresLocalDate);
+//				
+//				String dateFinEncheresString = rs.getString("date_fin_encheres");
+//				LocalDate dateFinEncheresLocalDate = Date.valueOf(dateFinEncheresString).toLocalDate();
+//				
+//				articleVendu.setDateFinEncheres(dateFinEncheresLocalDate);
+//				
+//				articleVendu.setMiseAprix(rs.getInt("prix_initial"));
+//				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+//				articleVendu.setNoUtilisateur(rs.getInt("no_utilisateur"));
+//				articleVendu.setNoCategorie(rs.getInt("no_categorie"));
+//	
+//				
+//				
+//				result.add(articleVendu);
+//			}
+//		} catch (Exception e) {
+//			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs par l'état de vente termine");
+//		}
+//		return result;
+//	}
+//	
+	
 	public String selectUtilisateurByArticle(ArticleVendu article ) throws DALException {
 		String pseudo= null; 
 		try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -135,6 +213,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			Date dateDebutEncheresSQL = Date.valueOf(articleVendu.getDateDebutEncheres()); 
 			stmt.setDate(3, dateDebutEncheresSQL);
 			
+			
+			
+			
 			Date dateFinEncheresSQL = Date.valueOf(articleVendu.getDateFinEncheres()); 
 			stmt.setDate(4, dateFinEncheresSQL);
 			
@@ -164,8 +245,40 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
 	@Override
 	public ArticleVendu getArticleVendu(Integer idArticle) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+		ArticleVendu result = new ArticleVendu();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(SELECT_ONE);
+			stmt.setInt(1, idArticle );
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				ArticleVendu articleVendu = new ArticleVendu();
+				articleVendu.setNoArticle(rs.getInt("no_article"));
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description")); 
+				
+				String dateDebutEncheresString = rs.getString("date_debut_encheres");
+				LocalDate dateDebutEncheresLocalDate = Date.valueOf(dateDebutEncheresString).toLocalDate();
+				
+				articleVendu.setDateDebutEncheres(dateDebutEncheresLocalDate);
+				
+				String dateFinEncheresString = rs.getString("date_fin_encheres");
+				LocalDate dateFinEncheresLocalDate = Date.valueOf(dateFinEncheresString).toLocalDate();
+				
+				articleVendu.setDateFinEncheres(dateFinEncheresLocalDate);
+				
+				articleVendu.setMiseAprix(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setNoUtilisateur(rs.getInt("no_utilisateur"));
+				articleVendu.setNoCategorie(rs.getInt("no_categorie"));
+	
+				
+				
+				result=articleVendu;
+			}
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs par idArticle");
+		}
+		return result;
 	}
 
 	@Override
@@ -212,9 +325,20 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	}
 
 	@Override
-	public ArticleVendu deleteArticleVendu(Integer idArticle) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteArticleVendu(Integer idArticle) throws DALException {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(DELETE_BY_ID);
+			stmt.setInt(1,  idArticle)  ;
+			DAOFactory.getEnchereDAO().deleteByNoArticle(idArticle);
+			DAOFactory.getRetraitDAO().deleteByNoArticle(idArticle);
+			stmt.executeUpdate(); 
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - problème dans la suppression d'un article by idArticle");
+		}
+		
+		
+		
+		 
 	}
 	
 

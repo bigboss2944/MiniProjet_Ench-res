@@ -7,4 +7,5 @@ import fr.ENI.HiddenFigures.Enchere.bo.Enchere;
 public interface EnchereDAO {
 	 List<Enchere> getAll() throws DALException;
 	void deleteByNoUtilisateurNoArticle(Integer noUtilisateur, Integer noArticleVendu ) throws DALException;
+	 void deleteByNoArticle( Integer noArticleVendu) throws DALException;
 }

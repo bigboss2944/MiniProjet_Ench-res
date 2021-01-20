@@ -32,6 +32,8 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 		return listArticlesVendus;
 		
 	}
+	 
+	
 	@Override
 	public List<ArticleVendu> getArticleByEtatNonDebute()     {
 		List<ArticleVendu> listArticlesVendusNonDebute = new ArrayList<>();
@@ -52,6 +54,17 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 			} 
 		} 	
 		return listArticlesVendusTermine;
+		
+	}
+	@Override
+	public List<ArticleVendu> getArticleByNoUtilisateur(Integer noUtilisateur)     {
+		List<ArticleVendu> listArticleByNoUtilisateur = new ArrayList<>();
+		for (ArticleVendu articleVendu : this.listArticlesVendus) {
+			if(articleVendu.getNoUtilisateur() == noUtilisateur ) {
+				listArticleByNoUtilisateur.add(articleVendu);
+			} 
+		} 	
+		return listArticleByNoUtilisateur;
 		
 	}
 	@Override
@@ -103,11 +116,11 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 	@Override
 	public ArticleVendu addArticleVendu(ArticleVendu articleVendu) throws BLLException {
 		try {
-			articleVendu =  articleDAO.insert(articleVendu);
 			VerifyArticleVenduOK(articleVendu);
+			articleVendu =  articleDAO.insert(articleVendu);
 			listArticlesVendus.add(articleVendu);
 		} catch (DALException e) {
-			throw new BLLException("Couche BLL - Erreur d'insertion un article dans BDD ");
+			throw new BLLException("Couche BLL - Erreur d'insertion un article ");
 		}
 		
 		return articleVendu;
@@ -127,20 +140,25 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 
 	@Override
 	public ArticleVendu getArticleVendu(Integer idArticle) throws BLLException {
-		// TODO Auto-generated method stub
-		return null;
+		ArticleVendu articleVendu =new ArticleVendu();
+		try {
+			articleVendu = articleDAO.getArticleVendu(idArticle);
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL - Erreur getArticleVendu by idArticle ");
+		}
+		return articleVendu;
 	}
 
 	@Override
-	public ArticleVendu deleteArticleVendu(Integer idArticle) throws BLLException {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteArticleVendu(Integer idArticle) throws BLLException {
+		try {
+			articleDAO.deleteArticleVendu(idArticle);
+			listArticlesVendus = articleDAO.getAll();
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL-Problème de la suppression un article");
+		}
 	}
-	@Override
-	public List<ArticleVendu> getArticleByEtatVenteNonDebute() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	public void VerifyArticleVenduOK(ArticleVendu articlevendu) throws BLLException {
 		 if("".equals(articlevendu.getNomArticle().trim())) {
 			 throw new BLLException("Nom d'article doit contenir au moin un caractère");
@@ -160,7 +178,9 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 		 if(articlevendu.getDateDebutEncheres().compareTo(articlevendu.getDateFinEncheres())>=0){
 			 throw new BLLException("La date de fin d'enchère doit être après la date de début d'enchère");
 		 }
-		// if(articlevendu.get)
+		 if(articlevendu.getDateDebutEncheres().compareTo(LocalDate.now()) <0){
+			 throw new BLLException("La date de debut d'enchère doit être à partir d'aujourd'hui");
+		 }
 	}
 
 }

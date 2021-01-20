@@ -42,6 +42,7 @@
 				Fin de l'enchère:	
 				<tags:localDate date="${a.dateFinEncheres}" pattern="dd/MM/yyyy"/>
 				 <br>
+				
 				Vendeur:	${u.pseudo}       <br>
 				</c:forEach>
 				</td>

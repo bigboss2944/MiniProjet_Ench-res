@@ -10,9 +10,11 @@ public interface ArticleVenduDAO {
 	ArticleVendu getArticleVendu(Integer idArticle) throws DALException;
 	List<ArticleVendu> getAll() throws DALException ;
 	ArticleVendu update(ArticleVendu utilisateur) throws DALException;
-	ArticleVendu deleteArticleVendu(Integer idArticle) throws DALException;
+	void deleteArticleVendu(Integer idArticle) throws DALException;
 	String selectUtilisateurByArticle(ArticleVendu article ) throws DALException;
 	List<ArticleVendu> selectByEtatVenteEnCours() throws DALException;
 	void deleteByNoUtilisateur(Integer noUtilisateur ) throws DALException;
 	 List<ArticleVendu> selectByNoUtilisateur(Integer noUtilisateur) throws DALException;
+//	 List<ArticleVendu> selectByEtatVenteNonDebute() throws DALException;
+//	 List<ArticleVendu> selectByEtatVenteTermine() throws DALException;
 }

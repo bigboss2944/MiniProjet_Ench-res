@@ -113,8 +113,14 @@
 
 		<c:forEach var="u" items="${utilisateurModel.listUtilisateur}">
 			<tr>
-				<td><c:forEach var="a" items="${u.listArticlesVendus}">   
-				${a.nomArticle} <br>
+				<td><c:forEach var="a" items="${u.listArticlesVendus}"> 
+					<form action="GestionAchatVente">
+							<input type="hidden" name="noArticleVendu" value="${a.noArticle}"> 
+							<input type="submit" value="${a.nomArticle}" class="link">
+
+						</form>
+				  
+				 <br>
 				Prix:	${a.miseAprix} points  <br> 
 				Fin de l'enchère:	
 				<tags:localDate date="${a.dateFinEncheres}" pattern="dd/MM/yyyy" />

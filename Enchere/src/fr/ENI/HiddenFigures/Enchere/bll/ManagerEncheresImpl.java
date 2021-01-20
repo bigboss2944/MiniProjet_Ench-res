@@ -43,7 +43,7 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 				}
 				
 			}
-			if(enchereOfMaxOfArticleVendu !=null) {
+			if(enchereOfMaxOfArticleVendu.getNo_enchere() !=null) {
 				listEncheresOfHighestOffer.add(enchereOfMaxOfArticleVendu);
 			}
 		}
@@ -63,6 +63,22 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 		}
 		return listEncheresOfHighestOfferOfUserById;
 	}
+	
+	@Override
+	 
+	public List<Enchere> getLstEnchereWonOfUserById(Integer noUtilisateur)  {
+		List<Enchere> lstEnchereWonOfUserById= new ArrayList<>();
+		for (ArticleVendu articleVendu: managerArticles.getArticleByEtatTermine()) {
+			for (Enchere enchere :  this.getLstEnchereOfHighestOfferOfUserById(noUtilisateur)) {
+				if(enchere.getNo_article()  == articleVendu.getNoArticle()) {
+					lstEnchereWonOfUserById.add(enchere);
+				}
+				
+			}
+		}
+		return lstEnchereWonOfUserById;
+	}
+	
 	
 	@Override
 	 
@@ -104,5 +120,6 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
 }
