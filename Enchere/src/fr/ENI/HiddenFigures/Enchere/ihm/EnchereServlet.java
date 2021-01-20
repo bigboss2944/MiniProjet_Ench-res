@@ -77,10 +77,17 @@ public class EnchereServlet extends HttpServlet {
 		LocalDateTime dateEnchere = null;
 		if(prop!=null){
 			enchereInteger = Integer.parseInt(prop);
+			try {
+				managerUtilisateurs.modifierCredit(utilisateur_current.getNoUtilisateur(), enchereInteger);
+			} catch (BLLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		ArticleVendu articleVendu;
 		Integer encherePlusHauteIdUser;
+		Integer encherePlusHaute;
 		Categorie categorie;
 		if(enchereInteger!=null) {
 			Enchere enchere = new Enchere(dateEnchere.now(),enchereInteger);
@@ -111,9 +118,11 @@ public class EnchereServlet extends HttpServlet {
 					try {
 						encherePlusHauteIdUser=managerEncheres.IdUserEncherePlusHaute(articleVendu.getNoArticle());
 						if(encherePlusHauteIdUser!=0){
+							
 							encherePlusHauteIdUser=managerEncheres.IdUserEncherePlusHaute(articleVendu.getNoArticle());
+							encherePlusHaute=managerEncheres.EncherePlusHaute(articleVendu.getNoArticle());
 							Utilisateur pseudo=managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(encherePlusHauteIdUser);
-							request.setAttribute("encherePlusHauteIdUser", encherePlusHauteIdUser);
+							request.setAttribute("encherePlusHauteIdUser", encherePlusHaute);
 							request.setAttribute("encherePlusHauteUtilisateur", pseudo);
 						}
 						

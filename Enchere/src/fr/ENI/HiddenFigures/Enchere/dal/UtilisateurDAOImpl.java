@@ -28,6 +28,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	private String UPDATE_CODEPOSTAL= "UPDATE UTILISATEURS  SET code_postal =? WHERE no_utilisateur =?";
 	private String UPDATE_VILLE = "UPDATE UTILISATEURS  SET ville =? WHERE no_utilisateur =?";
 	private String UPDATE_MOTDEPASSE = "UPDATE UTILISATEURS  SET mot_de_passe =? where no_utilisateur =?";
+	private String UPDATE_CREDIT = "UPDATE UTILISATEURS  SET credit =? where no_utilisateur =?";
 	private String DELETE_BY_ID = "DELETE FROM UTILISATEURS WHERE no_utilisateur =?";
 
 	public void deleteByNoUtilisateur(Integer noUtilisateur) throws DALException {
@@ -143,6 +144,18 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(UPDATE_MOTDEPASSE);
 			stmt.setString(1, new_motDePasse)  ;
+			stmt.setInt(2,  noUtilisateur)  ;
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - problème dans la modification de mot de passe d'un utilisateur");
+		}
+
+	}
+	
+	public void updateCredit(Integer noUtilisateur, Integer credit) throws DALException {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(UPDATE_MOTDEPASSE);
+			stmt.setInt(1, credit)  ;
 			stmt.setInt(2,  noUtilisateur)  ;
 			stmt.executeUpdate();
 		} catch (Exception e) {

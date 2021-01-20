@@ -369,6 +369,26 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 
 	}
 	
+	@Override
+	public void modifierCredit(Integer noUtilisateur, Integer credit) throws BLLException {
+		try {
+			for(Utilisateur utilisateur:listUtilisateurs) {
+				if(utilisateur.getCredit()<credit) {
+					throw new BLLException("Couche BLL-L'enchère est supérieur au crédit de l'enchérisseur");
+				}
+				else{
+					utilisateurDAO.updateCredit(noUtilisateur, credit);
+					listUtilisateurs = utilisateurDAO.getAll();
+				}
+			}
+			
+			
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL-ProblÃ¨me de la modification de mot de passe");
+		}
+		
+	}
+	
 	//Supprimer un compte par id
 	public void supprimerUtilisateurParNoUtilisateur(Integer noUtilisateur) throws BLLException {
 		try {
@@ -390,6 +410,8 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 		}
 		return null;
 	}
+
+	
 	
 
 }

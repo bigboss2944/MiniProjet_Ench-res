@@ -18,6 +18,7 @@ Teléphone: ${user.telephone} <br>
 Rue: ${user.rue} <br>
 Code postal: ${user.codePostal} <br>
 Ville: ${user.ville} <br>
+Credit: ${user.credit} <br>
 
 <a href="/Enchere/ModifierProfilServlet"><input type="button" value="Modifier"></a>
 
