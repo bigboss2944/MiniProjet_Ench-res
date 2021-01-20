@@ -18,15 +18,15 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	private String INSERT = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) "
 			+ " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 	private String SELECT = "SELECT * FROM UTILISATEURS";
-	private String SELECT_ONE_UTILISATEUR = "SELECT * FROM UTILISATEURS WHERE no_utilisateur=?";
-	private String UPDATE_PSEUDO = "UPDATE UTILISATEURS  SET pseudo =? where no_utilisateur =?";
-	private String UPDATE_NOM = "UPDATE UTILISATEURS  SET nom =? where no_utilisateur =?";
-	private String UPDATE_PRENOM = "UPDATE UTILISATEURS  SET prenom =? where no_utilisateur =?";
-	private String UPDATE_EMAIL = "UPDATE UTILISATEURS  SET email =? where no_utilisateur =?";
-	private String UPDATE_TEL = "UPDATE UTILISATEURS  SET telephone =? where no_utilisateur =?";
-	private String UPDATE_RUE = "UPDATE UTILISATEURS  SET rue =? where no_utilisateur =?";
-	private String UPDATE_CODEPOSTAL= "UPDATE UTILISATEURS  SET code_postal =? where no_utilisateur =?";
-	private String UPDATE_VILLE = "UPDATE UTILISATEURS  SET ville =? where no_utilisateur =?";
+	private String SELECT_ONE_UTILISATEUR = "select * from UTILISATEURS where no_utilisateur=?";
+	private String UPDATE_PSEUDO = "UPDATE UTILISATEURS  SET pseudo =? WHERE no_utilisateur = ?";
+	private String UPDATE_NOM = "UPDATE UTILISATEURS  SET nom =? WHERE no_utilisateur =?";
+	private String UPDATE_PRENOM = "UPDATE UTILISATEURS  SET prenom =? WHERE no_utilisateur =?";
+	private String UPDATE_EMAIL = "UPDATE UTILISATEURS  SET email =? WHERE no_utilisateur =?";
+	private String UPDATE_TEL = "UPDATE UTILISATEURS  SET telephone =? WHERE no_utilisateur =?";
+	private String UPDATE_RUE = "UPDATE UTILISATEURS  SET rue =? WHERE no_utilisateur =?";
+	private String UPDATE_CODEPOSTAL= "UPDATE UTILISATEURS  SET code_postal =? WHERE no_utilisateur =?";
+	private String UPDATE_VILLE = "UPDATE UTILISATEURS  SET ville =? WHERE no_utilisateur =?";
 	private String UPDATE_MOTDEPASSE = "UPDATE UTILISATEURS  SET mot_de_passe =? where no_utilisateur =?";
 	private String DELETE_BY_ID = "DELETE FROM UTILISATEURS WHERE no_utilisateur =?";
 
@@ -214,29 +214,37 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	@Override
 	public Utilisateur getUtilisateur(Integer idUtilisateur) throws DALException {
 		// TODO Auto-generated method stub
-		Utilisateur utilisateur = new Utilisateur();
+		
 		try (Connection cnx = ConnectionProvider.getConnection()) {
+			Utilisateur utilisateur = new Utilisateur();
 			PreparedStatement stmt = cnx.prepareStatement(SELECT_ONE_UTILISATEUR);
 			stmt.setInt(1, idUtilisateur);
 			ResultSet rs = stmt.executeQuery();
-			utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
-			utilisateur.setPseudo(rs.getString("pseudo"));
-			utilisateur.setNom(rs.getString("nom"));
-			utilisateur.setPrenom(rs.getString("prenom"));
-			utilisateur.setEmail(rs.getString("email"));
-			utilisateur.setTelephone(rs.getString("telephone"));
-			utilisateur.setRue(rs.getString("rue"));
-			utilisateur.setCodePostal(rs.getString("code_postal"));
-			utilisateur.setVille(rs.getString("ville"));
-			utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
-			utilisateur.setCredit(rs.getInt("credit"));
-			utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
-			//TODO: A vérifier
+			
+			while(rs.next()) {
+				
+				utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+				utilisateur.setPseudo(rs.getString("pseudo"));
+				utilisateur.setNom(rs.getString("nom"));
+				utilisateur.setPrenom(rs.getString("prenom"));
+				utilisateur.setEmail(rs.getString("email"));
+				utilisateur.setTelephone(rs.getString("telephone"));
+				utilisateur.setRue(rs.getString("rue"));
+				utilisateur.setCodePostal(rs.getString("code_postal"));
+				utilisateur.setVille(rs.getString("ville"));
+				utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
+				utilisateur.setCredit(rs.getInt("credit"));
+				utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
+				//TODO: A vérifier
 
+
+				
+			}
+			return utilisateur;
 		} catch (Exception e) {
+			System.out.println(e);
 			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs");
 		}
-		return utilisateur;
 	}
 
 

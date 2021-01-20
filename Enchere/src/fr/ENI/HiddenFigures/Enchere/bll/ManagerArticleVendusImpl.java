@@ -126,9 +126,15 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 	}
 
 	@Override
-	public ArticleVendu getArticleVendu(Integer idArticle) throws BLLException {
+	public ArticleVendu getArticleVenduById(Integer idArticle) throws BLLException {
 		// TODO Auto-generated method stub
-		return null;
+		ArticleVendu articleVendu=null;
+		for (ArticleVendu a : listArticlesVendus) {
+			if(a.getNoArticle()==idArticle) {
+				articleVendu=a;
+			}
+		}
+		return articleVendu;
 	}
 
 	@Override
@@ -161,6 +167,17 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 			 throw new BLLException("La date de fin d'enchère doit être après la date de début d'enchère");
 		 }
 		// if(articlevendu.get)
+	}
+	@Override
+	public ArticleVendu getArticleVenduByNom(String nomArticle) throws BLLException {
+		// TODO Auto-generated method stub
+		ArticleVendu articleVendu=null;
+		for (ArticleVendu a : listArticlesVendus) {
+			if(a.getNomArticle().equals(nomArticle)) {
+				articleVendu=a;
+			}
+		}
+		return articleVendu;
 	}
 
 }

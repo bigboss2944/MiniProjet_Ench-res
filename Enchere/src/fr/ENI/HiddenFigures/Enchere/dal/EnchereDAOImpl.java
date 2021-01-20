@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,11 +30,22 @@ public class EnchereDAOImpl implements EnchereDAO {
 	public Enchere insert(Enchere enchere) throws DALException {
 		// TODO Auto-generated method stub
 		LocalDateTime date = enchere.getDateEnchere();
-		Date date_enchereLocalDateTime = Date.valueOf(date.toString());//Conversion LocalDateTime vers SQL Date
+		java.util.Date utilDate;
+		String dateFormat = "yyyy-MM-dd";
+		DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern(dateFormat);
+		SimpleDateFormat sdf1 = new SimpleDateFormat(dateFormat);
+		
+		try {
+			utilDate = sdf1.parse(date.format(dtf1));
+		} catch (ParseException e) {
+		    utilDate = null; // handle the exception
+		}
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		//Date date_enchereLocalDateTime = Date.valueOf(date.toString());//Conversion LocalDateTime vers SQL Date
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(Insert);
-			stmt.setDate(1, date_enchereLocalDateTime);
-			stmt.setInt(2,enchere.getMontant_enchere());
+			stmt.setDate(1, sqlDate);
+			stmt.setInt(2, enchere.getMontant_enchere());
 			stmt.setInt(3, enchere.getNo_article());
 			stmt.setInt(4, enchere.getNo_utilisateur());
 
@@ -48,11 +61,8 @@ public class EnchereDAOImpl implements EnchereDAO {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement stmt = cnx.prepareStatement(DELETE_BY_NO_UTILISATEUR_OU_NO_ARTICLE);
-
 			stmt.setInt(1, noUtilisateur);
-
 			stmt.setInt(2, noArticleVendu);
-
 			stmt.executeUpdate();
 
 		} catch (Exception e) {
@@ -67,7 +77,6 @@ public class EnchereDAOImpl implements EnchereDAO {
 			PreparedStatement stmt = cnx.prepareStatement(SelectOne);
 			stmt.setInt(1, idEnchere);
 			ResultSet rs = stmt.executeQuery();
-
 			String date_enchereString = rs.getString("date_enchere").substring(0,19);
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime date_enchereLocalDateTime = LocalDateTime.parse(date_enchereString,formatter);
@@ -75,7 +84,7 @@ public class EnchereDAOImpl implements EnchereDAO {
 			enchere.setNo_enchere(rs.getInt("no_enchere"));
 			enchere.setMontant_enchere(rs.getInt("montant_enchere"));
 			enchere.setNo_article(rs.getInt("no_article"));
-			enchere.setNo_article(rs.getInt("no_utilisateur"));
+			enchere.setNo_utilisateur(rs.getInt("no_utilisateur"));
 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - Problème � l'accession de l'ench�re");

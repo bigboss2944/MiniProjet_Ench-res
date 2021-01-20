@@ -379,6 +379,17 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 		}
 
 	}
+
+	@Override
+	public Utilisateur getUtilisateurById(Integer idUser) {
+		// TODO Auto-generated method stub
+		for(Utilisateur utilisateur : listUtilisateurs) {
+			if (utilisateur.getNoUtilisateur()==idUser) {
+				return utilisateur;
+			}
+		}
+		return null;
+	}
 	
 
 }

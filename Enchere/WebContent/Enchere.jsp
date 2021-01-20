@@ -13,18 +13,22 @@
 	<table align="left">
 		<tr>
 			<td><img id="imageProduit" alt="Image Produit" src="D:\Photos\Leboncoin\planche_bic_rumba_1.jpg" width="250px" height="250px"> </td>
-			<td><form method="EnchereServlet" action="POST" >
+			<td>
 				${article.nomArticle} <br>
 				Description: ${article.description} <br>
-				Catégorie: ${categorie.libelle} <br>
-				Meilleur offre: ${enchere.encherePlusHaute} par ${enchere.encherePlusHauteUtilisateur} <br>
+				Catégorie: ${categorie} <br>
+				Meilleur offre: ${encherePlusHauteIdUser} par ${encherePlusHauteUtilisateur.pseudo} <br>
 				Mise à prix: ${article.miseAprix} <br>
 				Fin de l'enchère: ${article.dateFinEncheres} <br>
 				Retrait: ${article.lieuRetrait} <br>
 				Vendeur: ${utilisateur.pseudo} <br>
+			
+			<form method="post" action="EnchereServlet" >
+				
 		
 		
-				Ma proposition: <input type="range"> <input type="submit"/>
+				Ma proposition:<input type="hidden" name="nomArticle"
+								value="${a.nomArticle}"> <input type="number" name="propButton"/> <input type="submit"/>
 			</form> </td>
 		
 		</tr>

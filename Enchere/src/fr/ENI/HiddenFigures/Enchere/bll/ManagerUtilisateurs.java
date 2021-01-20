@@ -10,6 +10,7 @@ import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
 public interface ManagerUtilisateurs {
 	Utilisateur addUtilisateur(Utilisateur utilisateur) throws BLLException;
 	List<Utilisateur> getUtilisateur();
+	Utilisateur getUtilisateurById(Integer idUser);
 	void pseudoEstUnique(Utilisateur utilisateur) throws BLLException;
 	void emailEstUnique(Utilisateur utilisateur) throws BLLException;
 	void pseudoContientQueAlphanumeriques(Utilisateur utilisateur) throws BLLException;

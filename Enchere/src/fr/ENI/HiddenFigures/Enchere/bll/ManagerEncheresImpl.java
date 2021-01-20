@@ -167,6 +167,29 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 		return null;
 	}
 
+	@Override
+	public Integer IdUserEncherePlusHaute(Integer idArticle) throws BLLException {
+		// TODO Auto-generated method stub
+		Integer max=0;
+		Integer idUser=0;
+		
+		if(listEncheres!=null) {
+			for (Enchere enchere : listEncheres) {
+				if((enchere.getNo_article()==idArticle)&&(enchere.getMontant_enchere()>max)) {
+					max=enchere.getMontant_enchere();
+					idUser=enchere.getNo_utilisateur();
+				}
+			}
+
+			return idUser;
+		}
+		else {
+			return null;
+		}
+		
+		
+	}
+
 
 
 }

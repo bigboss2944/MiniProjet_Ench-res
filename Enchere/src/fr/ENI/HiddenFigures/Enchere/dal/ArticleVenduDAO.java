@@ -13,6 +13,7 @@ public interface ArticleVenduDAO {
 	ArticleVendu deleteArticleVendu(Integer idArticle) throws DALException;
 	String selectUtilisateurByArticle(ArticleVendu article ) throws DALException;
 	List<ArticleVendu> selectByEtatVenteEnCours() throws DALException;
+	
 	void deleteByNoUtilisateur(Integer noUtilisateur ) throws DALException;
 	 List<ArticleVendu> selectByNoUtilisateur(Integer noUtilisateur) throws DALException;
 }

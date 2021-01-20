@@ -16,6 +16,7 @@ public interface ManagerEncheres {
 	Enchere updateEnchere(Enchere enchere) throws BLLException, EnchereException;
 	boolean EnchereOK(Enchere enchere) throws BLLException;
 	Integer EncherePlusHaute(Integer idArticle) throws BLLException;
+	Integer IdUserEncherePlusHaute(Integer idArticle) throws BLLException;
 
 
 

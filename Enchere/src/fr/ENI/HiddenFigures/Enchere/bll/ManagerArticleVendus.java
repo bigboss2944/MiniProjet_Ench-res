@@ -35,7 +35,7 @@ public interface ManagerArticleVendus {
 	 * @return
 	 * @throws BLLException
 	 */
-	ArticleVendu getArticleVendu(Integer idArticle) throws BLLException;
+	ArticleVendu getArticleVenduById(Integer idArticle) throws BLLException;
 	/***
 	 * Supprimer un article vendu
 	 * @param articleVendu
@@ -53,6 +53,8 @@ public interface ManagerArticleVendus {
 	 */
 	void verifAdresseRetrait(ArticleVendu articleVendu) throws BLLException;
 	List<ArticleVendu> getArticleByEtatVenteNonDebute();
+	
+	ArticleVendu getArticleVenduByNom(String nomArticle) throws BLLException;
 	
 	
 	

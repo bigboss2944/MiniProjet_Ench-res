@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -158,7 +159,42 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	@Override
 	public ArticleVendu getArticleVendu(Integer idArticle) throws DALException {
 		// TODO Auto-generated method stub
-		return null;
+		
+		try(Connection cnx = ConnectionProvider.getConnection()){
+			ArticleVendu articleVendu = new ArticleVendu();
+			PreparedStatement stmt = cnx.prepareStatement(SELECT_ONE);
+			stmt.setInt(1, idArticle);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				
+				articleVendu.setNoArticle(rs.getInt("no_article"));
+				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDescription(rs.getString("description"));
+
+				String dateDebutEncheresString = rs.getString("date_debut_encheres");
+				LocalDate dateDebutEncheresLocalDate = Date.valueOf(dateDebutEncheresString).toLocalDate();
+
+				articleVendu.setDateDebutEncheres(dateDebutEncheresLocalDate);
+
+				String dateFinEncheresString = rs.getString("date_fin_encheres");
+				LocalDate dateFinEncheresLocalDate = Date.valueOf(dateFinEncheresString).toLocalDate();
+
+				articleVendu.setDateFinEncheres(dateFinEncheresLocalDate);
+
+				articleVendu.setMiseAprix(rs.getInt("prix_initial"));
+				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+				articleVendu.setNoUtilisateur(rs.getInt("no_utilisateur"));
+				articleVendu.setNoCategorie(rs.getInt("no_categorie"));
+			}
+			
+			return articleVendu;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new DALException("Couche DAL - Probl√®me ‡ l'obtention de l'article");
+		}
+		
 	}
 
 	@Override

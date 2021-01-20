@@ -414,16 +414,11 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 					}
 				}
 			}
-			
-			
-		
 			UtilisateurModel utilisateurModel = new UtilisateurModel();
 			utilisateurModel.setListUtilisateur(listVendeurs);
 			
-			
-			
 			// request.setAttribute("pseudo",utilisateurModel);
-			request.setAttribute("utilisateurModel", utilisateurModel);
+			request.getSession().setAttribute("utilisateurModel", utilisateurModel);
 			
 			request.getRequestDispatcher("listeEncheresConnecte.jsp").forward(request, response);
 		} else {

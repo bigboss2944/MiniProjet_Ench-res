@@ -145,7 +145,13 @@ function changeThis(sender) {
 		<c:forEach var="u" items="${utilisateurModel.listUtilisateur}">
 			<tr>
 				<td> <c:forEach var="a" items="${u.listArticlesVendus}">
-				<a href="/Enchere/EnchereServlet">${a.nomArticle}</a> <br>
+				<form action="EnchereServlet">
+							<input type="hidden" name="nomArticle"
+								value="${a.nomArticle}"> <input type="submit"
+								value="${a.nomArticle}" class="link">
+
+						</form>
+				<br>
 				Prix:	${a.miseAprix} points  <br>
 				Fin de l'enchère:
 				<tags:localDate date="${a.dateFinEncheres}" pattern="dd/MM/yyyy" />
