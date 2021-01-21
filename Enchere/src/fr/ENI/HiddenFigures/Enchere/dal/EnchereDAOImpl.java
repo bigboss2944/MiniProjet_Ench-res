@@ -48,6 +48,7 @@ public class EnchereDAOImpl implements EnchereDAO {
 			stmt.setInt(2, enchere.getMontant_enchere());
 			stmt.setInt(3, enchere.getNo_article());
 			stmt.setInt(4, enchere.getNo_utilisateur());
+			stmt.executeUpdate();
 
 		}catch (Exception e) {
 			throw new DALException("Couche DAL - Problème � l'insertion de l'ench�re");

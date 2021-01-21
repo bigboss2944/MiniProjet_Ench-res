@@ -121,7 +121,7 @@ public class EnchereServlet extends HttpServlet {
 					} catch (BLLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-						request.setAttribute("message",e);
+						request.setAttribute("message",e.getMessage());
 					}
 					//request.getSession().setAttribute("user", managerUtilisateurs.getUtilisateurById(articleVendu.getNoUtilisateur()));
 					

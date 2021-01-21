@@ -103,8 +103,8 @@ function changeThis(sender) {
 <h1>ENI-Enchère</h1>
 <h3>Bonjour  ${user.pseudo}</h3>
 <nav>
-<a href=" ">Enchères</a>
-<a href=" ">Vendre un article</a>
+<a href="/Enchere/EnchereServlet">Enchères</a>
+<a href="/Enchere/VendreUnArticleServlet">Vendre un article</a>
 <a href="/Enchere/ProfilServlet">Mon profil</a>
 <a href="/Enchere/LogoutServlet">Déconnexion</a>
 </nav>
