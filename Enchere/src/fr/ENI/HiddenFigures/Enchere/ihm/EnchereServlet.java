@@ -75,12 +75,6 @@ public class EnchereServlet extends HttpServlet {
 		LocalDateTime dateEnchere = null;
 		if(prop!=null){
 			enchereInteger = Integer.parseInt(prop);
-			try {
-				managerUtilisateurs.modifierCredit(utilisateur_current.getNoUtilisateur(), enchereInteger);
-			} catch (BLLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		
 		ArticleVendu articleVendu;
@@ -93,15 +87,13 @@ public class EnchereServlet extends HttpServlet {
 				enchere.setNo_utilisateur(utilisateur_current.getNoUtilisateur());
 				enchere.setNo_article(enchereModel.getArticleVendu().getNoArticle());
 				managerEncheres.addEnchere(enchere);
+				managerUtilisateurs.modifierCredit(utilisateur_current.getNoUtilisateur(), enchereInteger);
 			} catch (BLLException | EnchereException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				
 			}
 			request.getRequestDispatcher("listeEncheresConnecte.jsp").forward(request, response);
-					
-					
-				
 		}
 		
 		else {
@@ -134,6 +126,9 @@ public class EnchereServlet extends HttpServlet {
 					
 				}
 			}
+			
+			
+			
 			request.setAttribute("nomArticle",article);
 			request.getRequestDispatcher("Enchere.jsp").forward(request, response);
 		}
