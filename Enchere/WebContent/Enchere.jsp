@@ -28,8 +28,11 @@
 		
 		
 				Ma proposition:<input type="hidden" name="nomArticle"
-								value="${a.nomArticle}"> <input type="number" name="propButton"/> <input type="submit"/>
+						value="${a.nomArticle}"> <input type="number" name="propButton"/> <input type="submit"/>
 			</form> </td>
+			
+			
+			Message: ${message} <br>
 		
 		</tr>
 	

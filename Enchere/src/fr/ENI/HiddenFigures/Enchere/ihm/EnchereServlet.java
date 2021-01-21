@@ -67,6 +67,7 @@ public class EnchereServlet extends HttpServlet {
 			} catch (BLLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				request.setAttribute("message",e);
 			}		
 		}
 		
@@ -91,7 +92,7 @@ public class EnchereServlet extends HttpServlet {
 			} catch (BLLException | EnchereException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				
+				request.setAttribute("message",e);
 			}
 			request.getRequestDispatcher("listeEncheresConnecte.jsp").forward(request, response);
 		}
@@ -120,6 +121,7 @@ public class EnchereServlet extends HttpServlet {
 					} catch (BLLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+						request.setAttribute("message",e);
 					}
 					//request.getSession().setAttribute("user", managerUtilisateurs.getUtilisateurById(articleVendu.getNoUtilisateur()));
 					
