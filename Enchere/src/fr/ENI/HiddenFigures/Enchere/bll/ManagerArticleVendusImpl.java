@@ -182,5 +182,17 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 			 throw new BLLException("La date de debut d'enchère doit être à partir d'aujourd'hui");
 		 }
 	}
+	
+	@Override
+	public ArticleVendu getArticleVenduByNom(String nomArticle) throws BLLException {
+		// TODO Auto-generated method stub
+		ArticleVendu articleVendu=null;
+		for (ArticleVendu a : listArticlesVendus) {
+			if(a.getNomArticle().equals(nomArticle)) {
+				articleVendu=a;
+			}
+		}
+		return articleVendu;
+	}
 
 }

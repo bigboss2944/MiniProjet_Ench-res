@@ -35,6 +35,7 @@ public class GestionAchatVenteServlet extends HttpServlet {
 	private ManagerArticleVendus managerArticles = ManagerArticleVendusSingl.getInstance(); 
 	private ManagerEncheres managerEncheres = ManagerEncheresSingl.getInstance();
 	private ManagerUtilisateurs managerUtilisateurs = ManagerUtilisateursSingl.getInstance();
+	//private EnchereModel enchereModel = new EnchereModel();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -66,7 +67,7 @@ public class GestionAchatVenteServlet extends HttpServlet {
 				ArticleVenduModel articleVenduModel = new ArticleVenduModel(article_current);
 				request.setAttribute("articleVenduModel", articleVenduModel);
 				
-				System.out.println(article_current.getNoUtilisateur()  +" et " + utilisateur_current.getNoUtilisateur());
+				//System.out.println(article_current.getNoUtilisateur()  +" et " + utilisateur_current.getNoUtilisateur());
 				
 				if (article_current.getNoUtilisateur() == utilisateur_current.getNoUtilisateur() ) {
 					if (article_current.getDateDebutEncheres().compareTo(LocalDate.now()) >0) {
@@ -159,6 +160,7 @@ public class GestionAchatVenteServlet extends HttpServlet {
 				else {
 					
 					if (article_current.getDateFinEncheres().compareTo(LocalDate.now()) <0 ){
+
 						
 						Integer montantEnchere =0;
 						List<Enchere> listEncheresAvecPlusHauteOffre = managerEncheres.getLstEnchereOfHighestOffer();
@@ -236,9 +238,7 @@ public class GestionAchatVenteServlet extends HttpServlet {
 					}
 				}
 			}
-			
-			
-			
+				
 		} else {
 			request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);
 		}

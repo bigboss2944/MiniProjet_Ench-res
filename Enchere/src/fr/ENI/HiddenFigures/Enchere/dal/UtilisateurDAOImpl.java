@@ -18,6 +18,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	private String INSERT = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) "
 			+ " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 	private String SELECT = "SELECT * FROM UTILISATEURS";
+	private String SELECT_ONE_UTILISATEUR = "SELECT * FROM UTILISATEURS WHERE no_utilisateur=?";
 	private String UPDATE_PSEUDO = "UPDATE UTILISATEURS  SET pseudo =? where no_utilisateur =?";
 	private String UPDATE_NOM = "UPDATE UTILISATEURS  SET nom =? where no_utilisateur =?";
 	private String UPDATE_PRENOM = "UPDATE UTILISATEURS  SET prenom =? where no_utilisateur =?";
@@ -27,6 +28,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	private String UPDATE_CODEPOSTAL= "UPDATE UTILISATEURS  SET code_postal =? where no_utilisateur =?";
 	private String UPDATE_VILLE = "UPDATE UTILISATEURS  SET ville =? where no_utilisateur =?";
 	private String UPDATE_MOTDEPASSE = "UPDATE UTILISATEURS  SET mot_de_passe =? where no_utilisateur =?";
+	private String UPDATE_CREDIT = "UPDATE UTILISATEURS  SET credit =? where no_utilisateur =?";
+	 
 	private String DELETE_BY_ID = "DELETE FROM UTILISATEURS WHERE no_utilisateur =?";
 	
 	public void deleteByNoUtilisateur(Integer noUtilisateur) throws DALException {
@@ -149,6 +152,17 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		}
 		
 	}
+	public void updateCredit(Integer noUtilisateur, Integer credit) throws DALException {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(UPDATE_CREDIT);
+			stmt.setInt(1, credit)  ;
+			stmt.setInt(2,  noUtilisateur)  ;
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - problème dans la modification de mot de passe d'un utilisateur");
+		}
+
+	}
 	
 	public Utilisateur insert(Utilisateur utilisateur) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -208,6 +222,49 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs");
 		}
 		return result;
+	}
+	
+	@Override
+	public Utilisateur getUtilisateur(Integer idUtilisateur) throws DALException {
+		// TODO Auto-generated method stub
+		Utilisateur utilisateur = new Utilisateur();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(SELECT_ONE_UTILISATEUR);
+			stmt.setInt(1, idUtilisateur);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+			
+		
+			utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+			
+			utilisateur.setPseudo(rs.getString("pseudo"));
+			
+			utilisateur.setNom(rs.getString("nom"));
+			
+			utilisateur.setPrenom(rs.getString("prenom"));
+			
+			utilisateur.setEmail(rs.getString("email"));
+			
+			utilisateur.setTelephone(rs.getString("telephone"));
+			
+			utilisateur.setRue(rs.getString("rue"));
+			
+			utilisateur.setCodePostal(rs.getString("code_postal"));
+			
+			utilisateur.setVille(rs.getString("ville"));
+			
+			utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
+			
+			utilisateur.setCredit(rs.getInt("credit"));
+			
+			utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
+			//TODO: A vérifier
+			}
+
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs");
+		}
+		return utilisateur;
 	}
 	
 

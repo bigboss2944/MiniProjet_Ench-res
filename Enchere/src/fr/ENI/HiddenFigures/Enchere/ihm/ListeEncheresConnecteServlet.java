@@ -70,6 +70,17 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 			}
 			// Afficher la liste des enchères en cours = les articles en état "en cours"
 			// selon les mots recherche
+			List<ArticleVendu> listArticleAutresAvecEncheresOuvertes = new ArrayList<>();
+			if (listArticlesVendus!=null) {
+				for (ArticleVendu articleVendu : listArticlesVendusEncours) {
+					if(articleVendu.getNoUtilisateur() != utilisateur_current.getNoUtilisateur()) {
+						listArticleAutresAvecEncheresOuvertes.add(articleVendu);
+					}
+					
+				}
+			}
+			
+			
 			List<ArticleVendu> listArticlesJeFaisEnchere = new ArrayList<>();
 			List<Enchere> listMesEncheres = managerEncheres.getLstEnchereOfUserById(utilisateur_current.getNoUtilisateur());
 			if (listArticlesVendus!=null &&listMesEncheres!=null) {
@@ -190,7 +201,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 					if (encheresOuvertes!=null &&mesEncheres ==null && mesEncheresRemportees ==null
 							&& listArticlesParNomArticleEtCategorie!=null && listArticlesVendusEncours !=null) {
 						for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorie) {
-							for (ArticleVendu articleVendu2 : listArticlesVendusEncours) {
+							for (ArticleVendu articleVendu2 : listArticleAutresAvecEncheresOuvertes) {
 								if(articleVendu2.getNoArticle() ==articleVendu.getNoArticle() ) {
 									listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
 								}
@@ -229,7 +240,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 							&& listArticlesParNomArticleEtCategorie!=null && listArticlesVendusEncours !=null
 							&& listArticlesJeFaisEnchere !=null) {
 						for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorie) {
-							for (ArticleVendu articleVendu2 : listArticlesVendusEncours) {
+							for (ArticleVendu articleVendu2 : listArticleAutresAvecEncheresOuvertes) {
 								for (ArticleVendu articleVendu3 : listArticlesJeFaisEnchere) {
 									if(articleVendu3.getNoArticle() ==articleVendu2.getNoArticle() && articleVendu3.getNoArticle() == articleVendu.getNoArticle()) {
 										listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
@@ -259,7 +270,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 							&& listArticlesParNomArticleEtCategorie!=null && listArticlesVendusEncours !=null
 							&& listArticlesJeRemporte !=null) {
 						for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorie) {
-							for (ArticleVendu articleVendu2 : listArticlesVendusEncours) {
+							for (ArticleVendu articleVendu2 : listArticleAutresAvecEncheresOuvertes) {
 								for (ArticleVendu articleVendu3 : listArticlesJeRemporte) {
 									if(articleVendu3.getNoArticle() ==articleVendu2.getNoArticle() && articleVendu3.getNoArticle() == articleVendu.getNoArticle()) {
 										listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
@@ -274,7 +285,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 							&& listArticlesParNomArticleEtCategorie!=null && listArticlesVendusEncours !=null
 							&& listArticlesJeFaisEnchere !=null&& listArticlesJeRemporte !=null) {
 						for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorie) {
-							for (ArticleVendu articleVendu2 : listArticlesVendusEncours) {
+							for (ArticleVendu articleVendu2 : listArticleAutresAvecEncheresOuvertes) {
 								for (ArticleVendu articleVendu3 : listArticlesJeFaisEnchere) {
 									for (ArticleVendu articleVendu4 : listArticlesJeRemporte) {
 										if(articleVendu4.getNoArticle() ==articleVendu3.getNoArticle() 

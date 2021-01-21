@@ -18,7 +18,7 @@
 	
 	<h3>Détail vente</h3>
 
-	<form action="EnchereServlet"  method="post"  >
+	
 		 
 				 Article : ${articleVenduModel.articleVendu.nomArticle}  <br>
 	       		 Description :<br>
@@ -49,8 +49,12 @@
 	<br>
 	 Vendeur:  ${vendeur.pseudo}
 	<br> 
-	Ma proposition: <input type="number" name="miseAPrix"   min ="${articleVenduModel.articleVendu.miseAprix}" step="1" />  <br> 
-				
+	<form action="EnchereServlet"  method="post"  >
+	Ma proposition: <input type="number" name="propButton"   min ="${articleVenduModel.articleVendu.miseAprix}" step="1" />  <br> 
+			<input type="hidden" name="montantEnchereMaxPrecedent" value=" ${montantEnchere}"> 
+			<input type="hidden" name="noEncherisseurCurrent" value="${encherisseur.noUtilisateur}"> 
+			<input type="hidden" name="noArticleVendu" value="${articleVenduModel.articleVendu.noArticle}"> 
+				  
 	       		 <input type="submit" value="Enchérir" />  
        		  
 	</form>

@@ -14,6 +14,7 @@ public interface ManagerArticleVendus {
 	 List<ArticleVendu> getArticleByNomArticleContientEtNoCategorie(String motCle, Integer noCategorie) ;
 	 List<ArticleVendu> getArticleByCategorie(Integer noCategorie) ;
 	 List<ArticleVendu> getArticleByNoUtilisateur(Integer noUtilisateur) ;
+	 ArticleVendu getArticleVenduByNom(String nomArticle) throws BLLException ;
 	/***
 	 * Ajouter un article vendu
 	 * @param articleVendu

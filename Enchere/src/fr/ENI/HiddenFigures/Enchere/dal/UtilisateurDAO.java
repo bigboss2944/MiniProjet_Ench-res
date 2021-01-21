@@ -17,5 +17,7 @@ public interface UtilisateurDAO {
 	 void updateCodePostal(Integer noUtilisateur, String new_codePostal) throws DALException;
 	 void updateVille(Integer noUtilisateur, String new_ville) throws DALException;
 	 void updateMotDePasse(Integer noUtilisateur, String new_motDePasse) throws DALException;
+	 void updateCredit(Integer noUtilisateur, Integer newCredit) throws DALException;
 	 void deleteByNoUtilisateur(Integer noUtilisateur) throws DALException;
+	 Utilisateur getUtilisateur(Integer idUtilisateur) throws DALException;
 }

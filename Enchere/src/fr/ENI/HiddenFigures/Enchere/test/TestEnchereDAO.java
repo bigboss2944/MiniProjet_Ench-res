@@ -18,17 +18,18 @@ public class TestEnchereDAO {
 //		LocalDateTime date_enchereLocalDateTime = LocalDateTime.parse("2021-01-17 22:33:57.260",formatter );
 //		System.out.println(dateTime);
 //		System.out.println(date_enchereLocalDateTime);
-		try {
-			List<Enchere> listEncheres = DAOFactory.getEnchereDAO().getAll();
-			for (Enchere enchere : listEncheres) {
-			
-				
-			}
-			System.out.println(listEncheres);
-		} catch (DALException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+//		try {
+//			//List<Enchere> listEncheres = DAOFactory.getEnchereDAO().insert()
+//			for (Enchere enchere : listEncheres) {
+//			
+//				
+//			}
+//			System.out.println(listEncheres);
+//		} catch (DALException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		 
 	}

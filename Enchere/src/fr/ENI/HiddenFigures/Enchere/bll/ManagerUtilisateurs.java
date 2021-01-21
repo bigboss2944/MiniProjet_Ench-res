@@ -27,4 +27,5 @@ public interface ManagerUtilisateurs {
 	void modifierEmail(Integer noUtilisateur, String new_email) throws BLLException;
 	void modifierPrenom(Integer noUtilisateur, String new_prenom) throws BLLException;
 	void supprimerUtilisateurParNoUtilisateur(Integer noUtilisateur) throws BLLException;
+	void modifierCredit(Integer noUtilisateur, Integer newCredit) throws BLLException;
 }
