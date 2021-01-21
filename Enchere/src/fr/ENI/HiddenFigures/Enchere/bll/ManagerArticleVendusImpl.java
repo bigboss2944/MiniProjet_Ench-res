@@ -8,7 +8,7 @@ import fr.ENI.HiddenFigures.Enchere.bo.ArticleVendu;
 import fr.ENI.HiddenFigures.Enchere.dal.ArticleVenduDAO;
 import fr.ENI.HiddenFigures.Enchere.dal.DALException;
 import fr.ENI.HiddenFigures.Enchere.dal.DAOFactory;
- 
+
 
 public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 	ArticleVenduDAO articleDAO = DAOFactory.getArticleDAO();
@@ -28,20 +28,22 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 			listArticlesVendus = articleDAO.selectByEtatVenteEnCours();
 		} catch (DALException e) {
 			throw new BLLException("Couche BLL - Erreur de sélection par etatVente les articles  en cours ");
-		} 
+		}
 		return listArticlesVendus;
-		
+
 	}
+
+
 	@Override
 	public List<ArticleVendu> getArticleByEtatNonDebute()     {
 		List<ArticleVendu> listArticlesVendusNonDebute = new ArrayList<>();
 		for (ArticleVendu articleVendu : this.listArticlesVendus) {
 			if(articleVendu.getDateDebutEncheres().compareTo(LocalDate.now()) > 0) {
 				listArticlesVendusNonDebute.add(articleVendu);
-			} 
-		} 	
+			}
+		}
 		return listArticlesVendusNonDebute;
-		
+
 	}
 	@Override
 	public List<ArticleVendu> getArticleByEtatTermine()     {
@@ -49,10 +51,21 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 		for (ArticleVendu articleVendu : this.listArticlesVendus) {
 			if(articleVendu.getDateFinEncheres().compareTo(LocalDate.now()) < 0) {
 				listArticlesVendusTermine.add(articleVendu);
-			} 
-		} 	
+			}
+		}
 		return listArticlesVendusTermine;
-		
+
+	}
+	@Override
+	public List<ArticleVendu> getArticleByNoUtilisateur(Integer noUtilisateur)     {
+		List<ArticleVendu> listArticleByNoUtilisateur = new ArrayList<>();
+		for (ArticleVendu articleVendu : this.listArticlesVendus) {
+			if(articleVendu.getNoUtilisateur() == noUtilisateur ) {
+				listArticleByNoUtilisateur.add(articleVendu);
+			}
+		}
+		return listArticleByNoUtilisateur;
+
 	}
 	@Override
 	public List<ArticleVendu> getArticleByNomArticleContient(String motCle)     {
@@ -60,10 +73,10 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 		for (ArticleVendu articleVendu : this.listArticlesVendus) {
 			if(articleVendu.getNomArticle().toLowerCase().contains(motCle.toLowerCase())) {
 				listArticlesVendusContientMotCle.add(articleVendu);
-			} 
-		} 	
+			}
+		}
 		return listArticlesVendusContientMotCle;
-		
+
 	}
 	@Override
 	public List<ArticleVendu> getArticleByCategorie(Integer noCategorie)     {
@@ -71,10 +84,10 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 		for (ArticleVendu articleVendu : this.listArticlesVendus) {
 			if(articleVendu.getNoCategorie() ==noCategorie) {
 				listArticlesVendusByCategorie.add(articleVendu);
-			} 
-		} 	
+			}
+		}
 		return listArticlesVendusByCategorie;
-		
+
 	}
 	@Override
 	public List<ArticleVendu> getArticleByNomArticleContientEtNoCategorie(String motCle, Integer noCategorie)     {
@@ -82,12 +95,12 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 		for (ArticleVendu articleVendu : this.listArticlesVendus) {
 			if(articleVendu.getNomArticle().toLowerCase().contains(motCle.toLowerCase()) &&  articleVendu.getNoCategorie() ==noCategorie) {
 				listArticlesVendusContientMotCleCategorie.add(articleVendu);
-			} 
-		} 	
+			}
+		}
 		return listArticlesVendusContientMotCleCategorie;
-		
+
 	}
-	
+
 	@Override
 	public String getPseudoByArticle (ArticleVendu article) throws BLLException   {
 		 String pseudo =null;
@@ -95,27 +108,27 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 			pseudo = articleDAO.selectUtilisateurByArticle(article);
 		} catch (DALException e) {
 			throw new BLLException("Couche BLL - Erreur de sélection Pseudo par Article ");
-		} 
+		}
 		return pseudo;
-		
+
 	}
 
 	@Override
 	public ArticleVendu addArticleVendu(ArticleVendu articleVendu) throws BLLException {
 		try {
-			articleVendu =  articleDAO.insert(articleVendu);
 			VerifyArticleVenduOK(articleVendu);
+			articleVendu =  articleDAO.insert(articleVendu);
 			listArticlesVendus.add(articleVendu);
 		} catch (DALException e) {
-			throw new BLLException("Couche BLL - Erreur d'insertion un article dans BDD ");
+			throw new BLLException("Couche BLL - Erreur d'insertion un article ");
 		}
-		
+
 		return articleVendu;
 	}
 
 	@Override
 	public List<ArticleVendu> getLstArticleVendus()  {
-		 
+
 		return listArticlesVendus;
 	}
 
@@ -126,27 +139,26 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 	}
 
 	@Override
-	public ArticleVendu getArticleVenduById(Integer idArticle) throws BLLException {
-		// TODO Auto-generated method stub
-		ArticleVendu articleVendu=null;
-		for (ArticleVendu a : listArticlesVendus) {
-			if(a.getNoArticle()==idArticle) {
-				articleVendu=a;
-			}
+	public ArticleVendu getArticleVendu(Integer idArticle) throws BLLException {
+		ArticleVendu articleVendu =new ArticleVendu();
+		try {
+			articleVendu = articleDAO.getArticleVendu(idArticle);
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL - Erreur getArticleVendu by idArticle ");
 		}
 		return articleVendu;
 	}
 
 	@Override
-	public ArticleVendu deleteArticleVendu(Integer idArticle) throws BLLException {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteArticleVendu(Integer idArticle) throws BLLException {
+		try {
+			articleDAO.deleteArticleVendu(idArticle);
+			listArticlesVendus = articleDAO.getAll();
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL-Problème de la suppression un article");
+		}
 	}
-	@Override
-	public List<ArticleVendu> getArticleByEtatVenteNonDebute() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	public void VerifyArticleVenduOK(ArticleVendu articlevendu) throws BLLException {
 		 if("".equals(articlevendu.getNomArticle().trim())) {
 			 throw new BLLException("Nom d'article doit contenir au moin un caractère");
@@ -166,7 +178,21 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 		 if(articlevendu.getDateDebutEncheres().compareTo(articlevendu.getDateFinEncheres())>=0){
 			 throw new BLLException("La date de fin d'enchère doit être après la date de début d'enchère");
 		 }
-		// if(articlevendu.get)
+		 if(articlevendu.getDateDebutEncheres().compareTo(LocalDate.now()) <0){
+			 throw new BLLException("La date de debut d'enchère doit être à partir d'aujourd'hui");
+		 }
+	}
+
+	@Override
+	public ArticleVendu getArticleVenduByNom(String nomArticle) throws BLLException {
+		// TODO Auto-generated method stub
+		ArticleVendu articleVendu=null;
+		for (ArticleVendu a : listArticlesVendus) {
+			if(a.getNomArticle().equals(nomArticle)) {
+				articleVendu=a;
+			}
+		}
+		return articleVendu;
 	}
 	@Override
 	public ArticleVendu getArticleVenduByNom(String nomArticle) throws BLLException {

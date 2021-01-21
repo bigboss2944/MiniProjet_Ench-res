@@ -29,6 +29,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	private String UPDATE_VILLE = "UPDATE UTILISATEURS  SET ville =? WHERE no_utilisateur =?";
 	private String UPDATE_MOTDEPASSE = "UPDATE UTILISATEURS  SET mot_de_passe =? where no_utilisateur =?";
 	private String UPDATE_CREDIT = "UPDATE UTILISATEURS  SET credit =? where no_utilisateur =?";
+
 	private String DELETE_BY_ID = "DELETE FROM UTILISATEURS WHERE no_utilisateur =?";
 
 	public void deleteByNoUtilisateur(Integer noUtilisateur) throws DALException {
@@ -151,7 +152,6 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		}
 
 	}
-	
 	public void updateCredit(Integer noUtilisateur, Integer credit) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(UPDATE_CREDIT);
@@ -163,7 +163,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		}
 
 	}
-
+	
 	public Utilisateur insert(Utilisateur utilisateur) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
@@ -227,31 +227,43 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	@Override
 	public Utilisateur getUtilisateur(Integer idUtilisateur) throws DALException {
 		// TODO Auto-generated method stub
-		
+
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			Utilisateur utilisateur = new Utilisateur();
 			PreparedStatement stmt = cnx.prepareStatement(SELECT_ONE_UTILISATEUR);
 			stmt.setInt(1, idUtilisateur);
 			ResultSet rs = stmt.executeQuery();
-			
 			while(rs.next()) {
-				
-				utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
-				utilisateur.setPseudo(rs.getString("pseudo"));
-				utilisateur.setNom(rs.getString("nom"));
-				utilisateur.setPrenom(rs.getString("prenom"));
-				utilisateur.setEmail(rs.getString("email"));
-				utilisateur.setTelephone(rs.getString("telephone"));
-				utilisateur.setRue(rs.getString("rue"));
-				utilisateur.setCodePostal(rs.getString("code_postal"));
-				utilisateur.setVille(rs.getString("ville"));
-				utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
-				utilisateur.setCredit(rs.getInt("credit"));
-				utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
-				//TODO: A vérifier
 
 
-				
+			utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+
+			utilisateur.setPseudo(rs.getString("pseudo"));
+
+			utilisateur.setNom(rs.getString("nom"));
+
+			utilisateur.setPrenom(rs.getString("prenom"));
+
+			utilisateur.setEmail(rs.getString("email"));
+
+			utilisateur.setTelephone(rs.getString("telephone"));
+
+			utilisateur.setRue(rs.getString("rue"));
+
+			utilisateur.setCodePostal(rs.getString("code_postal"));
+
+			utilisateur.setVille(rs.getString("ville"));
+
+			utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
+
+			utilisateur.setCredit(rs.getInt("credit"));
+
+			utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
+			//TODO: A vérifier
+			}
+
+
+
 			}
 			return utilisateur;
 		} catch (Exception e) {

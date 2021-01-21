@@ -3,7 +3,6 @@ package fr.ENI.HiddenFigures.Enchere.bo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Enchere {

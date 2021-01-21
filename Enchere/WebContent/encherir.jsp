@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,31 +9,32 @@
 <title>PageEncherir</title>
 <link rel="stylesheet" href="Styles.css" />
 </head>
+
 <body>
-	<jsp:include page="Header.jsp"></jsp:include>
-	<h2 align="center"> Détail Vente </h2>
-	<h2 style="color:red;">${message}</h2>
-	<table align="left">
-		<tr>
-			<td><img id="imageProduit" alt="Image Produit" src="D:\Photos\Leboncoin\planche_bic_rumba_1.jpg" width="250px" height="250px"> </td>
-			<td>
+<a href="/Enchere/ListeEncheresConnecteServlet">ENI-ENCHERE</a>
+<h2 style="color:red;">${message}</h2>
 
+ 
+	
+	<h3>Détail vente</h3>
 
+	
+		 
 				 Article : ${articleVenduModel.articleVendu.nomArticle}  <br>
 	       		 Description :<br>
 	       		 <textarea  name="description" rows="6" cols="50" >${articleVenduModel.articleVendu.description}</textarea> <br>
-       	 		Catégorie:
-
+       	 		Catégorie: 
+					 
 						  ${libelleCategorie}<br>
-
-
-
-
+			 
+			 
+				 
+	       	 
 	       	 <c:choose>
     <c:when test="${encherisseur.pseudo!=null}">
-     Meilleure offre:  ${montantEnchere}  points par   ${encherisseur.pseudo}
+     Meilleure offre:  ${montantEnchere}  points par   ${encherisseur.pseudo} 
         <br />
-    </c:when>
+    </c:when>    
     <c:otherwise>
        Meilleure offre:  ${montantEnchere}  point par  personne
         <br />
@@ -41,33 +42,29 @@
 </c:choose>
 	       	  <br>
        		 Mise à prix : ${articleVenduModel.articleVendu.miseAprix}  points  <br>
-
-
+	       		 
+       	 
 			 Fin de l'enchere :  <tags:localDate date="${articleVenduModel.articleVendu.dateFinEncheres}" pattern="dd/MM/yyyy"/> <br>
 	       		Retrait :   ${vendeur.rue} ${vendeur.codePostal} ${vendeur.ville}
 	<br>
 	 Vendeur:  ${vendeur.pseudo}
-	<br>
+	<br> 
+	<form action="EnchereServlet"  method="post"  >
+	Ma proposition: <input type="number" name="propButton"   min ="${articleVenduModel.articleVendu.miseAprix}" step="1" />  <br> 
+			<input type="hidden" name="montantEnchereMaxPrecedent" value=" ${montantEnchere}"> 
+			<input type="hidden" name="noEncherisseurCurrent" value="${encherisseur.noUtilisateur}"> 
+			<input type="hidden" name="noArticleVendu" value="${articleVenduModel.articleVendu.noArticle}"> 
+				  
+	       		 <input type="submit" value="Enchérir" />  
+       		  
+	</form>
+	 
+
+	   
+ 
 
 
-
-
-
-			<form method="post" action="EnchereServlet" >
-
-				Ma proposition:<input type="hidden" name="nomArticle"value="${articleVenduModel.articleVendu.nomArticle}">
-
-						<input type="hidden" name="noArticleVendu" value="${articleVenduModel.articleVendu.noArticle}">
-						<input type="number" name="propButton"/> <input type="submit"/>
-			</form> </td>
-
-
-
-
-		</tr>
-
-	</table>
-
-
+	
+	
 </body>
 </html>

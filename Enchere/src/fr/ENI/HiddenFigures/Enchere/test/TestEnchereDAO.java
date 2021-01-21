@@ -1,5 +1,6 @@
 package fr.ENI.HiddenFigures.Enchere.test;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -8,7 +9,7 @@ import fr.ENI.HiddenFigures.Enchere.bo.Enchere;
 import fr.ENI.HiddenFigures.Enchere.dal.DALException;
 import fr.ENI.HiddenFigures.Enchere.dal.DAOFactory;
 
- 
+
 
 public class TestEnchereDAO {
 	public static void main(String[] args) {
@@ -18,19 +19,23 @@ public class TestEnchereDAO {
 
 		//		System.out.println(dateTime);
 //		System.out.println(date_enchereLocalDateTime);
-		try {
-			List<Enchere> listEncheres = DAOFactory.getEnchereDAO().getAll();
-			Enchere enchere = new Enchere(date_enchereLocalDateTime,150);
-			enchere.setNo_article(4);
-			DAOFactory.getEnchereDAO().insert(enchere);
-			System.out.println(listEncheres);
-		} catch (DALException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+//		try {
+//			//List<Enchere> listEncheres = DAOFactory.getEnchereDAO().insert()
+//			for (Enchere enchere : listEncheres) {
+//
+//
+//			}
+//			System.out.println(listEncheres);
+//		} catch (DALException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
+
 	}
-		 
-			 
-			
-			
+
+
+
+
 }

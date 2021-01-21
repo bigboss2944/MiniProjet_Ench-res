@@ -8,7 +8,6 @@ import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
 public interface UtilisateurDAO {
 	Utilisateur insert(Utilisateur utilisateur) throws DALException;
 	List<Utilisateur> getAll() throws DALException ;
-	Utilisateur getUtilisateur(Integer idUtilisateur) throws DALException ;
 	void updatePseudo(Integer noUtilisateur, String new_pseudo) throws DALException;
 	void updateNom(Integer noUtilisateur, String new_nom) throws DALException;
 	void updatePrenom(Integer noUtilisateur, String new_prenom) throws DALException;
@@ -20,4 +19,5 @@ public interface UtilisateurDAO {
 	 void updateMotDePasse(Integer noUtilisateur, String new_motDePasse) throws DALException;
 	 void updateCredit(Integer noUtilisateur, Integer credit) throws DALException;
 	 void deleteByNoUtilisateur(Integer noUtilisateur) throws DALException;
+	 Utilisateur getUtilisateur(Integer idUtilisateur) throws DALException;
 }

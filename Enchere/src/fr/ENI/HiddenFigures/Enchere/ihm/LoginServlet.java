@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
 
 				for (Integer noUtilisateur : mapUtilisateurAchercher.keySet()) {
 					request.getSession().setAttribute("user", mapUtilisateurAchercher.get(noUtilisateur));
-					System.out.println("User vient de récupérer par chercher dans BDD "+ mapUtilisateurAchercher.get(noUtilisateur));
+					//System.out.println("User vient de récupérer par chercher dans BDD "+ mapUtilisateurAchercher.get(noUtilisateur));
 //						request.getSession().setAttribute("loginUsername", mapUtilisateurAchercher.get(noUtilisateur).getPseudo());
 //						request.getSession().setAttribute("loginNoUser",noUtilisateur  );
 				}
@@ -68,7 +68,6 @@ public class LoginServlet extends HttpServlet {
 				// request.getSession().setAttribute("loginUsername", null);
 				request.setAttribute("messageNonTrouve", e.getMessage());
 				request.getRequestDispatcher("login.jsp").forward(request, response);
-
 			}
 
 		} else {
@@ -76,8 +75,6 @@ public class LoginServlet extends HttpServlet {
 		}
 
 	}
-
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse

@@ -7,7 +7,7 @@ public class ManagerEncheresSingl {
 		if(instance==null){
 			instance = new  ManagerEncheresImpl();
 		}
-		return instance;
+		return instance;	
 	}
 
 }

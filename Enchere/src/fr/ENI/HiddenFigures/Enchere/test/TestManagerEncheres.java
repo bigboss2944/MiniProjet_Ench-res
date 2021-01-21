@@ -12,9 +12,9 @@ public class TestManagerEncheres {
 	private static  ManagerEncheres managerEncheres = ManagerEncheresSingl.getInstance(); 
 	public static void main(String[] args) {
 		System.out.println(managerEncheres.getLstEnchere());
-		System.out.println(managerEncheres.getLstEnchereOfUserById(2));
+		//System.out.println(managerEncheres.getLstEnchereOfUserById(2));
 		System.out.println(managerEncheres.getLstEnchereOfHighestOffer());
-		System.out.println(managerEncheres.getLstEnchereOfHighestOfferOfUserById(2));
+		//System.out.println(managerEncheres.getLstEnchereOfHighestOfferOfUserById(2));
 		
 		
 	}

@@ -50,8 +50,9 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		
+		request.setCharacterEncoding("utf-8") ;
+
+
 		if (request.getSession().getAttribute("user") != null  ) {
 			Utilisateur utilisateur_current = (Utilisateur) request.getSession().getAttribute("user");
 			// Afficher les libellés dans la liste roulante de catégorie
@@ -59,7 +60,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 			List<Categorie> listCategories = managerCategories.getCategories();
 			categorieModel.setLstCategories(listCategories);
 			request.setAttribute("categorieModel", categorieModel);
-			
+
 			List<ArticleVendu> listArticlesVendus = managerArticles.getLstArticleVendus();
 			List<ArticleVendu> listArticlesVendusEncours = new ArrayList<>();
 			try {
@@ -69,6 +70,17 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 			}
 			// Afficher la liste des enchères en cours = les articles en état "en cours"
 			// selon les mots recherche
+			List<ArticleVendu> listArticleAutresAvecEncheresOuvertes = new ArrayList<>();
+			if (listArticlesVendus!=null) {
+				for (ArticleVendu articleVendu : listArticlesVendusEncours) {
+					if(articleVendu.getNoUtilisateur() != utilisateur_current.getNoUtilisateur()) {
+						listArticleAutresAvecEncheresOuvertes.add(articleVendu);
+					}
+
+				}
+			}
+
+
 			List<ArticleVendu> listArticlesJeFaisEnchere = new ArrayList<>();
 			List<Enchere> listMesEncheres = managerEncheres.getLstEnchereOfUserById(utilisateur_current.getNoUtilisateur());
 			if (listArticlesVendus!=null &&listMesEncheres!=null) {
@@ -81,23 +93,23 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 					}
 				}
 			}
-			
-			
+
+
 			List<ArticleVendu> listArticlesJeRemporte = new ArrayList<>();
-			List<Enchere> listMesEncheresRemportees = managerEncheres.getLstEnchereOfHighestOfferOfUserById(utilisateur_current.getNoUtilisateur());
+			List<Enchere> listMesEncheresRemportees = managerEncheres.getLstEnchereWonOfUserById(utilisateur_current.getNoUtilisateur());
 			if (listArticlesVendus!=null &&listMesEncheresRemportees!=null) {
 				for (ArticleVendu articleVendu : listArticlesVendus) {
-					for (Enchere enchere : listMesEncheresRemportees) { 
+					for (Enchere enchere : listMesEncheresRemportees) {
 						if(articleVendu.getNoArticle()==enchere.getNo_article()) {
 							listArticlesJeRemporte.add(articleVendu);
 						}
 					}
-					
+
 				}
 			}
-			
-			
-			
+
+
+
 			List<ArticleVendu> listMesVentesEC = new ArrayList<>();
 			if (listArticlesVendusEncours!=null) {
 				for (ArticleVendu articleVendu : listArticlesVendusEncours) {
@@ -106,8 +118,8 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 					}
 				}
 			}
-			
-			
+
+
 			List<ArticleVendu> listMesVentesNonDebutees = new ArrayList<>();
 			List<ArticleVendu> listArticlesNonDebutees = managerArticles.getArticleByEtatNonDebute();
 			if (listArticlesNonDebutees!=null) {
@@ -117,8 +129,8 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 					}
 				}
 			}
-				
-			
+
+
 			List<ArticleVendu> listMesVentesTerminees = new ArrayList<>();
 			List<ArticleVendu> listArticlesTermines = managerArticles.getArticleByEtatTermine();
 			if (listArticlesTermines!=null ) {
@@ -128,25 +140,26 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 					}
 				}
 			}
-			
-			
+
+
 			//Faire la recherche selon request
 			List<Utilisateur> listVendeurs = new ArrayList<>();
 			String nomArticleContient = request.getParameter("nomArticleContient");
 			Utilisateur utilisateur = new Utilisateur();
+			List<ArticleVendu> listArticlesParNomArticleEtCategorieAchatVente = new ArrayList<>();
 			if( nomArticleContient!=null) {
 				String libelleCategorie = request.getParameter("categorie");
-				
+
 				String achatVente = request.getParameter("achatVente");
-				
+
 				String encheresOuvertes = request.getParameter("encheresOuvertes");
 				String mesEncheres = request.getParameter("mesEncheres");
 				String mesEncheresRemportees = request.getParameter("mesEncheresRemportees");
-				
+
 				String mesVentesEC = request.getParameter("mesVentesEC");
 				String ventesNonDebutees = request.getParameter("ventesNonDebutees");
 				String ventesTerminees = request.getParameter("ventesTerminees");
-				
+
 				//Liste des articles trouvés par nom et catégorie
 				Integer no_categorie = 0; //categorie = toutes
 				if (listCategories!=null ) {
@@ -157,61 +170,61 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 
 					}
 				}
-				
-				
+
+
 				List<ArticleVendu> listArticlesParNomArticleEtCategorie = new ArrayList<>();
-				
+
 				if (nomArticleContient != null && !"".equals(nomArticleContient.trim()) ) {
 					if ( no_categorie !=0) {
-						listArticlesParNomArticleEtCategorie= managerArticles.getArticleByNomArticleContientEtNoCategorie(nomArticleContient, no_categorie);	 
+						listArticlesParNomArticleEtCategorie= managerArticles.getArticleByNomArticleContientEtNoCategorie(nomArticleContient, no_categorie);
 					}
 					else {
-						listArticlesParNomArticleEtCategorie= managerArticles.getArticleByNomArticleContient(nomArticleContient);	
+						listArticlesParNomArticleEtCategorie= managerArticles.getArticleByNomArticleContient(nomArticleContient);
 					}
-					
+
 				}
 				else {
 					if ( no_categorie !=0) {
-						listArticlesParNomArticleEtCategorie= managerArticles.getArticleByCategorie(no_categorie);	 
+						listArticlesParNomArticleEtCategorie= managerArticles.getArticleByCategorie(no_categorie);
 					}
 					else {
-						listArticlesParNomArticleEtCategorie= listArticlesVendus;	
-						
+						listArticlesParNomArticleEtCategorie= listArticlesVendus;
+
 					}
 				}
-				
+
 				//Liste des articles trouvés par nom,catégorie et AchatVente
-				List<ArticleVendu> listArticlesParNomArticleEtCategorieAchatVente = new ArrayList<>();
+
 				if(achatVente !=null) {
 					//Achats
-					
+
 					if (encheresOuvertes!=null &&mesEncheres ==null && mesEncheresRemportees ==null
 							&& listArticlesParNomArticleEtCategorie!=null && listArticlesVendusEncours !=null) {
 						for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorie) {
-							for (ArticleVendu articleVendu2 : listArticlesVendusEncours) {
+							for (ArticleVendu articleVendu2 : listArticleAutresAvecEncheresOuvertes) {
 								if(articleVendu2.getNoArticle() ==articleVendu.getNoArticle() ) {
 									listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
 								}
 							}
-							
+
 						}
 					}
-					
+
 					if (encheresOuvertes==null &&mesEncheres !=null && mesEncheresRemportees ==null
 							&& listArticlesParNomArticleEtCategorie!=null && listArticlesJeFaisEnchere !=null) {
 						for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorie) {
-							
+
 							for (ArticleVendu articleVendu2 : listArticlesJeFaisEnchere) {
-								
+
 								if(articleVendu2.getNoArticle() ==articleVendu.getNoArticle() ) {
 									listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
-									
+
 								}
 							}
-							
+
 						}
 					}
-					
+
 					if (encheresOuvertes==null &&mesEncheres ==null && mesEncheresRemportees !=null
 							&& listArticlesParNomArticleEtCategorie!=null && listArticlesJeRemporte !=null) {
 						for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorie) {
@@ -220,22 +233,22 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 									listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
 								}
 							}
-							
+
 						}
 					}
 					if (encheresOuvertes!=null &&mesEncheres !=null && mesEncheresRemportees ==null
 							&& listArticlesParNomArticleEtCategorie!=null && listArticlesVendusEncours !=null
 							&& listArticlesJeFaisEnchere !=null) {
 						for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorie) {
-							for (ArticleVendu articleVendu2 : listArticlesVendusEncours) {
+							for (ArticleVendu articleVendu2 : listArticleAutresAvecEncheresOuvertes) {
 								for (ArticleVendu articleVendu3 : listArticlesJeFaisEnchere) {
 									if(articleVendu3.getNoArticle() ==articleVendu2.getNoArticle() && articleVendu3.getNoArticle() == articleVendu.getNoArticle()) {
 										listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
 									}
 								}
-								
+
 							}
-							
+
 						}
 					}
 					if (encheresOuvertes==null &&mesEncheres !=null && mesEncheresRemportees !=null
@@ -248,49 +261,49 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 										listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
 									}
 								}
-								
+
 							}
-							
+
 						}
 					}
 					if (encheresOuvertes!=null &&mesEncheres ==null && mesEncheresRemportees !=null
 							&& listArticlesParNomArticleEtCategorie!=null && listArticlesVendusEncours !=null
 							&& listArticlesJeRemporte !=null) {
 						for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorie) {
-							for (ArticleVendu articleVendu2 : listArticlesVendusEncours) {
+							for (ArticleVendu articleVendu2 : listArticleAutresAvecEncheresOuvertes) {
 								for (ArticleVendu articleVendu3 : listArticlesJeRemporte) {
 									if(articleVendu3.getNoArticle() ==articleVendu2.getNoArticle() && articleVendu3.getNoArticle() == articleVendu.getNoArticle()) {
 										listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
 									}
 								}
-								
+
 							}
-							
+
 						}
 					}
 					if (encheresOuvertes!=null &&mesEncheres !=null && mesEncheresRemportees !=null
 							&& listArticlesParNomArticleEtCategorie!=null && listArticlesVendusEncours !=null
 							&& listArticlesJeFaisEnchere !=null&& listArticlesJeRemporte !=null) {
 						for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorie) {
-							for (ArticleVendu articleVendu2 : listArticlesVendusEncours) {
+							for (ArticleVendu articleVendu2 : listArticleAutresAvecEncheresOuvertes) {
 								for (ArticleVendu articleVendu3 : listArticlesJeFaisEnchere) {
 									for (ArticleVendu articleVendu4 : listArticlesJeRemporte) {
-										if(articleVendu4.getNoArticle() ==articleVendu3.getNoArticle() 
+										if(articleVendu4.getNoArticle() ==articleVendu3.getNoArticle()
 												&& articleVendu3.getNoArticle() == articleVendu2.getNoArticle()
 												&& articleVendu2.getNoArticle() == articleVendu.getNoArticle()) {
 											listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
 										}
 									}
-									
+
 								}
-								
+
 							}
-							
+
 						}
 					}
-					
+
 					//Ventes
-					 
+
 					if (mesVentesEC!=null &&ventesNonDebutees ==null && ventesTerminees ==null
 							&& listArticlesParNomArticleEtCategorie !=null&& listMesVentesEC !=null) {
 						for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorie) {
@@ -299,7 +312,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 									listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
 								}
 							}
-							
+
 						}
 					}
 					if (mesVentesEC==null &&ventesNonDebutees !=null && ventesTerminees ==null
@@ -310,7 +323,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 									listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
 								}
 							}
-							
+
 						}
 					}
 					if (mesVentesEC==null &&ventesNonDebutees ==null && ventesTerminees !=null
@@ -321,7 +334,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 									listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
 								}
 							}
-							
+
 						}
 					}
 					if (mesVentesEC!=null &&ventesNonDebutees !=null && ventesTerminees ==null
@@ -336,7 +349,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 									}
 								}
 							}
-							
+
 						}
 					}
 					if (mesVentesEC!=null &&ventesNonDebutees ==null && ventesTerminees !=null
@@ -351,7 +364,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 									}
 								}
 							}
-							
+
 						}
 					}
 					if (mesVentesEC==null &&ventesNonDebutees !=null && ventesTerminees !=null
@@ -366,7 +379,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 									}
 								}
 							}
-							
+
 						}
 					}
 					if (mesVentesEC!=null &&ventesNonDebutees !=null && ventesTerminees !=null
@@ -382,10 +395,10 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 											listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
 										}
 									}
-									
+
 								}
 							}
-							
+
 						}
 					}
 				}
@@ -393,20 +406,23 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 				{
 					listArticlesParNomArticleEtCategorieAchatVente =listArticlesParNomArticleEtCategorie;
 				}
-				
-				
+
+
 				if (listArticlesParNomArticleEtCategorieAchatVente.size() == 0) {
 					request.setAttribute("message", "0 résultat trouvé");
 				} else {
 					listVendeurs =new ArrayList<Utilisateur>();
-					
+
 					for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorieAchatVente) {
 						try {
-							utilisateur = managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(articleVendu.getNoUtilisateur());
-							utilisateur.setListArticlesVendus(new ArrayList<ArticleVendu>()); //eviter de cummuler les articles vendus précédents
-							utilisateur.getListArticlesVendus().add(articleVendu);
-							listVendeurs.add(utilisateur);
-							
+							utilisateur= managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(articleVendu.getNoUtilisateur());
+							Utilisateur vendeur  =new Utilisateur();
+							vendeur.setPseudo(utilisateur.getPseudo());
+							vendeur.setNoUtilisateur(utilisateur.getNoUtilisateur() );
+							vendeur.setListArticlesVendus(new ArrayList<ArticleVendu>()); //eviter de cummuler les articles vendus précédents
+							vendeur.getListArticlesVendus().add(articleVendu);
+							listVendeurs.add(vendeur);
+
 						} catch (BLLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -414,12 +430,55 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 					}
 				}
 			}
+			else {
+				listArticlesParNomArticleEtCategorieAchatVente = listArticlesVendusEncours;
+				for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorieAchatVente) {
+
+				}
+				if(listArticlesJeRemporte!=null) {
+					for (ArticleVendu articleVendu : listArticlesJeRemporte) {
+						listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
+					}
+				}
+				if(listMesVentesTerminees!=null) {
+					for (ArticleVendu articleVendu : listMesVentesTerminees) {
+						listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
+					}
+
+				}
+				if(listMesVentesNonDebutees!=null) {
+					for (ArticleVendu articleVendu : listMesVentesNonDebutees) {
+						listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);
+					}
+
+				}
+				listVendeurs =new ArrayList<Utilisateur>();
+
+				for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorieAchatVente) {
+					try {
+						utilisateur= managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(articleVendu.getNoUtilisateur());
+						Utilisateur vendeur  =new Utilisateur();
+						vendeur.setPseudo(utilisateur.getPseudo());
+						vendeur.setNoUtilisateur(utilisateur.getNoUtilisateur() );
+						vendeur.setListArticlesVendus(new ArrayList<ArticleVendu>()); //eviter de cummuler les articles vendus précédents
+						vendeur.getListArticlesVendus().add(articleVendu);
+						listVendeurs.add(vendeur);
+
+					} catch (BLLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			}
+
+
 			UtilisateurModel utilisateurModel = new UtilisateurModel();
 			utilisateurModel.setListUtilisateur(listVendeurs);
-			
+
 			// request.setAttribute("pseudo",utilisateurModel);
 			request.getSession().setAttribute("utilisateurModel", utilisateurModel);
-			
+
 			request.getRequestDispatcher("listeEncheresConnecte.jsp").forward(request, response);
 		} else {
 			request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);

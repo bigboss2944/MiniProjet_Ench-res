@@ -69,47 +69,16 @@
 </head>
 
 <body>
-
-<script type="text/javascript">
-
-function changeThis(sender) {
-	  if(document.getElementById('enchereRadioButton').checked){
-	    document.getElementById("enchereOuvertesCheckBox").removeAttribute('disabled');
-	    document.getElementById("mesEncheresCheckBox").removeAttribute('disabled');
-	    document.getElementById("mesEncheresRemporteesCheckBox").removeAttribute('disabled');
-	    document.getElementById("mesVentesECCheckBox").disabled = true;
-	    document.getElementById("mesVentesECCheckBox").checked = false;
-	    document.getElementById("ventesNonDebuteesCheckBox").disabled = true;
-	    document.getElementById("ventesNonDebuteesCheckBox").checked = false;
-	    document.getElementById("ventesTermineesCheckBox").disabled = true;
-	    document.getElementById("ventesTermineesCheckBox").checked = false;
-	  }
-	  else if(document.getElementById('venteRadioButton').checked){
-		document.getElementById("enchereOuvertesCheckBox").disabled=true;
-		document.getElementById("enchereOuvertesCheckBox").checked=false;
-		document.getElementById("mesEncheresCheckBox").disabled=true;
-		document.getElementById("mesEncheresCheckBox").checked=false;
-		document.getElementById("mesEncheresRemporteesCheckBox").disabled=true;
-		document.getElementById("mesEncheresRemporteesCheckBox").checked=false;
-		document.getElementById("mesVentesECCheckBox").removeAttribute('disabled');
-	    document.getElementById("ventesNonDebuteesCheckBox").removeAttribute('disabled');
-	    document.getElementById("ventesTermineesCheckBox").removeAttribute('disabled');
-
-	  }
-	}
-</script>
-
-
-<h1>ENI-Enchère</h1>
-<h3>Bonjour  ${user.pseudo}</h3>
-<nav>
-<a href="/Enchere/EnchereServlet">Enchères</a>
-<a href="/Enchere/VendreUnArticleServlet">Vendre un article</a>
-<a href="/Enchere/ProfilServlet">Mon profil</a>
-<a href="/Enchere/LogoutServlet">Déconnexion</a>
-</nav>
-<h2 style="color:red;">${message}</h2>
-<h3>Liste des enchères</h3>
+	<a href="/Enchere/ListeEncheresConnecteServlet">ENI-ENCHERE</a>
+	<h3>Bonjour ${user.pseudo}</h3>
+	<nav>
+		 <a href="">Enchères</a>
+		 <a href="/Enchere/VendreUnArticleServlet">Vendre un article</a>
+		 <a href="/Enchere/monProfil.jsp">Mon profil</a>
+		 <a href="/Enchere/LogoutServlet">Déconnexion</a>
+	</nav>
+	<h2 style="color: red;">${message}</h2>
+	<h3>Liste des enchères</h3>
 
 	<form action="ListeEncheresConnecteServlet" method="post">
 		Filtres : <br> <input type="text" name="nomArticleContient"	placeholder="Le nom de l'article contient" /><BR />
@@ -138,20 +107,20 @@ function changeThis(sender) {
 
 
 
-
+  
 
 	<table border="1">
 
 		<c:forEach var="u" items="${utilisateurModel.listUtilisateur}">
 			<tr>
-				<td> <c:forEach var="a" items="${u.listArticlesVendus}">
-				<form action="EnchereServlet">
-							<input type="hidden" name="nomArticle"
-								value="${a.nomArticle}"> <input type="submit"
-								value="${a.nomArticle}" class="link">
+				<td><c:forEach var="a" items="${u.listArticlesVendus}">
+					<form action="GestionAchatVente">
+							<input type="hidden" name="noArticleVendu" value="${a.noArticle}">
+							<input type="submit" value="${a.nomArticle}" class="link">
 
 						</form>
-				<br>
+
+				 <br>
 				Prix:	${a.miseAprix} points  <br>
 				Fin de l'enchère:
 				<tags:localDate date="${a.dateFinEncheres}" pattern="dd/MM/yyyy" />

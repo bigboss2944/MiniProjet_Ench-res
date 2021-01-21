@@ -7,7 +7,7 @@ public class DAOFactory {
 		return new UtilisateurDAOImpl();
 	}
 
-	public static ArticleVenduDAO getArticleDAO() {
+	public static ArticleVenduDAO getArticleDAO() {  
 		return new ArticleVenduDAOImpl();
 	}
 	public static CategorieDAO getCategorieDAO() {

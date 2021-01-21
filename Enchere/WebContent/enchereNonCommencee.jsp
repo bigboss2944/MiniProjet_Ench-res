@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>PageVendreUnArticle</title>
+<title>PageEnchereNonCommencee</title>
 <link rel="stylesheet" href="Styles.css" />
 </head>
 
@@ -17,24 +17,24 @@
 	
 	<h3>Nouvelle vente</h3>
 
-	<form action="VendreUnArticleServlet"  method="post"  >
+	<form action=""  method="post"  >
 		 
-				 Article :<input type="text" name="nomArticle" placeholder="30 caractères maximum" required />  <br>
+				 Article :<input type="text" name="nomArticle" value="${articleVenduModel.articleVendu.nomArticle}" />  <br>
 	       		 Description :
-	       		 <textarea  name="description" rows="6" cols="50" placeholder="300 caractères maximum" required>  </textarea> <br>
+	       		 <textarea  name="description" rows="6" cols="50" >${articleVenduModel.articleVendu.description}</textarea> <br>
        	 		Catégorie: 
 					<select	name="categorie">
-						<option>Toutes
+						<option> ${libelleCategorie}
 							<c:forEach var="categorie" items="${categorieModel.lstCategories}">
 								<option value="${categorie.libelle}">${categorie.libelle}
 								</option>
 							</c:forEach>
 					</select> <br> 
 	       		Photo de l'article :<input type="file" id="img" name="img" >  <br>
-       		 Mise à prix :<input type="number" name="miseAPrix" min = "0" step ="1"  required />  <br>
-	       		Début de l'enchère :<input type="date" name="dateDebutEnchere" required />  <br>
+       		 Mise à prix :<input type="number" name="miseAPrix"  value="${articleVenduModel.articleVendu.miseAprix}" min ="0" step="1" />  <br>
+	       		Début de l'enchère :<input type="date" name="dateDebutEnchere" value="${articleVenduModel.articleVendu.dateDebutEncheres}" />  <br>
        	 
-			 Fin de l'enchere :<input type="date" name="dateFinEnchere" required   />  <br>
+			 Fin de l'enchere :<input type="date" name="dateFinEnchere" value="${articleVenduModel.articleVendu.dateFinEncheres}"  />  <br>
 	       		Retrait :  <br>
 	       		Rue: <input type="text" name="rue"  value="${user.rue}"  />   <br>
 	       		Code postal: <input type="text" name="codePostal"   value="${user.codePostal}"  />   <br>
@@ -44,7 +44,14 @@
 	       		 <input type="submit" value="Enregistrer" />  
        		  
 	</form>
-	 <a href="/Enchere/ListeEncheresConnecteServlet"><input type="button" value="Annuler"> 
+	 <a href="/Enchere/ListeEncheresConnecteServlet"><input type="button" value="Annuler">  <br>
+	 
+	  <form action="SuppressionUnArticleVendu">
+							<input type="hidden" name="noArticleVendu" value="${articleVenduModel.articleVendu.noArticle}"> 
+							<input type="submit" value="Annuler la vente"  >
+
+		</form>
+	   
  
 
 

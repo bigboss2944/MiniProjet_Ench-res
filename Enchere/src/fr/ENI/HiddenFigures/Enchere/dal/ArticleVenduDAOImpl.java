@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +20,15 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			+ " VALUES (?,?,?,?,?,?,?,?)";
 	private String SELECT_ALL = "SELECT * FROM ARTICLES_VENDUS";
 	private String SELECT_ONE = "SELECT * FROM ARTICLES_VENDUS WHERE no_article=?";
-	private String SELECT_BY_ETAT_VENTE_ENCOURS = "SELECT * FROM  ARTICLES_VENDUS where date_fin_encheres >= CONVERT (date, GETDATE())";
-	private String select_Utilisateur_By_Article = "Select pseudo from ARTICLES_VENDUS a inner Join UTILISATEURS u on u.no_utilisateur = ?";
+	private String SELECT_BY_ETAT_VENTE_ENCOURS = "SELECT * FROM  ARTICLES_VENDUS where GETDATE() BETWEEN "
+			+ " date_debut_encheres AND date_fin_encheres";
+	//private String SELECT_BY_ETAT_VENTE_NONDEBUTE = "SELECT * FROM  ARTICLES_VENDUS where DATEDIFF(day, GETDATE(),date_debut_encheres) >0";
+	//private String SELECT_BY_ETAT_VENTE_TERMINE = "SELECT * FROM  ARTICLES_VENDUS where DATEDIFF(day, date_fin_encheres,GETDATE()) >0";
+	private String select_Utilisayeur_By_Article = "Select pseudo from ARTICLES_VENDUS a inner Join UTILISATEURS u on u.no_utilisateur = ?";
 	private String DELETE_BY_NO_UTILISATEUR = "DELETE FROM  ARTICLES_VENDUS where  no_utilisateur=?";
+	private String DELETE_BY_ID = "DELETE FROM  ARTICLES_VENDUS where  no_article=?";
+
+
 	private String SELECT_BY_NO_UTILISATEUR = "SELECT * FROM  ARTICLES_VENDUS where  no_utilisateur=?";
 
 	public List<ArticleVendu> selectByEtatVenteEnCours() throws DALException {
@@ -59,11 +66,84 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		}
 		return result;
 	}
+//	public List<ArticleVendu> selectByEtatVenteNonDebute() throws DALException {
+//		List<ArticleVendu> result = new ArrayList<ArticleVendu>();
+//		try (Connection cnx = ConnectionProvider.getConnection()) {
+//			PreparedStatement stmt = cnx.prepareStatement(SELECT_BY_ETAT_VENTE_NONDEBUTE);
+//			ResultSet rs = stmt.executeQuery();
+//			while(rs.next()) {
+//				ArticleVendu articleVendu = new ArticleVendu();
+//				articleVendu.setNoArticle(rs.getInt("no_article"));
+//				articleVendu.setNomArticle(rs.getString("nom_article"));
+//				articleVendu.setDescription(rs.getString("description"));
+//
+//				String dateDebutEncheresString = rs.getString("date_debut_encheres");
+//				LocalDate dateDebutEncheresLocalDate = Date.valueOf(dateDebutEncheresString).toLocalDate();
+//
+//				articleVendu.setDateDebutEncheres(dateDebutEncheresLocalDate);
+//
+//				String dateFinEncheresString = rs.getString("date_fin_encheres");
+//				LocalDate dateFinEncheresLocalDate = Date.valueOf(dateFinEncheresString).toLocalDate();
+//
+//				articleVendu.setDateFinEncheres(dateFinEncheresLocalDate);
+//
+//				articleVendu.setMiseAprix(rs.getInt("prix_initial"));
+//				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+//				articleVendu.setNoUtilisateur(rs.getInt("no_utilisateur"));
+//				articleVendu.setNoCategorie(rs.getInt("no_categorie"));
+//
+//
+//
+//				result.add(articleVendu);
+//			}
+//		} catch (Exception e) {
+//			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs par l'état de vente non debute");
+//		}
+//		return result;
+//	}
+//
+//	public List<ArticleVendu> selectByEtatVenteTermine() throws DALException {
+//		List<ArticleVendu> result = new ArrayList<ArticleVendu>();
+//		try (Connection cnx = ConnectionProvider.getConnection()) {
+//			PreparedStatement stmt = cnx.prepareStatement(SELECT_BY_ETAT_VENTE_TERMINE);
+//			ResultSet rs = stmt.executeQuery();
+//			while(rs.next()) {
+//				ArticleVendu articleVendu = new ArticleVendu();
+//				articleVendu.setNoArticle(rs.getInt("no_article"));
+//				articleVendu.setNomArticle(rs.getString("nom_article"));
+//				articleVendu.setDescription(rs.getString("description"));
+//
+//				String dateDebutEncheresString = rs.getString("date_debut_encheres");
+//				LocalDate dateDebutEncheresLocalDate = Date.valueOf(dateDebutEncheresString).toLocalDate();
+//
+//				articleVendu.setDateDebutEncheres(dateDebutEncheresLocalDate);
+//
+//				String dateFinEncheresString = rs.getString("date_fin_encheres");
+//				LocalDate dateFinEncheresLocalDate = Date.valueOf(dateFinEncheresString).toLocalDate();
+//
+//				articleVendu.setDateFinEncheres(dateFinEncheresLocalDate);
+//
+//				articleVendu.setMiseAprix(rs.getInt("prix_initial"));
+//				articleVendu.setPrixVente(rs.getInt("prix_vente"));
+//				articleVendu.setNoUtilisateur(rs.getInt("no_utilisateur"));
+//				articleVendu.setNoCategorie(rs.getInt("no_categorie"));
+//
+//
+//
+//				result.add(articleVendu);
+//			}
+//		} catch (Exception e) {
+//			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs par l'état de vente termine");
+//		}
+//		return result;
+//	}
+//
+
 	public String selectUtilisateurByArticle(ArticleVendu article ) throws DALException {
 		String pseudo= null;
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
-			PreparedStatement stmt = cnx.prepareStatement(select_Utilisateur_By_Article);
+			PreparedStatement stmt = cnx.prepareStatement(select_Utilisayeur_By_Article);
 			stmt.setInt(1,  article.getNoUtilisateur())  ;
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -134,11 +214,19 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			Date dateDebutEncheresSQL = Date.valueOf(articleVendu.getDateDebutEncheres());
 			stmt.setDate(3, dateDebutEncheresSQL);
 
+
+
+
 			Date dateFinEncheresSQL = Date.valueOf(articleVendu.getDateFinEncheres());
 			stmt.setDate(4, dateFinEncheresSQL);
 
 			stmt.setInt(5, articleVendu.getMiseAprix());
-			stmt.setInt(6, articleVendu.getPrixVente());
+			if(articleVendu.getPrixVente() ==null) {
+				stmt.setNull(6, Types.INTEGER);
+			}
+			else {
+				stmt.setInt(6, articleVendu.getPrixVente());
+			}
 			stmt.setInt(7, articleVendu.getNoUtilisateur());
 			stmt.setInt(8, articleVendu.getNoCategorie());
 
@@ -158,15 +246,13 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
 	@Override
 	public ArticleVendu getArticleVendu(Integer idArticle) throws DALException {
-		// TODO Auto-generated method stub
-		
-		try(Connection cnx = ConnectionProvider.getConnection()){
-			ArticleVendu articleVendu = new ArticleVendu();
+		ArticleVendu result = new ArticleVendu();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = cnx.prepareStatement(SELECT_ONE);
-			stmt.setInt(1, idArticle);
+			stmt.setInt(1, idArticle );
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
-				
+				ArticleVendu articleVendu = new ArticleVendu();
 				articleVendu.setNoArticle(rs.getInt("no_article"));
 				articleVendu.setNomArticle(rs.getString("nom_article"));
 				articleVendu.setDescription(rs.getString("description"));
@@ -186,15 +272,15 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 				articleVendu.setNoUtilisateur(rs.getInt("no_utilisateur"));
 				articleVendu.setNoCategorie(rs.getInt("no_categorie"));
 			}
-			
+
 			return articleVendu;
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new DALException("Couche DAL - Problème � l'obtention de l'article");
+			throw new DALException("Couche DAL - Problème � l'obtention de l'article");
 		}
-		
+
 	}
 
 	@Override
@@ -241,9 +327,20 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	}
 
 	@Override
-	public ArticleVendu deleteArticleVendu(Integer idArticle) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteArticleVendu(Integer idArticle) throws DALException {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(DELETE_BY_ID);
+			stmt.setInt(1,  idArticle)  ;
+			DAOFactory.getEnchereDAO().deleteByNoArticle(idArticle);
+			DAOFactory.getRetraitDAO().deleteByNoArticle(idArticle);
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - problème dans la suppression d'un article by idArticle");
+		}
+
+
+
+
 	}
 
 

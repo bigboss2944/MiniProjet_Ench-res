@@ -53,8 +53,8 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	 * ville ne contiennent pas de chiffre le mail doit contenire @ et . tous les
 	 * attributs sont obligatoires sauf telephone 4. Le numéro de telephone contient
 	 * que 10 charactères
-	 * 
-	 * 
+	 *
+	 *
 	 */
 
 	// 1
@@ -266,7 +266,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	}
 
 	// Modifier le nom
- 
+
 	@Override
 	public void modifierNom(Integer noUtilisateur, String new_nom) throws BLLException {
 		try {
@@ -279,7 +279,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	}
 
 	// Modifier le prenom
-	 
+
 	@Override
 	public void modifierPrenom(Integer noUtilisateur, String new_prenom) throws BLLException {
 		try {
@@ -292,7 +292,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	}
 
 	// Modifier l'email
- 
+
 	@Override
 	public void modifierEmail(Integer noUtilisateur, String new_email) throws BLLException {
 		try {
@@ -305,7 +305,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	}
 
 	// Modifier le téléphone
- 
+
 	@Override
 	public void modifierTelephone(Integer noUtilisateur, String new_telephone) throws BLLException {
 		try {
@@ -318,7 +318,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	}
 
 	// Modifier le rue
-	 
+
 	@Override
 	public void modifierRue(Integer noUtilisateur, String new_rue) throws BLLException {
 		try {
@@ -331,7 +331,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	}
 
 	// Modifier le code postal
- 
+
 	@Override
 	public void modifierCodePostal(Integer noUtilisateur, String new_codePostal) throws BLLException {
 		try {
@@ -345,7 +345,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 
 	// Modifier la ville
 	@Override
-	 
+
 	public void modifierVille(Integer noUtilisateur, String new_ville) throws BLLException {
 		try {
 			utilisateurDAO.updatePseudo(noUtilisateur, new_ville);
@@ -358,7 +358,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 
 	// Modifier le mot de passe
 	@Override
-	 
+
 	public void modifierMotDePasse(Integer noUtilisateur, String new_motDePasse) throws BLLException {
 		try {
 			utilisateurDAO.updatePseudo(noUtilisateur, new_motDePasse);
@@ -368,27 +368,27 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 		}
 
 	}
-	
+
 	@Override
 	public void modifierCredit(Integer noUtilisateur, Integer credit) throws BLLException {
 		try {
 			for(Utilisateur utilisateur:listUtilisateurs) {
 				if((utilisateur.getCredit()<credit)&&(utilisateur.getNoUtilisateur()==noUtilisateur)){
-					throw new BLLException("Couche BLL-L'ench�re est sup�rieur au cr�dit de l'ench�risseur");
+					throw new BLLException("Couche BLL-L'enchère est supérieur au crédit de l'enchérisseur");
 				}
 				else if(utilisateur.getNoUtilisateur()==noUtilisateur){
 					utilisateurDAO.updateCredit(noUtilisateur, utilisateur.getCredit()-credit);
 					listUtilisateurs = utilisateurDAO.getAll();
 				}
 			}
-			
-			
+
+
 		} catch (DALException e) {
 			throw new BLLException("Couche BLL-Problème de la modification de mot de passe");
 		}
-		
+
 	}
-	
+
 	//Supprimer un compte par id
 	public void supprimerUtilisateurParNoUtilisateur(Integer noUtilisateur) throws BLLException {
 		try {
@@ -411,7 +411,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 		return null;
 	}
 
-	
-	
+
+
 
 }
