@@ -373,11 +373,11 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	public void modifierCredit(Integer noUtilisateur, Integer credit) throws BLLException {
 		try {
 			for(Utilisateur utilisateur:listUtilisateurs) {
-				if(utilisateur.getCredit()<credit) {
+				if((utilisateur.getCredit()<credit)&&(utilisateur.getNoUtilisateur()==noUtilisateur)){
 					throw new BLLException("Couche BLL-L'enchère est supérieur au crédit de l'enchérisseur");
 				}
-				else{
-					utilisateurDAO.updateCredit(noUtilisateur, credit);
+				else if(utilisateur.getNoUtilisateur()==noUtilisateur){
+					utilisateurDAO.updateCredit(noUtilisateur, utilisateur.getCredit()-credit);
 					listUtilisateurs = utilisateurDAO.getAll();
 				}
 			}

@@ -67,10 +67,8 @@ public class EnchereServlet extends HttpServlet {
 			} catch (BLLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			
+			}		
 		}
-		
 		
 		String prop = request.getParameter("propButton");
 		Integer enchereInteger = null;
@@ -98,6 +96,7 @@ public class EnchereServlet extends HttpServlet {
 			} catch (BLLException | EnchereException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				
 			}
 			request.getRequestDispatcher("listeEncheresConnecte.jsp").forward(request, response);
 					
@@ -130,8 +129,8 @@ public class EnchereServlet extends HttpServlet {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					//request.getSession().setAttribute("user", managerUtilisateurs.getUtilisateurById(articleVendu.getNoUtilisateur()));
 					
-					request.setAttribute("utilisateur", managerUtilisateurs.getUtilisateurById(articleVendu.getNoUtilisateur()));
 					
 				}
 			}

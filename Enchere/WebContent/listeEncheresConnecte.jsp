@@ -105,7 +105,7 @@ function changeThis(sender) {
 <nav>
 <a href=" ">Enchères</a>
 <a href=" ">Vendre un article</a>
-<a href="/Enchere/monProfil.jsp">Mon profil</a>
+<a href="/Enchere/ProfilServlet">Mon profil</a>
 <a href="/Enchere/LogoutServlet">Déconnexion</a>
 </nav>
 <h2 style="color:red;">${message}</h2>

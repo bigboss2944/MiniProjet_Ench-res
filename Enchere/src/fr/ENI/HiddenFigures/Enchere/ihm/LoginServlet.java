@@ -67,6 +67,7 @@ public class LoginServlet extends HttpServlet {
 			} catch (BLLException e) {
 				// request.getSession().setAttribute("loginUsername", null);
 				request.setAttribute("messageNonTrouve", e.getMessage());
+				request.getRequestDispatcher("login.jsp").forward(request, response);
 
 			}
 

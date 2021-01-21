@@ -154,7 +154,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	
 	public void updateCredit(Integer noUtilisateur, Integer credit) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
-			PreparedStatement stmt = cnx.prepareStatement(UPDATE_MOTDEPASSE);
+			PreparedStatement stmt = cnx.prepareStatement(UPDATE_CREDIT);
 			stmt.setInt(1, credit)  ;
 			stmt.setInt(2,  noUtilisateur)  ;
 			stmt.executeUpdate();
