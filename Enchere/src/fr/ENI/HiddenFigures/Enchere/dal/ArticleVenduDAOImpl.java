@@ -27,6 +27,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	private String select_Utilisayeur_By_Article = "Select pseudo from ARTICLES_VENDUS a inner Join UTILISATEURS u on u.no_utilisateur = ?";
 	private String DELETE_BY_NO_UTILISATEUR = "DELETE FROM  ARTICLES_VENDUS where  no_utilisateur=?";
 	private String DELETE_BY_ID = "DELETE FROM  ARTICLES_VENDUS where  no_article=?";
+	private String UPDATE_PRIX_VENTE = "UPDATE ARTICLES_VENDUS  SET prix_vente =? where no_article =?";
 
 
 	private String SELECT_BY_NO_UTILISATEUR = "SELECT * FROM  ARTICLES_VENDUS where  no_utilisateur=?";
@@ -271,9 +272,10 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 				articleVendu.setPrixVente(rs.getInt("prix_vente"));
 				articleVendu.setNoUtilisateur(rs.getInt("no_utilisateur"));
 				articleVendu.setNoCategorie(rs.getInt("no_categorie"));
+				result=articleVendu;
 			}
 
-			return articleVendu;
+			return result;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -342,6 +344,18 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
 
 	}
+	@Override
+	 public void updatePrixVente(Integer noArticle, Integer new_prixVente) throws DALException {
+	        try (Connection cnx = ConnectionProvider.getConnection()) {
+	            PreparedStatement stmt = cnx.prepareStatement(UPDATE_PRIX_VENTE);
+	            stmt.setInt(1, new_prixVente)  ;
+	            stmt.setInt(2,  noArticle)  ;
+	            stmt.executeUpdate(); 
+	        } catch (Exception e) {
+	            throw new DALException("Couche DAL - problème dans la modification de prix vente d'un article");
+	        }
+
+	    }
 
 
 }

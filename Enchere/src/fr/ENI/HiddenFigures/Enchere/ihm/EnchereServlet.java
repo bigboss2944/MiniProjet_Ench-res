@@ -146,8 +146,14 @@ public class EnchereServlet extends HttpServlet {
 						enchere.setNo_utilisateur(utilisateur_current.getNoUtilisateur());
 						enchere.setNo_article(enchereModel.getArticleVendu().getNoArticle());
 						managerEncheres.addEnchere(enchere);
+						managerArticles.modifierPrixVente(enchereModel.getArticleVendu().getNoArticle(), enchereInteger);
+						Integer newCredit = utilisateur_current.getCredit() - enchereInteger;
+                        managerUtilisateurs.modifierCreditThuy(utilisateur_current.getNoUtilisateur(), newCredit);
+                        Utilisateur encherisseurCurrent=managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(noEncherisseur);
+                        Integer newCredit2 = encherisseurCurrent.getCredit()+montantEnchere;
+                        managerUtilisateurs.modifierCreditThuy(encherisseurCurrent.getNoUtilisateur(), newCredit2);
 						// System.out.println(enchere.getMontant_enchere());
-						managerUtilisateurs.modifierCredit(utilisateur_current.getNoUtilisateur(), enchereInteger);
+						//managerUtilisateurs.modifierCredit(utilisateur_current.getNoUtilisateur(), enchereInteger);
 						request.setAttribute("message", "Votre enchère est bien enregistrée");
 						request.getRequestDispatcher("listeEncheresConnecte.jsp").forward(request, response);
 					} catch (BLLException | EnchereException e) {

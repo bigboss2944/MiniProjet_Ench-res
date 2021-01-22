@@ -35,14 +35,15 @@ public class ProfilServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Utilisateur utilisateur_current =  (Utilisateur) request.getSession().getAttribute("user");
-		System.out.println(utilisateur_current.getNoUtilisateur());
-		if (utilisateur_current.getNoUtilisateur() != null) {
-			//Integer noVendeur = Integer.parseInt(noVendeurStr);
+		String noVendeurStr = request.getParameter("noVendeur");
+		System.out.println(noVendeurStr);
+		if (noVendeurStr != null) {
+			Integer noVendeur = Integer.parseInt(noVendeurStr);
 			try {
-				Utilisateur vendeur = managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(utilisateur_current.getNoUtilisateur());
+				Utilisateur vendeur = managerUtilisateurs.rechercherUtilisateurParNoUtilisateur(noVendeur);
 				UtilisateurModel vendeurModel = new UtilisateurModel(vendeur);
-				request.setAttribute("user", vendeur);
-				request.getRequestDispatcher("monProfil.jsp").forward(request, response);
+				request.setAttribute("vendeurModel", vendeurModel);
+				request.getRequestDispatcher("profil.jsp").forward(request, response);
 			} catch (BLLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

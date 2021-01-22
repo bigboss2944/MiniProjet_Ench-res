@@ -36,6 +36,7 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 
 	public List<Enchere> getLstEnchereOfHighestOffer()  {
 		List<Enchere> listEncheresOfHighestOffer = new ArrayList<>();
+		
 		for (ArticleVendu articleVendu: managerArticles.getLstArticleVendus()) {
 			Integer MaxOfArticleVendu = 0;
 			Enchere enchereOfMaxOfArticleVendu =new Enchere();

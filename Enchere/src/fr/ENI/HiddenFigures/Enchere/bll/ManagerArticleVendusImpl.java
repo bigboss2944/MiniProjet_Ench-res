@@ -194,16 +194,24 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 		}
 		return articleVendu;
 	}
+	
 	@Override
-	public ArticleVendu getArticleVenduByNom(String nomArticle) throws BLLException {
+
+    public void modifierPrixVente(Integer noArticle, Integer newPrixVente) throws BLLException {
+        try {
+            articleDAO.updatePrixVente(noArticle, newPrixVente);
+            listArticlesVendus = articleDAO.getAll();
+        } catch (DALException e) {
+            throw new BLLException("Couche BLL-Problème de la modification de prix vente");
+        }
+
+    }
+	
+	@Override
+	public ArticleVendu getArticleVenduById(Integer idArticle) throws BLLException {
 		// TODO Auto-generated method stub
-		ArticleVendu articleVendu=null;
-		for (ArticleVendu a : listArticlesVendus) {
-			if(a.getNomArticle().equals(nomArticle)) {
-				articleVendu=a;
-			}
-		}
-		return articleVendu;
+		return null;
 	}
+	
 
 }

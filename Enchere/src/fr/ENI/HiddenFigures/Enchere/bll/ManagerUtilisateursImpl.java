@@ -368,6 +368,16 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 		}
 
 	}
+	@Override
+	public void modifierCreditThuy(Integer noUtilisateur, Integer newCredit) throws BLLException {
+	        try {
+	            utilisateurDAO.updateCredit(noUtilisateur, newCredit);
+	            listUtilisateurs = utilisateurDAO.getAll();
+	        } catch (DALException e) {
+	            throw new BLLException("Couche BLL-Problème de la modification de credit");
+	        }
+
+	    }
 
 	@Override
 	public void modifierCredit(Integer noUtilisateur, Integer credit) throws BLLException {

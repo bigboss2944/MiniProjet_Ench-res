@@ -82,10 +82,12 @@ public class UtilisateurServlet extends HttpServlet {
 			}
 			
 		}
-		
+		else {
+			request.getRequestDispatcher("utilisateur.jsp").forward(request, response);
+		}
 		
 		//request.setAttribute("model",model);
-		request.getRequestDispatcher("utilisateur.jsp").forward(request, response);
+		
 	}
 
 	/**

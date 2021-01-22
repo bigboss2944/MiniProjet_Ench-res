@@ -14,7 +14,10 @@ public interface ManagerArticleVendus {
 	 List<ArticleVendu> getArticleByNomArticleContientEtNoCategorie(String motCle, Integer noCategorie) ;
 	 List<ArticleVendu> getArticleByCategorie(Integer noCategorie) ;
 	 List<ArticleVendu> getArticleByNoUtilisateur(Integer noUtilisateur) ;
-	 ArticleVendu getArticleVenduByNom(String nomArticle) throws BLLException ;
+	 ArticleVendu getArticleVendu(Integer idArticle) throws BLLException;
+	 ArticleVendu getArticleVenduByNom(String nomArticle) throws BLLException;
+	 void modifierPrixVente(Integer noArticle, Integer newPrixVente) throws BLLException;
+	 
 	/***
 	 * Ajouter un article vendu
 	 * @param articleVendu
@@ -55,8 +58,6 @@ public interface ManagerArticleVendus {
 	 */
 	void verifAdresseRetrait(ArticleVendu articleVendu) throws BLLException;
 	
-	
-	ArticleVendu getArticleVenduByNom(String nomArticle) throws BLLException;
 	
 	
 	

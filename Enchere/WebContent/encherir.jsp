@@ -11,14 +11,14 @@
 </head>
 
 <body>
-<a href="/Enchere/ListeEncheresConnecteServlet">ENI-ENCHERE</a>
-<h2 style="color:red;">${message}</h2>
+<jsp:include page="Header.jsp"></jsp:include>
+	<h2 align="center"> Détail Vente </h2>
+	<h2 style="color:red;">${message}</h2>
 
- 
-	
-	<h3>Détail vente</h3>
-
-	
+	<table align="left">
+		<tr>
+			<td><img id="imageProduit" alt="Image Produit" src="D:\Photos\Leboncoin\planche_bic_rumba_1.jpg" width="250px" height="250px"> </td>
+			<td>
 		 
 				 Article : ${articleVenduModel.articleVendu.nomArticle}  <br>
 	       		 Description :<br>
@@ -50,7 +50,7 @@
 	 Vendeur:  ${vendeur.pseudo}
 	<br> 
 	<form action="EnchereServlet"  method="post"  >
-	Ma proposition: <input type="number" name="propButton"   min ="${articleVenduModel.articleVendu.miseAprix}" step="1" />  <br> 
+	Ma proposition: <input type="number" name="propButton"  value="${articleVenduModel.articleVendu.miseAprix}" min ="${articleVenduModel.articleVendu.miseAprix}" step="1" />  <br> 
 			<input type="hidden" name="montantEnchereMaxPrecedent" value=" ${montantEnchere}"> 
 			<input type="hidden" name="noEncherisseurCurrent" value="${encherisseur.noUtilisateur}"> 
 			<input type="hidden" name="noArticleVendu" value="${articleVenduModel.articleVendu.noArticle}"> 
@@ -58,9 +58,18 @@
 	       		 <input type="submit" value="Enchérir" />  
        		  
 	</form>
+	
+	 
 	 
 
-	   
+	   </td>
+			
+			
+			
+		
+		</tr>
+	
+	</table>
  
 
 

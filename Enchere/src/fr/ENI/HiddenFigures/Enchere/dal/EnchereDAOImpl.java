@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -23,35 +24,29 @@ public class EnchereDAOImpl implements EnchereDAO {
 	//private String Insert="Insert into ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) values(?,?,?,?)";
 
 	@Override
-	public Enchere insert(Enchere enchere) throws DALException {
-		// TODO Auto-generated method stub
-		//LocalDateTime date = enchere.getDateEnchere();
-		//java.util.Date utilDate;
-		//String dateFormat = "yyyy-MM-dd";
-		//DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern(dateFormat);
-		//SimpleDateFormat sdf1 = new SimpleDateFormat(dateFormat);
+    public Enchere insert(Enchere enchere) throws DALException {
 
-		//try {
-		//	utilDate = sdf1.parse(date.format(dtf1));
-		//} catch (ParseException e) {
-		//    utilDate = null; // handle the exception
-		//}
-		//java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		//Date date_enchereLocalDateTime = Date.valueOf(date.toString());//Conversion LocalDateTime vers SQL Date
-		try (Connection cnx = ConnectionProvider.getConnection()) {
-			PreparedStatement stmt = cnx.prepareStatement(Insert);
-			//stmt.setDate(1, sqlDate);
-			stmt.setInt(1, enchere.getMontant_enchere());
-			stmt.setInt(2, enchere.getNo_article());
-			stmt.setInt(3, enchere.getNo_utilisateur());
-			stmt.executeUpdate();
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement stmt = cnx.prepareStatement(Insert,Statement.RETURN_GENERATED_KEYS);
+            //stmt.setDate(1, sqlDate);
+            stmt.setInt(1, enchere.getMontant_enchere());
+            stmt.setInt(2, enchere.getNo_article());
+            stmt.setInt(3, enchere.getNo_utilisateur());
 
-		}catch (Exception e) {
-			throw new DALException("Couche DAL - Problème � l'insertion de l'ench�re");
-		}
+            int nbRows =stmt.executeUpdate();
+            if (nbRows == 1) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    enchere.setNo_enchere(rs.getInt(1));
+                }
+            }
 
-		return enchere;
-	}
+        }catch (Exception e) {
+            throw new DALException("Couche DAL - Problème � l'insertion de l'ench�re");
+        }
+
+        return enchere;
+    }
 
 	public void deleteByNoUtilisateurNoArticle(Integer noUtilisateur, Integer noArticleVendu) throws DALException {
 
@@ -116,35 +111,6 @@ public class EnchereDAOImpl implements EnchereDAO {
 		}
 		return result;
 	}
-	@Override
-	public Enchere insert(Enchere enchere) throws DALException {
-		// TODO Auto-generated method stub
-//		LocalDateTime date = enchere.getDateEnchere();
-//		java.util.Date utilDate;
-//		String dateFormat = "yyyy-MM-dd";
-//		DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern(dateFormat);
-//		SimpleDateFormat sdf1 = new SimpleDateFormat(dateFormat);
-//
-//		try {
-//			utilDate = sdf1.parse(date.format(dtf1));
-//		} catch (ParseException e) {
-//		    utilDate = null; // handle the exception
-//		}
-//		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-		//Date date_enchereLocalDateTime = Date.valueOf(date.toString());//Conversion LocalDateTime vers SQL Date
-		try (Connection cnx = ConnectionProvider.getConnection()) {
-			PreparedStatement stmt = cnx.prepareStatement(Insert);
-			//stmt.setDate(1, sqlDate);
-			stmt.setInt(1, enchere.getMontant_enchere());
-			stmt.setInt(2, enchere.getNo_article());
-			stmt.setInt(3, enchere.getNo_utilisateur());
-
-			stmt.executeUpdate();
-		}catch (Exception e) {
-			throw new DALException("Couche DAL - Problème � l'insertion de l'ench�re");
-		}
-
-		return enchere;
-	}
+	
 
 }

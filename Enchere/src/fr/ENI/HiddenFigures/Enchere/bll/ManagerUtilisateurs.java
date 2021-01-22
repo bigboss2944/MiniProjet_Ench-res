@@ -30,5 +30,6 @@ public interface ManagerUtilisateurs {
 	void modifierPrenom(Integer noUtilisateur, String new_prenom) throws BLLException;
 	void modifierCredit(Integer noUtilisateur, Integer credit) throws BLLException;
 	void supprimerUtilisateurParNoUtilisateur(Integer noUtilisateur) throws BLLException;
+	void modifierCreditThuy(Integer noUtilisateur, Integer newCredit) throws BLLException;
 
 }

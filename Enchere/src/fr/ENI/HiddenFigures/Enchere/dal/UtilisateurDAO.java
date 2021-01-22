@@ -12,12 +12,12 @@ public interface UtilisateurDAO {
 	void updateNom(Integer noUtilisateur, String new_nom) throws DALException;
 	void updatePrenom(Integer noUtilisateur, String new_prenom) throws DALException;
 	void updateEmail(Integer noUtilisateur, String new_email) throws DALException;
-	 void updateTelephone(Integer noUtilisateur, String new_te) throws DALException;
-	 void updateRue(Integer noUtilisateur, String new_rue) throws DALException;
-	 void updateCodePostal(Integer noUtilisateur, String new_codePostal) throws DALException;
-	 void updateVille(Integer noUtilisateur, String new_ville) throws DALException;
-	 void updateMotDePasse(Integer noUtilisateur, String new_motDePasse) throws DALException;
-	 void updateCredit(Integer noUtilisateur, Integer credit) throws DALException;
-	 void deleteByNoUtilisateur(Integer noUtilisateur) throws DALException;
-	 Utilisateur getUtilisateur(Integer idUtilisateur) throws DALException;
+	void updateTelephone(Integer noUtilisateur, String new_te) throws DALException;
+	void updateRue(Integer noUtilisateur, String new_rue) throws DALException;
+	void updateCodePostal(Integer noUtilisateur, String new_codePostal) throws DALException;
+	void updateVille(Integer noUtilisateur, String new_ville) throws DALException;
+	void updateMotDePasse(Integer noUtilisateur, String new_motDePasse) throws DALException;
+	void updateCredit(Integer noUtilisateur, Integer credit) throws DALException;
+	void deleteByNoUtilisateur(Integer noUtilisateur) throws DALException;
+	Utilisateur getUtilisateur(Integer idUtilisateur) throws DALException;
 }

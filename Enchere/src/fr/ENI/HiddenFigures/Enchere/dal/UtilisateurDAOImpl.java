@@ -264,12 +264,13 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 
 
 
-			}
 			return utilisateur;
+			
 		} catch (Exception e) {
 			System.out.println(e);
 			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs");
 		}
+		
 	}
 
 
