@@ -29,8 +29,8 @@ import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
 public class PasswordOublieServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ManagerUtilisateurs managerUtilisateurs = ManagerUtilisateursSingl.getInstance();
-	private static final String username ="thuybt@donga.edu.vn";
-	private static final String password ="donga33xvnt";
+	private static final String username ="***";
+	private static final String password ="***";
 	//Regarde le lien en-dessous pour cacher le username et password
 	//https://www.codejava.net/java-ee/jsp/sending-e-mail-with-jsp-servlet-and-javamail 
     /**
