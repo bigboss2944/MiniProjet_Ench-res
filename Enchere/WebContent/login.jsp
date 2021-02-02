@@ -8,17 +8,18 @@
 </head>
 <body>
  
-<jsp:include page="Header.jsp"></jsp:include>
+<h1><a href="/Enchere/AccueilNonConnectePagination6Servlet">ENI-ENCHERE</a></h1>
  
  
 <h2 style="color:red;">${messageNonTrouve}</h2>
 	<form method="post" action="LoginServlet">
 		Identifiant: <input type="text" name="login" placeholder="Pseudo ou email"  required/> <br>
 		Password:  <input type="password" name="password" placeholder="Mot de passe" required /><br>
-		<input type="submit" value="Connexion"><br>
-		<input type="checkbox" value=""> Se souvenir de moi
+		<input type="submit" value="Connexion">
+		
 	</form>
-<a href=" "> Mot de passe oublié </a><br>
+	<input type="checkbox" value=""> Se souvenir de moi <br>
+<a href="/Enchere/PasswordOublieServlet"> Mot de passe oublié </a><br>
   <a href="/Enchere/UtilisateurServlet"> <input type="button" value="Créer un compte">  </a>
 </body>
 </html>

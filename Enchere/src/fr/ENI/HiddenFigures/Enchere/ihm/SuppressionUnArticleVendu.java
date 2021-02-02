@@ -1,5 +1,6 @@
 package fr.ENI.HiddenFigures.Enchere.ihm;
 
+import java.io.File;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,8 +40,17 @@ public class SuppressionUnArticleVendu extends HttpServlet {
 			String noArticleString = request.getParameter("noArticleVendu");
 			if(noArticleString!=null) {
 				Integer noArticle = Integer.parseInt(noArticleString);
+				String refPhoto =managerArticles.getArticleVendu(noArticle).getRefPhoto();
 				try {
 					managerArticles.deleteArticleVendu(noArticle);
+					//TODO: delete photo dans server
+					String fileImg = request.getServletContext().getRealPath("images/") +"Utilisateur"
+							+ utilisateur_current.getNoUtilisateur() + File.separator + refPhoto;
+					File file = new File(fileImg);
+		System.out.println(fileImg);			
+					if (file.exists()) {
+						file.delete();
+					}
 					request.setAttribute("message", "Votre article est bien supprimé");
 					request.getRequestDispatcher("ListeEncheresConnecteServlet").forward(request, response);
 					

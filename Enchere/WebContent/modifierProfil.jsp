@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<a href="/Enchere/ListeEncheresConnecteServlet">ENI-ENCHERE</a>
+<h1><a href="/Enchere/ListeEncheresConnecteServlet">ENI-ENCHERE</a></h1>
 
 <h2 style="color:red;">${message}</h2>
 <h3>Mon profil</h3>

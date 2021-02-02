@@ -17,4 +17,8 @@ public interface ArticleVenduDAO {
 	 List<ArticleVendu> selectByNoUtilisateur(Integer noUtilisateur) throws DALException;
 //	 List<ArticleVendu> selectByEtatVenteNonDebute() throws DALException;
 //	 List<ArticleVendu> selectByEtatVenteTermine() throws DALException;
+	 void updatePrixVente(Integer noArticle, Integer new_prixVente) throws DALException;
+	 List<ArticleVendu> selectByNoCategorie(Integer noCategorie) throws DALException;
+	 void deleteByNoCategorie(Integer noCategorie ) throws DALException;
+	 void updateRefPhoto(Integer noArticle, String new_refPhoto) throws DALException;
 }

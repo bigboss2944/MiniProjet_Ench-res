@@ -45,7 +45,7 @@
 
 	<br> Mise à prix:  ${articleVenduModel.articleVendu.miseAprix} points <br>
 	 
-	<br> Retrait:  ${vendeur.rue} ${vendeur.codePostal} ${vendeur.ville}
+	<br> Retrait:  ${retrait.rue} ${retrait.code_postal} ${retrait.ville}
 	<br>
 	 Vendeur:  ${vendeur.pseudo}
 	<br> 

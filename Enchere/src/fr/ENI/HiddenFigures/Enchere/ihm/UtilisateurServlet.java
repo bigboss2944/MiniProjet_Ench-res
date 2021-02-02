@@ -48,7 +48,8 @@ public class UtilisateurServlet extends HttpServlet {
 		String motDePasse = request.getParameter("motDePasse");
 		String motDePasse2 = request.getParameter("motDePasse2");
 		Utilisateur utilisateur = new Utilisateur();
-		if(pseudo!=null&& nom !=null&& prenom!=null&&email!=null&&rue!=null&&codePostal!=null&&ville!=null&&motDePasse!=null) {
+		if(pseudo!=null&& nom !=null&& prenom!=null&&email!=null&&rue!=null
+				&&codePostal!=null&&ville!=null&&motDePasse!=null) {
 			
 			if (motDePasse2.equals(motDePasse)) {
 				utilisateur.setPseudo(pseudo);
@@ -69,9 +70,11 @@ public class UtilisateurServlet extends HttpServlet {
 					managerUtilisateurs.pseudoContientQueAlphanumeriques(utilisateur);
 					managerUtilisateurs.verificationTelephone(utilisateur);
 					managerUtilisateurs.addUtilisateur(utilisateur);
+					request.setAttribute("message", "Votre compte est bien enregistré");
 					request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);
 				} catch (BLLException e1) {
 					request.setAttribute("message", e1.getMessage());
+					request.getRequestDispatcher("utilisateur.jsp").forward(request, response);
 				}
 				
 				
@@ -79,13 +82,18 @@ public class UtilisateurServlet extends HttpServlet {
 			}
 			else {
 				request.setAttribute("message", "Passwords did not match ");
+				request.getRequestDispatcher("utilisateur.jsp").forward(request, response);
 			}
 			
 		}
-		
-		
+		else {
+			//request.setAttribute("model",model);
+			request.getRequestDispatcher("utilisateur.jsp").forward(request, response);
+		}
 		//request.setAttribute("model",model);
-		request.getRequestDispatcher("utilisateur.jsp").forward(request, response);
+		//request.getRequestDispatcher("utilisateur.jsp").forward(request, response);
+		
+		
 	}
 
 	/**

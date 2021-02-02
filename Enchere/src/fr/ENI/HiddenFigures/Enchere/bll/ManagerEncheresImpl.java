@@ -33,9 +33,11 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 		return listEncheres;
 	}
 	@Override
-	 
+	 // j'ai modifier dans EnchereServlet: avant d'ajouter une enchère, on supprime l'enchère précédent
+	// donc, listEncheresOfHighestOffer = listEncheres
 	public List<Enchere> getLstEnchereOfHighestOffer()  {
 		List<Enchere> listEncheresOfHighestOffer = new ArrayList<>();
+		
 		for (ArticleVendu articleVendu: managerArticles.getLstArticleVendus()) {
 			Integer MaxOfArticleVendu = 0;
 			Enchere enchereOfMaxOfArticleVendu =new Enchere();
@@ -171,9 +173,14 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 	}
 
 	@Override
-	public Enchere deleteEnchere(Integer idEnchere) throws BLLException {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteEnchereByNoArticle(Integer noArticleVendu) throws BLLException {
+		try {
+			enchereDAO.deleteByNoArticle(noArticleVendu);
+
+			listEncheres = enchereDAO.getAll(); //A modifier
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL-Problème de la suppression un article");
+		}
 	}
 	
 	@Override
@@ -198,6 +205,31 @@ public class ManagerEncheresImpl implements ManagerEncheres {
 		
 		
 	}
+	
+	@Override
+	public List<Enchere> getLstEnchereOrderByMontant(Integer noArticle) throws BLLException {
+		// TODO Auto-generated method stub
+		
+		List<Enchere> listEncheresParNoArticle =new ArrayList<>();
+		try {
+			listEncheresParNoArticle = enchereDAO.selectByNoArticle(noArticle);
+			if(listEncheresParNoArticle.size() >= 1) {
+				for (int i = 0; i < listEncheresParNoArticle.size()-1; i++) {
+					if(listEncheresParNoArticle.get(i).getNo_utilisateur() == listEncheresParNoArticle.get(i+1).getNo_utilisateur() ) {
+						listEncheresParNoArticle.remove(i);
+						i = i -1;
+					}
+					
+				}
+			}
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL - Problème dans la selection des enchères par NoArticle");
+		}
+		
+		return listEncheresParNoArticle;
+	} 
+		
+	 
 	
 
 }

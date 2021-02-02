@@ -9,4 +9,5 @@ public interface EnchereDAO {
 	void deleteByNoUtilisateurNoArticle(Integer noUtilisateur, Integer noArticleVendu ) throws DALException;
 	 void deleteByNoArticle( Integer noArticleVendu) throws DALException;
 	 Enchere insert(Enchere enchere) throws DALException;
+	 List<Enchere> selectByNoArticle(Integer noArticle) throws DALException;
 }

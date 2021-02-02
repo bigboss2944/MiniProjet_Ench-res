@@ -9,11 +9,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.ENI.HiddenFigures.Enchere.bll.BLLException;
 import fr.ENI.HiddenFigures.Enchere.bll.ManagerUtilisateurs;
 import fr.ENI.HiddenFigures.Enchere.bll.ManagerUtilisateursSingl;
 import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
+
+
 
 /**
  * Servlet implementation class LoginServlet
@@ -58,11 +61,35 @@ public class LoginServlet extends HttpServlet {
 				
 				for (Integer noUtilisateur : mapUtilisateurAchercher.keySet()) {
 					request.getSession().setAttribute("user", mapUtilisateurAchercher.get(noUtilisateur));
+					//System.out.println(mapUtilisateurAchercher.get(noUtilisateur));                        
 					//System.out.println("User vient de récupérer par chercher dans BDD "+ mapUtilisateurAchercher.get(noUtilisateur));
 //						request.getSession().setAttribute("loginUsername", mapUtilisateurAchercher.get(noUtilisateur).getPseudo());
 //						request.getSession().setAttribute("loginNoUser",noUtilisateur  );
 				}
-				request.getRequestDispatcher("ListeEncheresConnecteServlet").forward(request, response);
+				//Sessions utilisateur de 5mn
+				HttpSession session = request.getSession();
+				session.setMaxInactiveInterval(300);
+				 
+				Utilisateur utilisateur_current = (Utilisateur) request.getSession().getAttribute("user");
+				if(utilisateur_current.getAdministrateur()) {
+					response.sendRedirect(request.getContextPath() + "/ListeEncheresConnecteAdminServlet");
+					//request.getRequestDispatcher("ListeEncheresConnecteAdminServlet").forward(request, response);
+					
+				}
+				else {
+					if("A".equals(utilisateur_current.getEtatCompte())) {
+						response.sendRedirect(request.getContextPath() + "/ListeEncheresConnectePagination6Servlet");
+						//request.getRequestDispatcher("ListeEncheresConnecteServlet").forward(request, response);
+					}
+					else {
+						request.getSession().setAttribute("user", null  );
+						request.setAttribute("messageNonTrouve", "Votre compte est désactivé");
+						request.getRequestDispatcher("login.jsp").forward(request, response);
+					 
+					}
+					
+				}
+				
 
 			} catch (BLLException e) {
 				// request.getSession().setAttribute("loginUsername", null);

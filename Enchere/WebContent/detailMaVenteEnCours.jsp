@@ -61,14 +61,29 @@
 
 	<br> Mise à prix:  ${articleVenduModel.articleVendu.miseAprix} points <br>
 	Fin de l'enchère: <tags:localDate date="${articleVenduModel.articleVendu.dateFinEncheres}" pattern="dd/MM/yyyy"/>
-	<br> Retrait:  ${user.rue} ${user.codePostal} ${user.ville}
+	<br> Retrait:  ${retrait.rue} ${retrait.code_postal} ${retrait.ville}
 	<br>
 	 Vendeur:  ${user.pseudo} <br>
+	 <img src="images/Utilisateur${user.noUtilisateur}/${articleVenduModel.articleVendu.refPhoto}" width='80' height='80'/>
+	 <br>
 	
 	<a href=" "><input type="button" value="Vente en cours"></a>
 
+<h2>Liste des enchérisseurs de cet article</h2>
 
-
+<c:if test="${encherisseur.pseudo!=null}">
+		 <c:forEach var="utiArt" items="${utilisateurModel.listUtilisateur}"> 
+					  <c:forEach var="encArt" items="${utiArt.listEncheres}"> 
+					  ${encArt.montant_enchere} points par
+					   <a href="<%=request.getContextPath()+"/ProfilServlet"%>?noVendeur=${utiArt.noUtilisateur}"> ${utiArt.pseudo}</a>	
+					  
+					    <br>
+					</c:forEach>
+		</c:forEach>
+</c:if>
+<c:if test="${encherisseur.pseudo ==null}">
+		  Personne enchérit pour cet article
+</c:if>
 
 
 </body>

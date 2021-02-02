@@ -15,45 +15,22 @@ public interface ManagerArticleVendus {
 	 List<ArticleVendu> getArticleByCategorie(Integer noCategorie) ;
 	 List<ArticleVendu> getArticleByNoUtilisateur(Integer noUtilisateur) ;
 	 ArticleVendu getArticleVenduByNom(String nomArticle) throws BLLException ;
-	/***
-	 * Ajouter un article vendu
-	 * @param articleVendu
-	 * @return
-	 * @throws BLLException
-	 */
+	 void modifierPrixVente(Integer noArticle, Integer newPrixVente) throws BLLException;
+	 void VerifyArticleVenduOK(ArticleVendu articlevendu) throws BLLException;
+	 void modifierArticleVendu(ArticleVendu articleVendu) throws BLLException;
+	 
 	ArticleVendu addArticleVendu(ArticleVendu articleVendu) throws BLLException;
 	
-	/***
-	 * Lister tous les articles vendus
-	 * @param articleVendu
-	 * @return
-	 * @throws BLLException
-	 */
+	 
 	
 	List<ArticleVendu> getLstArticleVendus()  ;
-	/***
-	 * Lister un article vendu
-	 * @param articleVendu
-	 * @return
-	 * @throws BLLException
-	 */
-	ArticleVendu getArticleVendu(Integer idArticle) throws BLLException;
-	/***
-	 * Supprimer un article vendu
-	 * @param articleVendu
-	 * @return
-	 * @throws BLLException
-	 */
+	 
+	ArticleVendu getArticleVendu(Integer idArticle) ;
+	 
 	 void deleteArticleVendu(Integer idArticle) throws BLLException;
-	
-	/***
-	 * Verifier l'adresse de retrait de l'article
-	 * @param articleVendu
-	 * @return
-	 * @throws B@Override
-	LLException
-	 */
+ 
 	void verifAdresseRetrait(ArticleVendu articleVendu) throws BLLException;
+	void modifierRefPhoto(Integer noArticle, String new_refPhoto) throws BLLException;
 	
 	
 	

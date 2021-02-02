@@ -31,7 +31,13 @@ public class TestEnchereDAO {
 //			e.printStackTrace();
 //		}
 		
-		 
+		try {
+			DAOFactory.getEnchereDAO().deleteByNoArticle(10);
+			System.out.println("bon");
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 		 
 			 

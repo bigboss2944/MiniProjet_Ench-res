@@ -24,7 +24,7 @@ import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
 /**
  * Servlet implementation class AccueilNonConnecte
  */
-@WebServlet({ "/AccueilNonConnecteServlet", "" })
+@WebServlet( "/AccueilNonConnecteServlet" )
 public class AccueilNonConnecteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ManagerArticleVendus managerArticles = ManagerArticleVendusSingl.getInstance();

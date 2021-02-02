@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import fr.ENI.HiddenFigures.Enchere.bo.Categorie;
 import fr.ENI.HiddenFigures.Enchere.bo.Enchere;
+import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
 
 public class EnchereDAOImpl implements EnchereDAO {
 	private String DELETE_BY_NO_UTILISATEUR_OU_NO_ARTICLE = "DELETE FROM  ENCHERES where  no_utilisateur=? or no_article =?";
@@ -21,7 +23,45 @@ public class EnchereDAOImpl implements EnchereDAO {
 	private String DELETE_BY_NO_ARTICLE = "DELETE FROM  ENCHERES where   no_article =?";
 	private String Insert="Insert into ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) values(GETDATE(),?,?,?)";
 	//private String Insert="Insert into ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) values(?,?,?,?)";
+	private final String SELECT_BY_NOARTICLE = "SELECT * FROM Encheres WHERE no_article = ? ORDER BY montant_enchere DESC";
 	
+	UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO();
+	@Override
+	public List<Enchere> selectByNoArticle(Integer noArticle) throws DALException {
+		List<Enchere> result = new ArrayList<Enchere>();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(SELECT_BY_NOARTICLE);
+			stmt.setInt(1, noArticle);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Enchere enchere = new Enchere();
+				enchere.setNo_enchere(rs.getInt("no_enchere"));
+
+				String date_enchereString = rs.getString("date_enchere").substring(0, 19); //recupérer la date de la base de données de format yyyy-MM-dd HH:mm:ss 
+				 
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+				LocalDateTime date_enchereLocalDateTime = LocalDateTime.parse(date_enchereString,formatter);
+				enchere.setDateEnchere(date_enchereLocalDateTime);
+				
+
+				enchere.setMontant_enchere(rs.getInt("montant_enchere"));
+				 
+				enchere.setNo_article(rs.getInt("no_article"));
+				 
+				enchere.setNo_utilisateur(rs.getInt("no_utilisateur"));
+				// filtre que les utilisateurs active
+				Utilisateur utilisateur = utilisateurDAO.getUtilisateur(rs.getInt("no_utilisateur"));
+				if("A".equals(utilisateur.getEtatCompte())) {
+					result.add(enchere);
+				}
+				 
+				
+			}
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - Problème dans la selection des enchères par NoArticle");
+		}
+		return result;
+	}
 	@Override
 	public void deleteByNoUtilisateurNoArticle(Integer noUtilisateur, Integer noArticleVendu) throws DALException {
 
@@ -82,7 +122,11 @@ public class EnchereDAOImpl implements EnchereDAO {
 				 
 				enchere.setNo_utilisateur(rs.getInt("no_utilisateur"));
 				 
-				result.add(enchere);
+				// filtre que les utilisateurs active
+				Utilisateur utilisateur = utilisateurDAO.getUtilisateur(rs.getInt("no_utilisateur"));
+				if("A".equals(utilisateur.getEtatCompte())) {
+					result.add(enchere);
+				}
 			}
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - Problème dans la selection des enchères");
@@ -106,13 +150,20 @@ public class EnchereDAOImpl implements EnchereDAO {
 //		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		//Date date_enchereLocalDateTime = Date.valueOf(date.toString());//Conversion LocalDateTime vers SQL Date
 		try (Connection cnx = ConnectionProvider.getConnection()) {
-			PreparedStatement stmt = cnx.prepareStatement(Insert);
+			PreparedStatement stmt = cnx.prepareStatement(Insert,Statement.RETURN_GENERATED_KEYS);
 			//stmt.setDate(1, sqlDate);
 			stmt.setInt(1, enchere.getMontant_enchere());
 			stmt.setInt(2, enchere.getNo_article());
 			stmt.setInt(3, enchere.getNo_utilisateur());
 			
-			stmt.executeUpdate();
+			int nbRows =stmt.executeUpdate();
+			if (nbRows == 1) {
+				ResultSet rs = stmt.getGeneratedKeys();
+				if (rs.next()) {
+					enchere.setNo_enchere(rs.getInt(1));
+				}
+			}
+			
 		}catch (Exception e) {
 			throw new DALException("Couche DAL - Problème � l'insertion de l'ench�re");
 		}

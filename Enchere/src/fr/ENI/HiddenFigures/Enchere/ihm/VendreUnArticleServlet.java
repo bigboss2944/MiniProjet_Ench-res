@@ -53,6 +53,9 @@ public class VendreUnArticleServlet extends HttpServlet {
 			categorieModel.setLstCategories(listCategories);
 			request.setAttribute("categorieModel", categorieModel);
 			
+			Retrait retrait = new Retrait(utilisateur_current.getRue(),utilisateur_current.getCodePostal(),utilisateur_current.getVille());
+			request.setAttribute("retrait", retrait);
+			
 			String nomArticle = request.getParameter("nomArticle");
 			String description = request.getParameter("description");
 			String libelleCategorie = request.getParameter("categorie");
@@ -101,21 +104,34 @@ public class VendreUnArticleServlet extends HttpServlet {
 				
 				Integer miseAPrix = Integer.parseInt(miseAPrixString);
 				articleVendu.setMiseAprix(miseAPrix);
+				
+				retrait.setRue(rue);
+				retrait.setCode_postal(codePostal);
+				retrait.setVille(ville);
+				 
+				
+				
+				articleVendu.setLieuRetrait(retrait);
+				
+				
 				try {
 					articleVendu = managerArticles.addArticleVendu(articleVendu);
-					request.setAttribute("message", "Votre article est bien enregistré");
-				} catch (BLLException e) {
-					request.setAttribute("message", e.getMessage());
-				}
-				
-				
-				Retrait retrait = new Retrait(rue,codePostal,ville);
-				retrait.setNoArticle(articleVendu.getNoArticle());
-				try {
+					retrait.setNoArticle(articleVendu.getNoArticle());
+					//System.out.println(retrait);
 					managerRetraits.addRetrait(retrait);
+					request.setAttribute("message", "Votre article est bien enregistré avec un lieu de retrait");
 				} catch (BLLException e) {
 					request.setAttribute("message", e.getMessage());
 				}
+				
+				
+//				Retrait retrait = new Retrait(rue,codePostal,ville);
+//				retrait.setNoArticle(articleVendu.getNoArticle());
+//				try {
+//					managerRetraits.addRetrait(retrait);
+//				} catch (BLLException e) {
+//					request.setAttribute("message", e.getMessage());
+//				}
 				
 			}
 			

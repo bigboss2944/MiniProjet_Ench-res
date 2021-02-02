@@ -36,7 +36,7 @@ public class EnchereServlet extends HttpServlet {
 	private ManagerEncheres managerEncheres = ManagerEncheresSingl.getInstance();
 	private ManagerCategories managerCategories = ManagerCategoriesSingl.getInstance();
 	private ManagerArticleVendus managerArticles = ManagerArticleVendusSingl.getInstance();
-	private EnchereModel enchereModel = new EnchereModel();
+	// private EnchereModel enchereModel = new EnchereModel();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -67,14 +67,9 @@ public class EnchereServlet extends HttpServlet {
 			if (noArticleString != null) {
 				Integer noArticle = Integer.parseInt(noArticleString);
 				article_current = new ArticleVendu();
-				try {
-					article_current = managerArticles.getArticleVendu(noArticle);
-					enchereModel.setArticleVendu(article_current);
-				} catch (BLLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					request.setAttribute("message", e);
-				}
+
+				article_current = managerArticles.getArticleVendu(noArticle);
+				// enchereModel.setArticleVendu(article_current);
 
 				ArticleVenduModel articleVenduModel = new ArticleVenduModel(article_current);
 				request.setAttribute("articleVenduModel", articleVenduModel);
@@ -107,7 +102,7 @@ public class EnchereServlet extends HttpServlet {
 						}
 					}
 				}
-				System.out.println("encherisseur :" + noEncherisseur);
+				// System.out.println("noEncherisseur :" + noEncherisseur);
 				Utilisateur encherisseur = new Utilisateur();
 				if (noEncherisseur != 0) {
 					try {
@@ -132,7 +127,7 @@ public class EnchereServlet extends HttpServlet {
 				String prop = request.getParameter("propButton");
 				Integer enchereInteger = null;
 				LocalDateTime dateEnchere = null;
-				if (prop != null) {
+				if (prop != null && !"".equals(prop)) {
 					enchereInteger = Integer.parseInt(prop);
 				}
 
@@ -140,16 +135,31 @@ public class EnchereServlet extends HttpServlet {
 				Integer encherePlusHauteIdUser;
 				Integer encherePlusHaute;
 				// Categorie categorie;
-				if (enchereInteger != null) { // ma proposition
+				if (enchereInteger != null) { // enchereInteger = ma proposition
 					Enchere enchere = new Enchere(dateEnchere.now(), enchereInteger);
 					try {
 						enchere.setNo_utilisateur(utilisateur_current.getNoUtilisateur());
-						enchere.setNo_article(enchereModel.getArticleVendu().getNoArticle());
+						enchere.setNo_article(noArticle);
+						// managerEncheres.deleteEnchereByNoArticle(enchere.getNo_article());
 						managerEncheres.addEnchere(enchere);
-						// System.out.println(enchere.getMontant_enchere());
-						managerUtilisateurs.modifierCredit(utilisateur_current.getNoUtilisateur(), enchereInteger);
+
+						managerArticles.modifierPrixVente(noArticle, enchereInteger);
+						// Fabrice
+						// managerUtilisateurs.modifierCredit(utilisateur_current.getNoUtilisateur(),
+						// enchereInteger);
+						System.out.println("montant enchere plus haute" + montantEnchere);
+						System.out.println("montant enchere à proposer" + enchereInteger);
+						// Thuy
+						Integer newCredit = utilisateur_current.getCredit() - enchereInteger;
+						managerUtilisateurs.modifierCreditThuy(utilisateur_current.getNoUtilisateur(), newCredit);
+
+						if (noEncherisseur != 0) {
+							Integer newCredit2 = encherisseur.getCredit() + montantEnchere;
+							managerUtilisateurs.modifierCreditThuy(encherisseur.getNoUtilisateur(), newCredit2);
+						}
+
 						request.setAttribute("message", "Votre enchère est bien enregistrée");
-						request.getRequestDispatcher("listeEncheresConnecte.jsp").forward(request, response);
+						request.getRequestDispatcher("ListeEncheresConnecteServlet").forward(request, response);
 					} catch (BLLException | EnchereException e) {
 
 						// TODO Auto-generated catch block

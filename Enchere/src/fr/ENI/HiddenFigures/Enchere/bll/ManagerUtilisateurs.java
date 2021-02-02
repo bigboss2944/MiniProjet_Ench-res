@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
+import fr.ENI.HiddenFigures.Enchere.dal.DALException;
  
 
 
@@ -28,4 +29,8 @@ public interface ManagerUtilisateurs {
 	void modifierPrenom(Integer noUtilisateur, String new_prenom) throws BLLException;
 	void supprimerUtilisateurParNoUtilisateur(Integer noUtilisateur) throws BLLException;
 	void modifierCredit(Integer noUtilisateur, Integer newCredit) throws BLLException;
+	void modifierCreditThuy(Integer noUtilisateur, Integer newCredit) throws BLLException;
+	List<Utilisateur> getListUtilisateursIncludeCompteDesactive() throws BLLException;
+	void modifierEtatCompte(Integer noUtilisateur, String new_etatCompte) throws BLLException;
+	Utilisateur rechercherUtilisateurParEmail(String email) throws BLLException;
 }

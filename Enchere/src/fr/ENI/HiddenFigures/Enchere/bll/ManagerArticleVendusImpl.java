@@ -139,13 +139,14 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 	}
 
 	@Override
-	public ArticleVendu getArticleVendu(Integer idArticle) throws BLLException {
+	public ArticleVendu getArticleVendu(Integer idArticle)   {
 		ArticleVendu articleVendu =new ArticleVendu();
-		try {
-			articleVendu = articleDAO.getArticleVendu(idArticle);
-		} catch (DALException e) {
-			throw new BLLException("Couche BLL - Erreur getArticleVendu by idArticle ");
-		}
+		for (ArticleVendu articleVendu2 : listArticlesVendus) {
+			if(articleVendu2.getNoArticle()==idArticle) {
+				articleVendu =articleVendu2;
+			}
+			
+		} 
 		return articleVendu;
 	}
 
@@ -193,6 +194,41 @@ public class ManagerArticleVendusImpl implements ManagerArticleVendus {
 			}
 		}
 		return articleVendu;
+	}
+	
+	@Override
+	 
+	public void modifierPrixVente(Integer noArticle, Integer newPrixVente) throws BLLException {
+		try {
+			articleDAO.updatePrixVente(noArticle, newPrixVente);
+			listArticlesVendus = articleDAO.getAll();
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL-Problème de la modification de prix vente");
+		}
+
+	}
+	@Override
+	 
+	public void modifierRefPhoto(Integer noArticle, String new_refPhoto) throws BLLException {
+		try {
+			articleDAO.updateRefPhoto(noArticle, new_refPhoto);
+			listArticlesVendus = articleDAO.getAll();
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL-Problème de la modification de refPhoto");
+		}
+
+	}
+	
+	@Override
+	 
+	public void modifierArticleVendu(ArticleVendu articleVendu) throws BLLException {
+		try {
+			articleDAO.update(articleVendu);
+			listArticlesVendus = articleDAO.getAll();
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL-Problème de la modification de prix vente");
+		}
+
 	}
 
 }

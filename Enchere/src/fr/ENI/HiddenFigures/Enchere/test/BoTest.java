@@ -7,13 +7,9 @@ import fr.ENI.HiddenFigures.Enchere.bo.*;
 public class BoTest {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Retrait retrait = new Retrait("Montplaisir","690007","Lyon");
-		System.out.println(retrait);
+		 
 		
-		retrait.ville="Paris";
-		
-		System.out.println(retrait);
+		System.out.println("<a href=\"<%=request.getContextPath()+\"/AdminSupprimerCompteServlet\"%>?noVendeur="+2+"\"><input type=\"button\" value=\"Supprimer\"></a> ");
 	}
 
 }

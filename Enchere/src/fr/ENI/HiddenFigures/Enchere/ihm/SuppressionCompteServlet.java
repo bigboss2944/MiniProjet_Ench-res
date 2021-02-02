@@ -36,6 +36,7 @@ public class SuppressionCompteServlet extends HttpServlet {
 			try {
 				managerUtilisateurs.supprimerUtilisateurParNoUtilisateur(utilisateur_current.getNoUtilisateur());
 				request.getSession().setAttribute("user", null  );
+				request.setAttribute("message", "Votre compte est bien supprimé");
 				request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);
 			} catch (BLLException e) {
 				request.setAttribute("message", e.getMessage());

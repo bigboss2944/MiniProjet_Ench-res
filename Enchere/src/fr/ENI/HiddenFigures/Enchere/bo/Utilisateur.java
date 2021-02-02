@@ -16,6 +16,7 @@ public class Utilisateur {
 	private String motDePasse;
 	private Integer credit;
 	private Boolean administrateur;
+	private String etatCompte;
 	private List<ArticleVendu> listArticlesVendus = new ArrayList<>();
 	private List<Enchere> listEncheres = new ArrayList<>();
 	public Utilisateur() { 	
@@ -37,6 +38,13 @@ public class Utilisateur {
 		this.administrateur = admistrateur;
 	}
 	
+	
+	public String getEtatCompte() {
+		return etatCompte;
+	}
+	public void setEtatCompte(String etatCompte) {
+		this.etatCompte = etatCompte;
+	}
 	public Integer getNoUtilisateur() {
 		return noUtilisateur;
 	}

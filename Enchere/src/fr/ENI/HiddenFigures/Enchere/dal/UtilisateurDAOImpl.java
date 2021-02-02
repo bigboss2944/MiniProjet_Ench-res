@@ -15,8 +15,8 @@ import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
 
 
 public class UtilisateurDAOImpl implements UtilisateurDAO {
-	private String INSERT = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) "
-			+ " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+	private String INSERT = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur, etatCompte) "
+			+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 	private String SELECT = "SELECT * FROM UTILISATEURS";
 	private String SELECT_ONE_UTILISATEUR = "SELECT * FROM UTILISATEURS WHERE no_utilisateur=?";
 	private String UPDATE_PSEUDO = "UPDATE UTILISATEURS  SET pseudo =? where no_utilisateur =?";
@@ -29,6 +29,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	private String UPDATE_VILLE = "UPDATE UTILISATEURS  SET ville =? where no_utilisateur =?";
 	private String UPDATE_MOTDEPASSE = "UPDATE UTILISATEURS  SET mot_de_passe =? where no_utilisateur =?";
 	private String UPDATE_CREDIT = "UPDATE UTILISATEURS  SET credit =? where no_utilisateur =?";
+	private String UPDATE_ETAT_COMPTE = "UPDATE UTILISATEURS  SET etatCompte =? where no_utilisateur =?";
+	
 	 
 	private String DELETE_BY_ID = "DELETE FROM UTILISATEURS WHERE no_utilisateur =?";
 	
@@ -163,6 +165,17 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		}
 
 	}
+	public void updateEtatCompte(Integer noUtilisateur, String new_etatCompte) throws DALException {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(UPDATE_ETAT_COMPTE);
+			stmt.setString(1, new_etatCompte)  ;
+			stmt.setInt(2,  noUtilisateur)  ;
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - problème dans la modification d'etat compte d'un utilisateur");
+		}
+
+	}
 	
 	public Utilisateur insert(Utilisateur utilisateur) throws DALException {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -176,9 +189,10 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 			stmt.setString(7, utilisateur.getCodePostal());
 			stmt.setString(8, utilisateur.getVille());
 			stmt.setString(9, utilisateur.getMotDePasse());
-			stmt.setInt(10, utilisateur.getCredit());
-			//stmt.setInt(10, 200);
+			//stmt.setInt(10, utilisateur.getCredit());
+			stmt.setInt(10, 100);
 			stmt.setInt(11, 0);
+			stmt.setString(12, "A"); //compte est active
 			int nbRows =stmt.executeUpdate();
 			if (nbRows == 1) {
 				ResultSet rs = stmt.getGeneratedKeys();
@@ -186,6 +200,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 					utilisateur.setNoUtilisateur(rs.getInt(1));
 				}
 			}
+			utilisateur.setEtatCompte("A");
 	
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans l'insertion d'un utilisateur");
@@ -213,13 +228,49 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 				utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
 				utilisateur.setCredit(rs.getInt("credit"));
 				utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
+				utilisateur.setEtatCompte(rs.getString("etatCompte"));
 				//TODO: A vérifier
 				
+				if("A".equals(utilisateur.getEtatCompte())) {
+					result.add(utilisateur);
+				}
 				
-				result.add(utilisateur);
 			}
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs");
+		}
+		return result;
+	}
+	@Override
+	public List<Utilisateur> getAllAvecCompteDesactive() throws DALException {
+		List<Utilisateur> result = new ArrayList<Utilisateur>();
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(SELECT);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				Utilisateur utilisateur = new Utilisateur();
+				utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+				utilisateur.setPseudo(rs.getString("pseudo"));
+				utilisateur.setNom(rs.getString("nom"));
+				utilisateur.setPrenom(rs.getString("prenom"));
+				utilisateur.setEmail(rs.getString("email"));
+				utilisateur.setTelephone(rs.getString("telephone"));
+				utilisateur.setRue(rs.getString("rue"));
+				utilisateur.setCodePostal(rs.getString("code_postal"));
+				utilisateur.setVille(rs.getString("ville"));
+				utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
+				utilisateur.setCredit(rs.getInt("credit"));
+				utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
+				utilisateur.setEtatCompte(rs.getString("etatCompte"));
+				//TODO: A vérifier
+				
+				 
+					result.add(utilisateur);
+			 
+				
+			}
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - Problème dans la selection des utilisateurs , contenir les comptes désactivés");
 		}
 		return result;
 	}
@@ -233,32 +284,37 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 			stmt.setInt(1, idUtilisateur);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
+				if("A".equals((rs.getString("etatCompte")))) {
+					utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+					
+					utilisateur.setPseudo(rs.getString("pseudo"));
+					
+					utilisateur.setNom(rs.getString("nom"));
+					
+					utilisateur.setPrenom(rs.getString("prenom"));
+					
+					utilisateur.setEmail(rs.getString("email"));
+					
+					utilisateur.setTelephone(rs.getString("telephone"));
+					
+					utilisateur.setRue(rs.getString("rue"));
+					
+					utilisateur.setCodePostal(rs.getString("code_postal"));
+					
+					utilisateur.setVille(rs.getString("ville"));
+					
+					utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
+					
+					utilisateur.setCredit(rs.getInt("credit"));
+					
+					utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
+					
+					utilisateur.setEtatCompte(rs.getString("etatCompte"));
+				}
 			
 		
-			utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
 			
-			utilisateur.setPseudo(rs.getString("pseudo"));
-			
-			utilisateur.setNom(rs.getString("nom"));
-			
-			utilisateur.setPrenom(rs.getString("prenom"));
-			
-			utilisateur.setEmail(rs.getString("email"));
-			
-			utilisateur.setTelephone(rs.getString("telephone"));
-			
-			utilisateur.setRue(rs.getString("rue"));
-			
-			utilisateur.setCodePostal(rs.getString("code_postal"));
-			
-			utilisateur.setVille(rs.getString("ville"));
-			
-			utilisateur.setMotDePasse(rs.getString("mot_de_passe"));
-			
-			utilisateur.setCredit(rs.getInt("credit"));
-			
-			utilisateur.setAdministrateur(rs.getInt("administrateur")==1);
-			//TODO: A vérifier
+			 
 			}
 
 		} catch (Exception e) {

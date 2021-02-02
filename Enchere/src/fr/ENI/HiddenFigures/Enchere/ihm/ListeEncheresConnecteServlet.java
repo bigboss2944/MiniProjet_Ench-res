@@ -82,16 +82,29 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 			
 			
 			List<ArticleVendu> listArticlesJeFaisEnchere = new ArrayList<>();
+			//TODO: à modifier par sql join
 			List<Enchere> listMesEncheres = managerEncheres.getLstEnchereOfUserById(utilisateur_current.getNoUtilisateur());
-			if (listArticlesVendus!=null &&listMesEncheres!=null) {
+			if (listArticlesVendusEncours!=null &&listMesEncheres!=null) {
 				for (Enchere enchere : listMesEncheres) {
 					//TODO: cette boucle peut être remplacée par managerArticlesVendus.getArticleById(enchere.getNoArticle) par Fabrice
-					for (ArticleVendu articleVendu : listArticlesVendus) {
+					for (ArticleVendu articleVendu : listArticlesVendusEncours) {
 						if(articleVendu.getNoArticle()==enchere.getNo_article()) {
 							listArticlesJeFaisEnchere.add(articleVendu);
 						}
 					}
 				}
+			}
+			
+			
+			if(listArticlesJeFaisEnchere.size() >= 1) {
+				for (int i = 0; i < listArticlesJeFaisEnchere.size()-1; i++) {
+					if(listArticlesJeFaisEnchere.get(i).getNoArticle() == listArticlesJeFaisEnchere.get(i+1).getNoArticle()) {
+						listArticlesJeFaisEnchere.remove(i);
+						i = i-1;
+					}
+					
+				}
+				
 			}
 			
 			
@@ -432,9 +445,7 @@ public class ListeEncheresConnecteServlet extends HttpServlet {
 			}
 			else {
 				listArticlesParNomArticleEtCategorieAchatVente = listArticlesVendusEncours;
-				for (ArticleVendu articleVendu : listArticlesParNomArticleEtCategorieAchatVente) {
-					
-				}
+				 
 				if(listArticlesJeRemporte!=null) {
 					for (ArticleVendu articleVendu : listArticlesJeRemporte) {
 						listArticlesParNomArticleEtCategorieAchatVente.add(articleVendu);

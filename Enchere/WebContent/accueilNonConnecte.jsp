@@ -44,9 +44,10 @@
 				 <br>
 				
 				Vendeur:	${u.pseudo}       <br>
+				<img src="images/Utilisateur${u.noUtilisateur}/${a.refPhoto}" width='80' height='80'/>
 				</c:forEach>
 				</td>
-				 
+ 
 			</tr>
 		</c:forEach>
 	</table> 

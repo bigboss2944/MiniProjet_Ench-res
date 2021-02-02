@@ -15,6 +15,7 @@ public class ArticleVendu {
 	private Integer noCategorie;
 	private String etatVente;
 	private Retrait lieuRetrait;
+	private String refPhoto;
 	
 	public ArticleVendu() {
 		// TODO Auto-generated constructor stub
@@ -33,7 +34,15 @@ public class ArticleVendu {
 		this.noCategorie = noCategorie;
 	}
 
+	
 
+	public String getRefPhoto() {
+		return refPhoto;
+	}
+
+	public void setRefPhoto(String refPhoto) {
+		this.refPhoto = refPhoto;
+	}
 
 	public Integer getNoArticle() {
 		return noArticle;

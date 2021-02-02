@@ -9,13 +9,14 @@ public interface ManagerEncheres {
 	Enchere updateEnchere(Integer idEnchere) throws BLLException;
 	List<Enchere> getLstEnchere()  ;
 	Enchere getEnchere(Integer idEnchere) throws BLLException;
-	Enchere deleteEnchere(Integer idEnchere) throws BLLException;
+	 void deleteEnchereByNoArticle(Integer idEnchere) throws BLLException;
 	List<Enchere> getLstEnchereOfHighestOffer();
 	List<Enchere> getLstEnchereOfUserById(Integer noUtilisateur);
 	List<Enchere> getLstEnchereOfHighestOfferOfUserById(Integer noUtilisateur);
 	List<Enchere> getLstEnchereWonOfUserById(Integer noUtilisateur);
 	Integer IdUserEncherePlusHaute(Integer idArticle) throws BLLException ;
 	Integer EncherePlusHaute(Integer idArticle) throws BLLException;
+	List<Enchere> getLstEnchereOrderByMontant(Integer noArticle) throws BLLException;
 	
 	
 }

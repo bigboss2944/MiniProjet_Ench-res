@@ -46,6 +46,17 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 		return listUtilisateurs;
 
 	}
+	@Override
+	public List<Utilisateur> getListUtilisateursIncludeCompteDesactive() throws BLLException {
+		List<Utilisateur> listUtilisateurs = new ArrayList<>();
+		try {
+			listUtilisateurs = utilisateurDAO.getAllAvecCompteDesactive();
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL-Problème dans la selection des utilisateurs , contenir les comptes désactivés");
+		}
+		return listUtilisateurs;
+
+	}
 	/*
 	 * Les contraintes dans 1003 1. Le pseudo et l'email doivent être unique sur
 	 * toute la plateforme 2. Le pseudo n'accepte que des caractères alphanumériques
@@ -193,7 +204,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	public void verificationTelephone(Utilisateur utilisateur) throws BLLException {
 		String telephone = utilisateur.getTelephone();
 		boolean pasBonTelephone = false;
-		if (telephone != null) {
+		if (telephone != null && !"".equals(telephone.trim())) {
 			for (int i = 0; i < telephone.length(); i++) {
 				if (str2.indexOf(telephone.charAt(i)) < 0) {
 					pasBonTelephone = true;
@@ -215,15 +226,23 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 
 		Map<Integer, Utilisateur> mapUtilisateur = new HashMap<Integer, Utilisateur>();
 		boolean trouve = false;
-
-		for (Utilisateur user : listUtilisateurs) {
-			if ((user.getPseudo().equals(login) || user.getEmail().toLowerCase().equals(login.toLowerCase()))
-					&& user.getMotDePasse().equals(password)) {
-				trouve = true;
-				mapUtilisateur.put(user.getNoUtilisateur(), user);
-				break;
+		List<Utilisateur> listUtilisateurs = new ArrayList<>();
+		try {
+			listUtilisateurs = utilisateurDAO.getAllAvecCompteDesactive();
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL-Problème dans la selection des utilisateurs , contenir les comptes désactivés");
+		}
+		if (listUtilisateurs !=null) {
+			for (Utilisateur user : listUtilisateurs) {
+				if ((user.getPseudo().equals(login) || user.getEmail().toLowerCase().equals(login.toLowerCase()))
+						&& user.getMotDePasse().equals(password)) {
+					trouve = true;
+					mapUtilisateur.put(user.getNoUtilisateur(), user);
+					break;
+				}
 			}
 		}
+		
 
 		if (!trouve) {
 			throw new BLLException("Il n'existe pas cet utilisateur dans BDD");
@@ -253,6 +272,27 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 		return utilisateur;
 
 	}
+	//rechercher un utilisateur par email
+	@Override
+	public Utilisateur rechercherUtilisateurParEmail(String email) throws BLLException {
+
+		Utilisateur utilisateur = new Utilisateur();
+		boolean trouve = false;
+
+		for (Utilisateur user : listUtilisateurs) {
+			if (user.getEmail().toLowerCase().equals(email.toLowerCase())) {
+				trouve = true;
+				utilisateur = user;
+				break;
+			}
+		}
+
+		if (!trouve) {
+			throw new BLLException("Il n'existe pas cet email dans BDD");
+		}
+		return utilisateur;
+
+	}
 
 	// Modifier le pseudo
 	public void modifierPseudo(Integer noUtilisateur, String new_pseudo) throws BLLException {
@@ -270,7 +310,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	@Override
 	public void modifierNom(Integer noUtilisateur, String new_nom) throws BLLException {
 		try {
-			utilisateurDAO.updatePseudo(noUtilisateur, new_nom);
+			utilisateurDAO.updateNom(noUtilisateur, new_nom);
 			listUtilisateurs = utilisateurDAO.getAll();
 		} catch (DALException e) {
 			throw new BLLException("Couche BLL-Problème de la modification de nom");
@@ -369,18 +409,18 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 
 	}
 	
-//	@Override
-//	 
-//	public void modifierCredit(Integer noUtilisateur, Integer newCredit) throws BLLException {
-//		try {
-//			utilisateurDAO.updateCredit(noUtilisateur, newCredit);
-//			listUtilisateurs = utilisateurDAO.getAll();
-//		} catch (DALException e) {
-//			throw new BLLException("Couche BLL-Problème de la modification de credit");
-//		}
-//
-//	}
-	
+	@Override
+	 
+	public void modifierCreditThuy(Integer noUtilisateur, Integer newCredit) throws BLLException {
+		try {
+			utilisateurDAO.updateCredit(noUtilisateur, newCredit);
+			listUtilisateurs = utilisateurDAO.getAll();
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL-Problème de la modification de credit");
+		}
+
+	}
+	// C'est à Fabrice (not used)
 	@Override
 	public void modifierCredit(Integer noUtilisateur, Integer credit) throws BLLException {
 		try {
@@ -396,7 +436,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 			
 			
 		} catch (DALException e) {
-			throw new BLLException("Couche BLL-ProblÃ¨me de la modification de mot de passe");
+			throw new BLLException("Couche BLL-Problème de la modification de mot de passe");
 		}
 		
 	}
@@ -408,6 +448,19 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 			listUtilisateurs = utilisateurDAO.getAll();
 		} catch (DALException e) {
 			throw new BLLException("Couche BLL-Problème de la suppression un compte par noUtilisateur");
+		}
+
+	}
+	
+	//désactiver un compte par id
+	@Override
+	 
+	public void modifierEtatCompte(Integer noUtilisateur, String new_etatCompte) throws BLLException {
+		try {
+			utilisateurDAO.updateEtatCompte(noUtilisateur,new_etatCompte );
+			listUtilisateurs = utilisateurDAO.getAll();
+		} catch (DALException e) {
+			throw new BLLException("Couche BLL-Problème de la modification de etat compte");
 		}
 
 	}

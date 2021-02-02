@@ -69,11 +69,11 @@
 </head>
 
 <body>
-	<a href="/Enchere/ListeEncheresConnecteServlet">ENI-ENCHERE</a>
+	<h1><a href="/Enchere/ListeEncheresConnecteServlet">ENI-ENCHERE</a></h1>
 	<h3>Bonjour ${user.pseudo}</h3>
 	<nav>
 		 <a href="">Enchères</a>
-		 <a href="/Enchere/VendreUnArticleServlet">Vendre un article</a> 
+		 <a href="/Enchere/VendreUnArticlePhotoServlet">Vendre un article</a> 
 		 <a href="/Enchere/monProfil.jsp">Mon profil</a>
 		 <a href="/Enchere/LogoutServlet">Déconnexion</a>
 	</nav>
@@ -133,10 +133,11 @@
 
 						</form>
 
+				<img src="images/Utilisateur${u.noUtilisateur}/${a.refPhoto}" width='80' height='80'/>
 
 
-
-					</c:forEach></td>
+					</c:forEach>
+					</td>
 
 			</tr>
 		</c:forEach>

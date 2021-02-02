@@ -9,6 +9,7 @@ public class TestUtilisateurDAO {
 	public static void main(String[] args) {
 		try {
 			utilisateurDAO.getUtilisateur(2);
+			System.out.println(utilisateurDAO.getUtilisateur(2));
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -35,7 +35,7 @@ public class ProfilServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String noVendeurStr = request.getParameter("noVendeur");
-		System.out.println(noVendeurStr);
+		//System.out.println(noVendeurStr);
 		if (noVendeurStr != null) {
 			Integer noVendeur = Integer.parseInt(noVendeurStr);
 			try {

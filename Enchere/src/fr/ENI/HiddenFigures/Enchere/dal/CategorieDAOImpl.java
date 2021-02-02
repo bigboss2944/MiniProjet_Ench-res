@@ -3,10 +3,13 @@ package fr.ENI.HiddenFigures.Enchere.dal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.ENI.HiddenFigures.Enchere.bo.ArticleVendu;
 import fr.ENI.HiddenFigures.Enchere.bo.Categorie;
+import fr.ENI.HiddenFigures.Enchere.bo.Retrait;
 
  
 
@@ -16,6 +19,56 @@ import fr.ENI.HiddenFigures.Enchere.bo.Categorie;
 public class CategorieDAOImpl implements CategorieDAO {
 	private String SELECT = "SELECT * FROM CATEGORIES";
 	private String SELECT_BY_LIBELLE = "SELECT * FROM CATEGORIES where libelle =?";
+	private String DELETE_BY_ID = "DELETE FROM CATEGORIES WHERE no_categorie =?";
+	private String UPDATE_BY_ID = "UPDATE   CATEGORIES set libelle =? WHERE no_categorie =?";
+	private String INSERT = "INSERT INTO CATEGORIES (libelle)  VALUES (?)";
+	@Override
+	public Categorie insert(Categorie categorie) throws DALException {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1,  categorie.getLibelle());
+			stmt.executeUpdate();
+			
+	
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - problème dans l'insertion d'un retrait");
+		}
+		return categorie;
+	}
+	@Override
+	public void deleteByNoCategorie(Integer noCategorie) throws DALException {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(DELETE_BY_ID);
+			stmt.setInt(1,  noCategorie)  ;
+			//retirer les articles dans ArticleVendu qui ont ce noCategorie
+			List<ArticleVendu> listArticlesVendus = DAOFactory.getArticleDAO().selectByNoCategorie(noCategorie);
+			//supprimer toutes les enchères qui ont ce noUtilisateur ou concernent aux articles ci-dessus
+			//Et supprimer le retrait des articles ci-dessus
+			for (ArticleVendu articleVendu : listArticlesVendus) {
+				DAOFactory.getEnchereDAO().deleteByNoArticle(articleVendu.getNoArticle());
+				DAOFactory.getRetraitDAO().deleteByNoArticle(articleVendu.getNoArticle());
+			}
+			//supprimer toutes les articles  qui ont ce noUtilisateur
+			DAOFactory.getArticleDAO().deleteByNoCategorie(noCategorie);
+			stmt.executeUpdate(); 
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - problème dans la suppression d'une catégorie");
+		}
+		
+	}
+	@Override
+	public void updateByNoCategorie(Integer noCategorie, String new_libelle) throws DALException {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(UPDATE_BY_ID);
+			stmt.setString(1,  new_libelle)  ;
+			stmt.setInt(2,  noCategorie)  ;
+			stmt.executeUpdate(); 
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - problème dans la modification d'une catégorie");
+		}
+		
+	}
+	
 	@Override
 	public List<Categorie> getAll() throws DALException {
 		List<Categorie> result = new ArrayList<Categorie>();

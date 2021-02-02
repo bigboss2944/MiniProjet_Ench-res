@@ -20,4 +20,6 @@ public interface UtilisateurDAO {
 	 void updateCredit(Integer noUtilisateur, Integer newCredit) throws DALException;
 	 void deleteByNoUtilisateur(Integer noUtilisateur) throws DALException;
 	 Utilisateur getUtilisateur(Integer idUtilisateur) throws DALException;
+	 List<Utilisateur> getAllAvecCompteDesactive() throws DALException;
+	 void updateEtatCompte(Integer noUtilisateur, String new_etatCompte) throws DALException;
 }

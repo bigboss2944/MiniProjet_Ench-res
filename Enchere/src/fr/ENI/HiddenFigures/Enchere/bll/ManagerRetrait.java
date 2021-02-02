@@ -9,5 +9,7 @@ import fr.ENI.HiddenFigures.Enchere.bo.Retrait;
 
 public interface ManagerRetrait {
 	Retrait addRetrait(Retrait retrait) throws BLLException;
+	Retrait modifierRetrait(Retrait retrait) throws BLLException;
+	Retrait selectRetrait(Integer noArticle) throws BLLException;
 
 }

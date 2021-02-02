@@ -28,7 +28,7 @@ public class LogoutServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 
 		request.getSession().setAttribute("user", null  );
-		request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);
+		request.getRequestDispatcher("AccueilNonConnectePagination6Servlet").forward(request, response);
 	}
 
 	/**

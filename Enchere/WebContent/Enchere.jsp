@@ -15,7 +15,9 @@
 	<h2 style="color:red;">${message}</h2>
 	<table align="left">
 		<tr>
-			<td><img id="imageProduit" alt="Image Produit" src="D:\Photos\Leboncoin\planche_bic_rumba_1.jpg" width="250px" height="250px"> </td>
+			<td><img  id="imageProduit" alt="Image Produit" src="images/Utilisateur${vendeur.noUtilisateur}/${articleVenduModel.articleVendu.refPhoto}"width="250px" height="250px"/>
+	 
+  	 </td>
 			<td>
 			
 			
@@ -48,7 +50,7 @@
 	<br>
 	 Vendeur:  ${vendeur.pseudo}
 	<br> 
-				
+		
 				
 				
 				
