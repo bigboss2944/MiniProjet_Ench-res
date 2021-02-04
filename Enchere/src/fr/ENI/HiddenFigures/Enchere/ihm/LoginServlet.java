@@ -1,20 +1,28 @@
 package fr.ENI.HiddenFigures.Enchere.ihm;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import fr.ENI.HiddenFigures.Enchere.bll.BLLException;
+import fr.ENI.HiddenFigures.Enchere.bll.ManagerUtilisateurAuthToken;
+import fr.ENI.HiddenFigures.Enchere.bll.ManagerUtilisateurAuthTokenSingl;
 import fr.ENI.HiddenFigures.Enchere.bll.ManagerUtilisateurs;
 import fr.ENI.HiddenFigures.Enchere.bll.ManagerUtilisateursSingl;
 import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
+import fr.ENI.HiddenFigures.Enchere.bo.UtilisateurAuthToken;
 
 
 
@@ -26,6 +34,7 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	// private ManagerUsers managerUsers = ManagerUsersSingl.getInstance();
 	private ManagerUtilisateurs managerUtilisateurs = ManagerUtilisateursSingl.getInstance();
+	private ManagerUtilisateurAuthToken managerUtilisateurAuthToken = ManagerUtilisateurAuthTokenSingl.getInstance();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -41,9 +50,16 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		
+		
 
 		String loginEcran = request.getParameter("login");
 		String passwordEcran = request.getParameter("password");
+		
+System.out.println("LoginServlet rememberme " + request.getParameter("rememberMe"));		
+		
+		boolean rememberMe = "true".equals(request.getParameter("rememberMe"));
 
 		if (loginEcran != null && passwordEcran != null) {
 			Utilisateur userAchercher = new Utilisateur();
@@ -78,6 +94,52 @@ public class LoginServlet extends HttpServlet {
 				}
 				else {
 					if("A".equals(utilisateur_current.getEtatCompte())) {
+						if (rememberMe) {
+				            // create new token (selector, validator)
+							UtilisateurAuthToken newToken = new UtilisateurAuthToken();
+							 
+							String selector = RandomStringUtils.randomAlphanumeric(12);
+							
+							List<UtilisateurAuthToken> listUtilisateurAuthToken = managerUtilisateurAuthToken.getListUtilisateurAuthToken();
+							List<String> listSelector = new ArrayList<>();
+							
+							if (listUtilisateurAuthToken !=null)  {
+								for (UtilisateurAuthToken utilisateurAuthToken : listUtilisateurAuthToken) {
+									listSelector.add(utilisateurAuthToken.getSelector());
+								}
+								while(listSelector.contains(selector)) {
+									selector = RandomStringUtils.randomAlphanumeric(12); //il rassure que aucun selector est répété dans la BD
+								}
+							}
+							
+							String rawValidator =  RandomStringUtils.randomAlphanumeric(64);
+							 
+							String hashedValidator = HashGeneratorUtils.generateSHA256(rawValidator);
+							
+							newToken.setSelector(selector);
+							newToken.setValidator(hashedValidator);
+							 
+							newToken.setUtilisateur(utilisateur_current);
+				             
+				            // save the token into the database
+							managerUtilisateurAuthToken.addutilisateurAuthToken(newToken);
+							
+							
+				             
+				            // create a cookie to store the selector
+				             
+				            // create a cookie to store the validator
+							
+							Cookie cookieSelector = new Cookie("selector", selector);
+							cookieSelector.setMaxAge(604800); //7 days
+							 
+							Cookie cookieValidator = new Cookie("validator", rawValidator);
+							cookieValidator.setMaxAge(604800);
+							 
+							response.addCookie(cookieSelector);
+							response.addCookie(cookieValidator);
+				                 
+				        }
 						response.sendRedirect(request.getContextPath() + "/ListeEncheresConnectePagination6Servlet");
 						//request.getRequestDispatcher("ListeEncheresConnecteServlet").forward(request, response);
 					}
@@ -91,7 +153,7 @@ public class LoginServlet extends HttpServlet {
 				}
 				
 
-			} catch (BLLException e) {
+			} catch (BLLException | HashGenerationException e) {
 				// request.getSession().setAttribute("loginUsername", null);
 				request.setAttribute("messageNonTrouve", e.getMessage());
 				request.getRequestDispatcher("login.jsp").forward(request, response);

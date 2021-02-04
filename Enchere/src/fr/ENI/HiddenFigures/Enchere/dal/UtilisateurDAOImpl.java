@@ -48,6 +48,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 			}
 			//supprimer toutes les articles  qui ont ce noUtilisateur
 			DAOFactory.getArticleDAO().deleteByNoUtilisateur(noUtilisateur);
+			DAOFactory.getTokenDAO().deleteByNoUtilisateur(noUtilisateur);
+			
 			stmt.executeUpdate(); 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - problème dans la suppression d'un utilisateur");
