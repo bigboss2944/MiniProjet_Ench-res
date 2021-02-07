@@ -15,11 +15,11 @@ import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter( urlPatterns= {"/EnchereServlet","/GestionAchatVenteServlet","/ListeEncheresConnecteServlet",
+@WebFilter( urlPatterns= {"/EnchereServlet","/GestionAchatVenteServlet","/ListeEncheresConnectePagination6Servlet",
 		"/ModifierProfilServlet","/ModifierVenteServlet","/ProfilServlet","/SuppressionCompteServlet",
-		"/SuppressionUnArticleVendu","/VendreUnArticleServlet", "/AdministrationServlet", "/ListeEncheresConnecteAdminServlet",
+		"/SuppressionUnArticleVendu","/VendreUnArticlePhotoServlet", "/AdministrationServlet", "/ListeEncheresConnectePagination6RechercheServlet",
 		"/AdminDesactiverCompteServlet", "/AdminActiverCompteServlet", "/AdminSupprimerCategorieServlet",
-		"/AdminModifierCategorieServlet", "/AdminAjouterCategorieServlet"})
+		"/AdminModifierCategorieServlet", "/AdminAjouterCategorieServlet", "/UploadFileServlet" })
 		
 public class LoginFilter implements Filter {
 

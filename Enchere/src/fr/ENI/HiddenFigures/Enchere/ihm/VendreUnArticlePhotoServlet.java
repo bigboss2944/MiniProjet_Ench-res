@@ -134,13 +134,24 @@ public class VendreUnArticlePhotoServlet extends HttpServlet {
 				Part filePart = request.getPart("photo");
 				String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
 				if (fileName!=null) {
-					String dirUrl = request.getServletContext().getRealPath("images/")  + "Utilisateur"
+					//String dirUrl = request.getServletContext().getRealPath("images/")  + "Utilisateur"
+						//	+ utilisateur_current.getNoUtilisateur();
+					String dirUrl = System.getProperty("user.home") + "\\imagesEnchere\\" + "Utilisateur"
 							+ utilisateur_current.getNoUtilisateur();
 					File dir = new File(dirUrl);
 					if (!dir.exists()) {
+						 
 						dir.mkdir();
 					}
-					int noPhoto= dir.list().length+1;
+ 
+					int noPhoto=0;
+					if(dir.list()!=null) {
+						noPhoto= dir.list().length+1;
+					}
+					else {
+						noPhoto=1;
+					}
+					//int noPhoto= dir.list().length+1;
 					String refPhoto = "U"+ utilisateur_current.getNoUtilisateur()+"P"+ noPhoto+"_"+fileName ; //U2P1; U2P2....
 //ajouter une colonne dans le table ARTICLES_VENDUS pour sauvegarder le refPhoto
 					String fileImg = dirUrl + File.separator + refPhoto;
@@ -182,7 +193,7 @@ public class VendreUnArticlePhotoServlet extends HttpServlet {
 			
 		} else {
 			//request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);
-			getServletContext().getRequestDispatcher("/AccueilNonConnecteServlet").forward(request, response);	
+			getServletContext().getRequestDispatcher("/AccueilNonConnectePagination6Servlet").forward(request, response);	
 		}
 		
 		

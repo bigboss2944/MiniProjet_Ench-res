@@ -3,6 +3,7 @@ package fr.ENI.HiddenFigures.Enchere.ihm;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,8 +37,17 @@ public class SuppressionCompteServlet extends HttpServlet {
 			try {
 				managerUtilisateurs.supprimerUtilisateurParNoUtilisateur(utilisateur_current.getNoUtilisateur());
 				request.getSession().setAttribute("user", null  );
+				
+				Cookie cookieSelector = new Cookie("selector", null);
+				cookieSelector.setMaxAge(0); //7 days
+				 
+				Cookie cookieValidator = new Cookie("validator", null);
+				cookieValidator.setMaxAge(0);
+				
+				response.addCookie(cookieSelector);
+				response.addCookie(cookieValidator);
 				request.setAttribute("message", "Votre compte est bien supprimé");
-				request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);
+				request.getRequestDispatcher("AccueilNonConnectePagination6Servlet").forward(request, response);
 			} catch (BLLException e) {
 				request.setAttribute("message", e.getMessage());
 				 

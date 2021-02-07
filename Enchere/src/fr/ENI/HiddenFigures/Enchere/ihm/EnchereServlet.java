@@ -159,7 +159,7 @@ public class EnchereServlet extends HttpServlet {
 						}
 
 						request.setAttribute("message", "Votre enchère est bien enregistrée");
-						request.getRequestDispatcher("ListeEncheresConnecteServlet").forward(request, response);
+						request.getRequestDispatcher("ListeEncheresConnectePagination6Servlet").forward(request, response);
 					} catch (BLLException | EnchereException e) {
 
 						// TODO Auto-generated catch block
@@ -172,7 +172,7 @@ public class EnchereServlet extends HttpServlet {
 			}
 
 		} else {
-			request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);
+			request.getRequestDispatcher("AccueilNonConnectePagination6Servlet").forward(request, response);
 		}
 
 	}

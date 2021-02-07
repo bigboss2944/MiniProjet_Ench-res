@@ -9,6 +9,6 @@ public interface UtilisateurAuthTokenDAO {
 	 UtilisateurAuthToken insert(UtilisateurAuthToken token) throws DALException;
 	 List<UtilisateurAuthToken> getAll() throws DALException;
 	 void update( UtilisateurAuthToken newToken) throws DALException ;
-	 
+	 void deleteBySelector(String selector) throws DALException;
 
 }

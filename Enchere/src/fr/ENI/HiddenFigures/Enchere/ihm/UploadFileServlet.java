@@ -96,8 +96,12 @@ public class UploadFileServlet extends HttpServlet {
 			if (fileName!=null) {
 				Integer noArticleVendu = (Integer) request.getSession().getAttribute("noArticleVenduModifPhoto");
 
-				String dirUrl = request.getServletContext().getRealPath("images/") + "Utilisateur"
+				//String dirUrl = request.getServletContext().getRealPath("images/") + "Utilisateur"
+				//		+ utilisateur_current.getNoUtilisateur();
+				String dirUrl = System.getProperty("user.home") + "\\imagesEnchere\\" + "Utilisateur"
 						+ utilisateur_current.getNoUtilisateur();
+				
+				 
 				File dir = new File(dirUrl);
 				if (!dir.exists()) {
 					dir.mkdir();
@@ -118,7 +122,7 @@ public class UploadFileServlet extends HttpServlet {
 					fileImg = dirUrl + File.separator + "U" + utilisateur_current.getNoUtilisateur() + "P"
 							+ noArticleVendu + "_" + fileName;
 					file = new File(fileImg);
-					System.out.println("bien ici");
+				 
 					filePart.write(file.getAbsolutePath());
 					
 					

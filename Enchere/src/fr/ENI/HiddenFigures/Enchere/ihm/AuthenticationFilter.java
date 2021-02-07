@@ -50,7 +50,7 @@ public class AuthenticationFilter implements Filter {
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
-System.out.println("passer authenticationFilter");
+
 		// read cookie
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -67,7 +67,7 @@ System.out.println("passer authenticationFilter");
 			}
 		}
 		
-System.out.println("AuthenticationFilter selector and validator " +  selector + " " + rawValidator );		
+	
 		if (!"".equals(selector) && !"".equals(rawValidator)) {
 			ManagerUtilisateurAuthToken managerUtilisateurAuthToken = ManagerUtilisateurAuthTokenSingl.getInstance();
 			UtilisateurAuthToken token = managerUtilisateurAuthToken.findBySelector(selector);
@@ -78,8 +78,7 @@ System.out.println("AuthenticationFilter selector and validator " +  selector + 
 				String hashedValidatorCookie = "";
 				try {
 					hashedValidatorCookie = HashGeneratorUtils.generateSHA256(rawValidator);
-System.out.println("cookie :" + hashedValidatorCookie);
-System.out.println("DB :" + hashedValidatorDatabase);
+
 					if (hashedValidatorCookie.equals(hashedValidatorDatabase)) {
 						session = httpRequest.getSession();
 						session.setAttribute("user", token.getUtilisateur());
@@ -96,7 +95,8 @@ System.out.println("DB :" + hashedValidatorDatabase);
 							for (UtilisateurAuthToken utilisateurAuthToken : listUtilisateurAuthToken) {
 								listSelector.add(utilisateurAuthToken.getSelector());
 							}
-							while (listSelector.contains(selector)) {
+					
+							while (listSelector.contains(newSelector)) {
 								newSelector = RandomStringUtils.randomAlphanumeric(12); // il rassure que aucun selector est
 																						// répété dans la BD
 							}
@@ -117,7 +117,7 @@ System.out.println("DB :" + hashedValidatorDatabase);
 
 						httpResponse.addCookie(cookieSelector);
 						httpResponse.addCookie(cookieValidator);
-	System.out.println("Authentation forward");					
+					
 						request.getRequestDispatcher("ListeEncheresConnectePagination6Servlet").forward(request, response);
 
 					}
@@ -126,6 +126,11 @@ System.out.println("DB :" + hashedValidatorDatabase);
 					e.printStackTrace();
 				}
 				
+			}
+			else {
+				// user have never logged in
+				// forward to the login page
+				chain.doFilter(request, response);
 			}
 
 		} else {

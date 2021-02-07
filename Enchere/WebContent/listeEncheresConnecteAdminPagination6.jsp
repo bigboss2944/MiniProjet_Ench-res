@@ -74,16 +74,8 @@
 	</h1>
 	<h3>Bonjour ${user.pseudo}</h3>
 	<nav>
-		<c:choose>
-			<c:when test="${user.administrateur}">
-				<a href="/Enchere/AdministrationServlet">Admin</a>
-			</c:when>
-			<c:otherwise>
-				<a href="">Enchères</a>
-			</c:otherwise>
-		</c:choose>
-
-		<a href="/Enchere/VendreUnArticlePhotoServlet">Vendre un article</a> <a
+		<a href="/Enchere/AdministrationServlet">Admin</a> <a
+			href="/Enchere/VendreUnArticlePhotoServlet">Vendre un article</a> <a
 			href="/Enchere/monProfil.jsp">Mon profil</a> <a
 			href="/Enchere/LogoutServlet">Déconnexion</a>
 	</nav>

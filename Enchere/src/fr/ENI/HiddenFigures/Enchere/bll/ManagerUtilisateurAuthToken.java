@@ -9,5 +9,7 @@ public interface ManagerUtilisateurAuthToken {
 	List<UtilisateurAuthToken> getListUtilisateurAuthToken();
 	 UtilisateurAuthToken findBySelector(String selector) ;
 	 void modifier(UtilisateurAuthToken new_utilisateurAuthToken) throws BLLException ;
+	 void supprimerTokenParNoUtilisateur(Integer noUtilisateur) throws BLLException;
+	 void supprimerTokenParSelector(String selector) throws BLLException;
 
 }

@@ -9,7 +9,9 @@
 </head>
 
 <body>
-	<a href="/Enchere/ListeEncheresConnecteServlet">ENI-ENCHERE</a>
+	<h1>
+		<a href="/Enchere/ListeEncheresConnectePagination6Servlet">ENI-ENCHERE</a>
+	</h1>
 	<br>
 	<h2>Pseudo: ${vendeurModel.utilisateur.pseudo}</h2>
 	<br> Nom: ${vendeurModel.utilisateur.nom}

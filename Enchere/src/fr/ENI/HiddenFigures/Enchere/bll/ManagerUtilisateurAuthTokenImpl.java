@@ -71,5 +71,29 @@ public class ManagerUtilisateurAuthTokenImpl implements ManagerUtilisateurAuthTo
 		
 	}
 	
+	//Supprimer un token par noUtilisateur
+	@Override
+		public void supprimerTokenParNoUtilisateur(Integer noUtilisateur) throws BLLException {
+			try {
+				utilisateurAuthTokenDAO.deleteByNoUtilisateur(noUtilisateur);
+				listUtilisateurAuthTokens = utilisateurAuthTokenDAO.getAll();
+			} catch (DALException e) {
+				throw new BLLException("Couche BLL-Problème de la suppression un token par noUtilisateur");
+			}
+
+		}
+	
+	//Supprimer un token par noUtilisateur
+		@Override
+			public void supprimerTokenParSelector(String selector) throws BLLException {
+				try {
+					utilisateurAuthTokenDAO.deleteBySelector(selector);
+					listUtilisateurAuthTokens = utilisateurAuthTokenDAO.getAll();
+				} catch (DALException e) {
+					throw new BLLException("Couche BLL-Problème de la suppression un token par selector");
+				}
+
+			}
+	
 
 }

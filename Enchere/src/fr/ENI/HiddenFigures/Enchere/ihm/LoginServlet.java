@@ -87,12 +87,12 @@ System.out.println("LoginServlet rememberme " + request.getParameter("rememberMe
 				session.setMaxInactiveInterval(300);
 				 
 				Utilisateur utilisateur_current = (Utilisateur) request.getSession().getAttribute("user");
-				if(utilisateur_current.getAdministrateur()) {
-					response.sendRedirect(request.getContextPath() + "/ListeEncheresConnecteAdminServlet");
-					//request.getRequestDispatcher("ListeEncheresConnecteAdminServlet").forward(request, response);
-					
-				}
-				else {
+//				if(utilisateur_current.getAdministrateur()) {
+//					response.sendRedirect(request.getContextPath() + "/ListeEncheresConnecteAdminPagination6Servlet");
+//					//request.getRequestDispatcher("ListeEncheresConnecteAdminServlet").forward(request, response);
+//					
+//				}
+//				else {
 					if("A".equals(utilisateur_current.getEtatCompte())) {
 						if (rememberMe) {
 				            // create new token (selector, validator)
@@ -140,6 +140,7 @@ System.out.println("LoginServlet rememberme " + request.getParameter("rememberMe
 							response.addCookie(cookieValidator);
 				                 
 				        }
+						
 						response.sendRedirect(request.getContextPath() + "/ListeEncheresConnectePagination6Servlet");
 						//request.getRequestDispatcher("ListeEncheresConnecteServlet").forward(request, response);
 					}
@@ -150,7 +151,7 @@ System.out.println("LoginServlet rememberme " + request.getParameter("rememberMe
 					 
 					}
 					
-				}
+				
 				
 
 			} catch (BLLException | HashGenerationException e) {

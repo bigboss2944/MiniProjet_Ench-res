@@ -401,7 +401,7 @@ public class ManagerUtilisateursImpl implements ManagerUtilisateurs {
 	 
 	public void modifierMotDePasse(Integer noUtilisateur, String new_motDePasse) throws BLLException {
 		try {
-			utilisateurDAO.updatePseudo(noUtilisateur, new_motDePasse);
+			utilisateurDAO.updateMotDePasse(noUtilisateur, new_motDePasse);
 			listUtilisateurs = utilisateurDAO.getAll();
 		} catch (DALException e) {
 			throw new BLLException("Couche BLL-Problème de la modification de mot de passe");

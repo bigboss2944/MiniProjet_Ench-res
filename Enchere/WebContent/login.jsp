@@ -7,20 +7,26 @@
 <title>Page Connexion</title>
 </head>
 <body>
- 
-<h1><a href="/Enchere/AccueilNonConnectePagination6Servlet">ENI-ENCHERE</a></h1>
- 
- 
-<h2 style="color:red;">${messageNonTrouve}</h2>
+
+	<h1>
+		<a href="/Enchere/AccueilNonConnectePagination6Servlet">ENI-ENCHERE</a>
+	</h1>
+
+
+	<h2 style="color: red;">${messageNonTrouve}</h2>
 	<form method="post" action="LoginServlet">
-		Identifiant: <input type="text" name="login" placeholder="Pseudo ou email"  required/> <br>
-		Password:  <input type="password" name="password" placeholder="Mot de passe" required /><br>
-		<input type="checkbox" name="rememberMe"  value="true"> Se souvenir de moi <br>
-		<input type="submit" value="Connexion">
-		
+		Identifiant: <input type="text" name="login"
+			placeholder="Pseudo ou email" required /> <br> Password: <input
+			type="password" name="password" placeholder="Mot de passe" required /><br>
+		<input type="checkbox" name="rememberMe" value="true"> Se
+		souvenir de moi <br> <input type="submit" value="Connexion">
+
 	</form>
-	
-<a href="/Enchere/PasswordOublieServlet"> Mot de passe oublié </a><br>
-  <a href="/Enchere/UtilisateurServlet"> <input type="button" value="Créer un compte">  </a>
+
+	<a href="/Enchere/PasswordOublieServlet"> Mot de passe oublié </a>
+	<br>
+	<a href="/Enchere/UtilisateurServlet"> <input type="button"
+		value="Créer un compte">
+	</a>
 </body>
 </html>

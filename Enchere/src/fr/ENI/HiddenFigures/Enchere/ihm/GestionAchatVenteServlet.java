@@ -276,14 +276,14 @@ public class GestionAchatVenteServlet extends HttpServlet {
 
 							request.getRequestDispatcher("encherir.jsp").forward(request, response);
 						} else {
-							request.getRequestDispatcher("ListeEncheresConnecteServlet").forward(request, response);
+							request.getRequestDispatcher("ListeEncheresConnectePagination6Servlet").forward(request, response);
 						}
 					}
 				}
 			}
 
 		} else {
-			request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);
+			request.getRequestDispatcher("AccueilNonConnectePagination6Servlet").forward(request, response);
 		}
 
 	}

@@ -28,8 +28,8 @@ import fr.ENI.HiddenFigures.Enchere.bo.Utilisateur;
 /**
  * Servlet implementation class AccueilNonConnecte
  */
-@WebServlet("/ListeEncheresConnectePagination6Servlet")
-public class ListeEncheresConnectePagination6Servlet extends HttpServlet {
+@WebServlet("/ListeEncheresConnecteAdminPagination6Servlet")
+public class ListeEncheresConnecteAdminPagination6Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ManagerArticleVendus managerArticles = ManagerArticleVendusSingl.getInstance();
 	private ManagerCategories managerCategories = ManagerCategoriesSingl.getInstance();
@@ -39,7 +39,7 @@ public class ListeEncheresConnectePagination6Servlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ListeEncheresConnectePagination6Servlet() {
+	public ListeEncheresConnecteAdminPagination6Servlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -236,11 +236,8 @@ public class ListeEncheresConnectePagination6Servlet extends HttpServlet {
 			request.setAttribute("noOfPages", nOfPages);
 			request.setAttribute("currentPage", currentPage);
 			request.setAttribute("recordsPerPage", recordsPerPage);
-			 
-				request.getRequestDispatcher("listeEncheresConnectePagination6.jsp").forward(request, response);
-			 
 
-			
+			request.getRequestDispatcher("listeEncheresConnecteAdminPagination6.jsp").forward(request, response);
 		} else {
 			request.getRequestDispatcher("AccueilNonConnectePagination6Servlet").forward(request, response);
 		}

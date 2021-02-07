@@ -71,7 +71,8 @@ public class UtilisateurServlet extends HttpServlet {
 					managerUtilisateurs.verificationTelephone(utilisateur);
 					managerUtilisateurs.addUtilisateur(utilisateur);
 					request.setAttribute("message", "Votre compte est bien enregistré");
-					request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);
+					//request.getRequestDispatcher("AccueilNonConnectePagination6Servlet").forward(request, response);
+					response.sendRedirect(request.getContextPath() + "/ListeEncheresConnectePagination6Servlet");
 				} catch (BLLException e1) {
 					request.setAttribute("message", e1.getMessage());
 					request.getRequestDispatcher("utilisateur.jsp").forward(request, response);

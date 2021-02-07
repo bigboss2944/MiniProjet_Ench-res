@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>PageListesEncheresConnecte</title>
- 
+
 <style>
 .link {
 	border: none;
@@ -62,9 +62,9 @@
   
     
 </script>
- 
-	
-    </script> 
+
+
+</script>
 
 </head>
 
@@ -72,56 +72,63 @@
 	<a href="/Enchere/ListeEncheresConnecteServlet">ENI-ENCHERE</a>
 	<h3>Bonjour ${user.pseudo}</h3>
 	<nav>
-		<a href="/Enchere/AdministrationServlet">Admin</a>
-		 <a href="">Enchères</a>
-		 <a href="/Enchere/VendreUnArticlePhoto">Vendre un article</a> 
-		 <a href="/Enchere/monProfil.jsp">Mon profil</a>
-		 <a href="/Enchere/LogoutServlet">Déconnexion</a>
+		<a href="/Enchere/AdministrationServlet">Admin</a> <a href="">Enchères</a>
+		<a href="/Enchere/VendreUnArticlePhoto">Vendre un article</a> <a
+			href="/Enchere/monProfil.jsp">Mon profil</a> <a
+			href="/Enchere/LogoutServlet">Déconnexion</a>
 	</nav>
 	<h2 style="color: red;">${message}</h2>
 	<h3>Liste des enchères</h3>
 
 	<form action="ListeEncheresConnecteServlet" method="post">
-		Filtres : <br> <input type="text" name="nomArticleContient"	placeholder="Le nom de l'article contient" /><BR /> 
-		Catégorie: 
-		<select	name="categorie">
+		Filtres : <br> <input type="text" name="nomArticleContient"
+			placeholder="Le nom de l'article contient" /><BR /> Catégorie: <select
+			name="categorie">
 			<option>Toutes
 				<c:forEach var="categorie" items="${categorieModel.lstCategories}">
 					<option value="${categorie.libelle}">${categorie.libelle}
 					</option>
 				</c:forEach>
-		</select> <br> 
-		<input type="radio" name="achatVente" value ="achat" id="enchereRadioButton" onclick="changeThis(this)"> Achats
-			<input type="checkbox" name="encheresOuvertes" value="encheresOuvertes" id="enchereOuvertesCheckBox" disabled> enchères ouvertes
-			<input type="checkbox" name="mesEncheres" value="mesEncheres" id="mesEncheresCheckBox" disabled> mes enchères
-			<input type="checkbox" name="mesEncheresRemportees" value="mesEncheresRemportees" id="mesEncheresRemporteesCheckBox" disabled> mes enchères remportées <br>
-		<input type="radio" name="achatVente" value ="vente"id="venteRadioButton" onclick="changeThis(this)"> Mes ventes
-			<input type="checkbox" name="mesVentesEC"  value="mesVentesEC"id="mesVentesECCheckBox" disabled> mes ventes en cours
-			<input type="checkbox" name="ventesNonDebutees" value="ventesNonDebutees" id="ventesNonDebuteesCheckBox" disabled> ventes non débutées
-			<input type="checkbox" name="ventesTerminees" value="ventesTerminees" id="ventesTermineesCheckBox" disabled> ventes terminées <br>
-			 
-			 
+		</select> <br> <input type="radio" name="achatVente" value="achat"
+			id="enchereRadioButton" onclick="changeThis(this)"> Achats <input
+			type="checkbox" name="encheresOuvertes" value="encheresOuvertes"
+			id="enchereOuvertesCheckBox" disabled> enchères ouvertes <input
+			type="checkbox" name="mesEncheres" value="mesEncheres"
+			id="mesEncheresCheckBox" disabled> mes enchères <input
+			type="checkbox" name="mesEncheresRemportees"
+			value="mesEncheresRemportees" id="mesEncheresRemporteesCheckBox"
+			disabled> mes enchères remportées <br> <input
+			type="radio" name="achatVente" value="vente" id="venteRadioButton"
+			onclick="changeThis(this)"> Mes ventes <input type="checkbox"
+			name="mesVentesEC" value="mesVentesEC" id="mesVentesECCheckBox"
+			disabled> mes ventes en cours <input type="checkbox"
+			name="ventesNonDebutees" value="ventesNonDebutees"
+			id="ventesNonDebuteesCheckBox" disabled> ventes non débutées
+		<input type="checkbox" name="ventesTerminees" value="ventesTerminees"
+			id="ventesTermineesCheckBox" disabled> ventes terminées <br>
 
-			 
-		  <input type="submit" value="Rechercher">
+
+
+
+		<input type="submit" value="Rechercher">
 	</form>
- 
- 
- 
-  
+
+
+
+
 
 	<table border="1">
 
 		<c:forEach var="u" items="${utilisateurModel.listUtilisateur}">
 			<tr>
-				<td><c:forEach var="a" items="${u.listArticlesVendus}"> 
-					<form action="GestionAchatVente">
-							<input type="hidden" name="noArticleVendu" value="${a.noArticle}"> 
+				<td><c:forEach var="a" items="${u.listArticlesVendus}">
+						<form action="GestionAchatVente">
+							<input type="hidden" name="noArticleVendu" value="${a.noArticle}">
 							<input type="submit" value="${a.nomArticle}" class="link">
 
 						</form>
-				  
-				 <br>
+
+						<br>
 				Prix:	${a.miseAprix} points  <br> 
 				Fin de l'enchère:	
 				<tags:localDate date="${a.dateFinEncheres}" pattern="dd/MM/yyyy" />
@@ -135,7 +142,8 @@
 						</form>
 
 
-<img src="images/Utilisateur${u.noUtilisateur}/${a.refPhoto}" width='80' height='80'/>
+						<img src="images/Utilisateur${u.noUtilisateur}/${a.refPhoto}"
+							width='80' height='80' />
 
 					</c:forEach></td>
 

@@ -56,6 +56,8 @@ public class AccueilNonConnectePagination6RechercheServlet extends HttpServlet {
 		// selon les mots recherche
 		String nomArticleContient = request.getParameter("nomArticleContient");
 		String libelleCategorie = request.getParameter("categorie");
+		
+System.out.println("cai"+libelleCategorie+"gi");
 
 		//request.setAttribute("nomArticleContient",nomArticleContient);
 		
@@ -104,7 +106,7 @@ public class AccueilNonConnectePagination6RechercheServlet extends HttpServlet {
 			
 		int  	currentPage = Integer.parseInt(currentPageStr);
 			
-			
+System.out.println("nom"+nomArticleContient+"article");			
 			
 			if(!"".equals(nomArticleContient.trim()) && listArticlesVendusEncours !=null ) {
 				for (ArticleVendu articleVendu : listArticlesVendusEncours) {
@@ -177,10 +179,10 @@ public class AccueilNonConnectePagination6RechercheServlet extends HttpServlet {
 		int rows = listUtilisateur.size();
 		int nOfPages = rows / recordsPerPage;
 
-        if (nOfPages % recordsPerPage > 0) {
+		if (rows -nOfPages * recordsPerPage > 0) {
 
-            nOfPages++;
-        }
+			nOfPages++;
+		}
         request.setAttribute("noOfPages", nOfPages);
         request.setAttribute("currentPage", currentPage);
         request.setAttribute("recordsPerPage", recordsPerPage); 

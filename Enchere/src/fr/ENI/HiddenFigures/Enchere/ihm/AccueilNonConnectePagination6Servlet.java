@@ -111,11 +111,14 @@ public class AccueilNonConnectePagination6Servlet extends HttpServlet {
 
 		int rows = listUtilisateur.size();
 		int nOfPages = rows / recordsPerPage;
+		
 
-		if (nOfPages % recordsPerPage > 0) {
+		
+		if (rows -nOfPages * recordsPerPage > 0) {
 
 			nOfPages++;
 		}
+		
 		request.setAttribute("noOfPages", nOfPages);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("recordsPerPage", recordsPerPage);

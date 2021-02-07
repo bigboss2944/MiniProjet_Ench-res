@@ -62,7 +62,7 @@ public class SuppressionUnArticleVendu extends HttpServlet {
 			 
 		}
 		else {
-			request.getRequestDispatcher("AccueilNonConnecteServlet").forward(request, response);
+			request.getRequestDispatcher("AccueilNonConnectePagination6Servlet").forward(request, response);
 		}
 	}
 

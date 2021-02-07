@@ -1,0 +1,11 @@
+nav {
+	background: #ccc;
+	display: flex;
+	justify-content: space-between
+}
+
+.nav login {
+	display: flex;
+	align-items: center;
+	padding-top: 200px
+}

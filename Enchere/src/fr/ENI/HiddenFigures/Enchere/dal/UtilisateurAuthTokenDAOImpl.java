@@ -16,6 +16,7 @@ public class UtilisateurAuthTokenDAOImpl implements UtilisateurAuthTokenDAO {
 			+ " VALUES (?,?,?)";
 	private String SELECT = "SELECT * FROM UtilisateurAuthToken";
 	private String UPDATE= "UPDATE UtilisateurAuthToken  SET selector=?, validator=? where id =?";
+	private String DELETE_BY_SELECTOR = "DELETE FROM UtilisateurAuthToken WHERE selector =?";
 	
 	
 	@Override
@@ -29,6 +30,21 @@ public class UtilisateurAuthTokenDAOImpl implements UtilisateurAuthTokenDAO {
 			 
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - Problème dans la suppression des Tokens par noUtilisateur");
+		}
+		 
+	}
+	
+	@Override
+	public void deleteBySelector(String selector) throws DALException {
+		 
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			
+			PreparedStatement stmt = cnx.prepareStatement(DELETE_BY_SELECTOR);
+			stmt.setString(1, selector)  ;  
+			stmt.executeUpdate(); 
+			 
+		} catch (Exception e) {
+			throw new DALException("Couche DAL - Problème dans la suppression des Tokens par selector");
 		}
 		 
 	}
@@ -70,8 +86,10 @@ public class UtilisateurAuthTokenDAOImpl implements UtilisateurAuthTokenDAO {
 				utilisateurAuthToken.setValidator(rs.getString("validator"));
 				Utilisateur  utilisateur =DAOFactory.getUtilisateurDAO().getUtilisateur(rs.getInt("no_utilisateur"));
 				utilisateurAuthToken.setUtilisateur(utilisateur);
- 
-				result.add(utilisateurAuthToken);
+				if (utilisateur!=null) { //ne pas  prendre les token des utilisateurs désactivés
+					result.add(utilisateurAuthToken);
+				}
+				
 			}
 		} catch (Exception e) {
 			throw new DALException("Couche DAL - Problème dans la selection des UtilisateurAuthTokens");

@@ -7,17 +7,17 @@
 <title>Mot de passe oublie</title>
 </head>
 <body>
- 
-<h1><a href="/Enchere/AccueilNonConnecteServlet">ENI-ENCHERE</a></h1>
- 
- 
-<h2 style="color:red;">${message}</h2>
+
+	<h1>
+		<a href="/Enchere/AccueilNonConnectePagination6Servlet">ENI-ENCHERE</a>
+	</h1>
+
+
+	<h2 style="color: red;">${message}</h2>
 	<form method="post" action="PasswordOublieServlet">
-		Entrez votre email: <input type="mail" name="email" placeholder="Votre email enregistré"  required/> <br>
-		 
-		<input type="submit" value="Envoyer"><br>
-		 
+		Entrez votre email: <input type="mail" name="email"
+			placeholder="Votre email enregistré" required /> <br> <input
+			type="submit" value="Envoyer"><br>
+
 	</form>
- 
-  
 </html>
